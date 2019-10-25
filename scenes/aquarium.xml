@@ -154,6 +154,20 @@
         </transformation>
     </transformations>
 
+    <animations>
+        <animation id="anima">
+            <keyframe instant="0">
+                <scale x="5" y="1" z="5" />
+                <rotate angle_x = "90" angle_y = "0" angle_z = "0" />
+            </keyframe>
+
+            <keyframe instant="1">
+                <translate x="5" y="1" z="5" />
+                <rotate angle_x = "-90" angle_y = "30" angle_z = "0" />
+            </keyframe>
+        </animation>
+    </animations>
+
     <primitives>
         <primitive id="rectangle">
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
@@ -775,6 +789,7 @@
                 <translate x="-3" y="0" z="-3" />
                 <scale x="0.45" y="1.125" z="1.5" /> 
             </transformation>
+            <animationref id="anima"/>>
             <materials>
                 <material id="inherit" />
                 <material id="light_blue" />
