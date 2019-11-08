@@ -186,6 +186,15 @@
         <primitive id="torus">
             <torus inner="0.5" outer="1" slices="100" loops="100"/>
         </primitive>
+        <primitive id="nurbs">
+            <plane npartsU=“5” npartsV=“8” />
+            <patch npointsU=“ii” npointsV=“ii” npartsU=“ii” npartsV=“ii” >
+                <controlpoint xx=“0.0” yy=“1.0” zz=“2.0” />
+            </patch>
+            <cylinder2 base="0.25" top="1" height="0.5" slices="25" stacks="25"/>
+        </primitive>
+
+        
     </primitives>
 
 

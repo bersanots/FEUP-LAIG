@@ -886,7 +886,7 @@ class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodename != 'plane' && grandChildren[0].nodename != 'patch' && grandChildren[0].nodename != 'cylinder2')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
             }
 
@@ -969,7 +969,7 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = tri;
             }
-            else if (primitiveType == 'cylinder') {
+            else if (primitiveType == 'cylinder' || primitiveType == 'cylinder2') {
                 // base
                 var base = this.reader.getFloat(grandChildren[0], 'base');
                 if (!(base != null && !isNaN(base) && base >= 0))
@@ -995,7 +995,7 @@ class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks) && stacks > 0))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
 
-                var cyl = new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
+                var cyl = (primitiveType == 'cylinder') ? new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks) : new MyCylinder2(this.scene, primitiveId, base, top, height, slices, stacks);
 
                 this.primitives[primitiveId] = cyl;
             }
@@ -1043,6 +1043,41 @@ class MySceneGraph {
                 var torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
 
                 this.primitives[primitiveId] = torus;
+            }
+            else if (primitiveType == 'plane') {
+                var npartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
+                if (!(npartsU != null && !isNaN(npartsU) && npartsU >= 0))
+                    return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
+
+                var npartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
+                if (!(npartsV != null && !isNaN(npartsV) && npartsV >= 0))
+                    return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
+
+                var plane = new MyPlane(this.scene, primitiveId, npartsU, npartsV);
+
+                this.primitives[primitiveId] = plane;
+            }
+
+            else if (primitiveType == 'patch') {
+                var npointsU = this.reader.getInteger(grandChildren[0], 'npointsU');
+                if (!(npointsU != null && !isNaN(npointsU) && npointsU >= 0))
+                    return "unable to parse npointsU of the primitive coordinates for ID = " + primitiveId;
+
+                var npointsV = this.reader.getInteger(grandChildren[0], 'npointsV');
+                if (!(npointsV != null && !isNaN(npointsV) && npointsV >= 0))
+                    return "unable to parse npointsV of the primitive coordinates for ID = " + primitiveId;
+
+                var npartsU = this.reader.getInteger(grandChildren[0], 'npartsU');
+                if (!(npartsU != null && !isNaN(npartsU) && npartsU >= 0))
+                    return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
+
+                var npartsV = this.reader.getInteger(grandChildren[0], 'npartsV');
+                if (!(npartsV != null && !isNaN(npartsV) && npartsV >= 0))
+                    return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
+
+                var patch = new myPatch(this.scene, primitiveId, npointsU, npointsV, npartsU, npartsV);
+
+                this.primitives[primitiveId] = plane;
             }
             else {
                 this.onXMLMinorError("unknown primitive <" + primitiveType + ">");
