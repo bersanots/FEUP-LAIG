@@ -862,6 +862,7 @@ class MySceneGraph {
         var numPrimitives;
 
         var grandChildren = [];
+        var grandgrandChildren = [];
 
         // Any number of primitives.
         for (var i = 0; i < children.length; i++) {
@@ -874,7 +875,7 @@ class MySceneGraph {
             // Get id of the current primitive.
             var primitiveId = this.reader.getString(children[i], 'id');
             if (primitiveId == null)
-                return "no ID defined for texture";
+                return "no ID defined for primitive";
 
             // Checks for repeated IDs.
             if (this.primitives[primitiveId] != null)
@@ -1075,7 +1076,46 @@ class MySceneGraph {
                 if (!(npartsV != null && !isNaN(npartsV) && npartsV >= 0))
                     return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
 
-                var patch = new myPatch(this.scene, primitiveId, npointsU, npointsV, npartsU, npartsV);
+                grandgrandChildren = grandChildren[0].children;
+
+                if (grandgrandChildren.length != npointsU * npointsV)
+                    return "number of control points doesn't correspond to the npointsU and npointsV provided";
+
+                var controlPoints = [];
+
+                for (var j = 0; j < grandgrandChildren.length; j++) {
+
+                    if (grandgrandChildren[j].nodeName != "controlpoint") {
+                        this.onXMLMinorError("unknown tag <" + grandgrandChildren[j].nodeName + ">");
+                        continue;
+                    }
+
+                    var position = [];
+
+                    // xx
+                    var xx = this.reader.getFloat(grandgrandChildren[j], 'xx');
+                    if (!(xx != null && !isNaN(xx)))
+                        return "unable to parse x-coordinate of the control point";
+
+                    // yy
+                    var yy = this.reader.getFloat(grandgrandChildren[j], 'yy');
+                    if (!(yy != null && !isNaN(yy)))
+                        return "unable to parse y-coordinate of the control point";
+
+                    // zz
+                    var zz = this.reader.getFloat(grandgrandChildren[j], 'zz');
+                    if (!(zz != null && !isNaN(zz)))
+                        return "unable to parse z-coordinate of the control point";
+
+                    position.push(...[xx, yy, zz]);
+
+                    if (!Array.isArray(position))
+                        return position;
+
+                    controlPoints.push(position);
+                }
+
+                var patch = new MyPatch(this.scene, primitiveId, npointsU, npointsV, npartsU, npartsV, controlPoints);
 
                 this.primitives[primitiveId] = patch;
             }

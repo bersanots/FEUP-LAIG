@@ -12,12 +12,25 @@ class MyPatch extends CGFobject {
     constructor(scene, id, npointsU, npointsV, npartsU, npartsV, controlpoints) {
         super(scene);
         this.scene = scene;
-        this.npartsU = npointsU;
-        this.npartsV = npointsV;
+        this.npointsU = npointsU;
+        this.npointsV = npointsV;
         this.npartsU = npartsU;
         this.npartsV = npartsV;
         this.controlpoints = controlpoints;
+        this.makeControlPoints();
         this.makeSurface();
+    }
+
+    makeControlPoints() {
+        var temp = new Array(this.npointsU);
+
+        for (var u = 0; u < this.npointsU; u++) {
+            temp[u] = new Array(this.npointsV);
+            for (var v = 0; v < this.npointsV; v++) {
+                temp[u][v] = this.controlpoints[u * this.npointsV + v];
+            }
+        }
+        this.controlpoints = temp;
     }
 
     makeSurface() {

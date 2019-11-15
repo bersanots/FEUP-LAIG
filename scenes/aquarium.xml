@@ -190,8 +190,9 @@
             <plane npartsU="5" npartsV="8" />
         </primitive>
         <primitive id="patch">
-            <patch npointsU="1" npointsV="1" npartsU="1" npartsV="1" >
+            <patch npointsU="1" npointsV="2" npartsU="0" npartsV="1" >
                 <controlpoint xx="0.0" yy="1.0" zz="2.0" />
+                <controlpoint xx="1.0" yy="2.0" zz="3.0" />
             </patch>
         </primitive>
         <primitive id="cylinder2">
