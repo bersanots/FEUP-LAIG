@@ -26,7 +26,10 @@ class MyComponent {
 			this.animationMatrix = mat4.create();
 			mat4.identity(this.animationMatrix);
 		}
+
+
 	};
+
 
 	addChildComponent(id) {
 		this.childrenComponents.push(id);

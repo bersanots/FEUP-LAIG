@@ -1,4 +1,6 @@
 var DEGREE_TO_RAD = Math.PI / 180;
+// var UPDATE_RATE = 5;
+// var ANIMATION_SPEED = 1;
 
 /**
  * XMLscene class, representing the scene that is to be rendered.
@@ -36,6 +38,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+        // this.animationSpeed = ANIMATION_SPEED;
         this.setUpdatePeriod(100);
     }
 
@@ -109,7 +112,7 @@ class XMLscene extends CGFscene {
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
         this.interface.addSelectDropDown(Object.keys(this.graph.views));
-        
+
         // Set active camera
         this.camera = this.graph.views[this.graph.def];
         this.interface.setActiveCamera(this.camera);
@@ -164,23 +167,23 @@ class XMLscene extends CGFscene {
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
-    
+
     /**
      * Changes the material of each scene component.
      */
-    changeMaterials(){
+    changeMaterials() {
         for (var item in this.graph.components) {
             this.graph.components[item].activeMaterialId = this.graph.components[item].materials[this.graph.components[item].materials.indexOf(this.graph.components[item].activeMaterialId) + 1]
-	        if(this.graph.components[item].activeMaterialId == null)
-	           this.graph.components[item].activeMaterialId = this.graph.components[item].materials[0];
+            if (this.graph.components[item].activeMaterialId == null)
+                this.graph.components[item].activeMaterialId = this.graph.components[item].materials[0];
         }
     }
-    
+
     /**
      * Sets a new active camera.
      */
-    setNewCamera(select){
-        this.camera=this.graph.views[select];
+    setNewCamera(select) {
+        this.camera = this.graph.views[select];
         this.interface.setActiveCamera(this.camera);
     }
 }

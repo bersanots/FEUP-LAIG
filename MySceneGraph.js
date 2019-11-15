@@ -741,13 +741,14 @@ class MySceneGraph {
                     keyframes[instant] = transfMatrix;
                 }
 
+
             }
+
 
             this.animations[animationId] = keyframes;
 
         }
 
-        console.log(this.animations);
 
 
         return null;
@@ -995,7 +996,7 @@ class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks) && stacks > 0))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
 
-                var cyl = (primitiveType == 'cylinder') ? new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks) : new MyCylinder2(this.scene, primitiveId, base, top, height, slices, stacks);
+                var cyl = (primitiveType == 'cylindercylinder') ? new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks) : new MyCylinder2(this.scene, primitiveId, base, top, height, slices, stacks);
 
                 this.primitives[primitiveId] = cyl;
             }
@@ -1075,9 +1076,11 @@ class MySceneGraph {
                 if (!(npartsV != null && !isNaN(npartsV) && npartsV >= 0))
                     return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
 
-                var patch = new myPatch(this.scene, primitiveId, npointsU, npointsV, npartsU, npartsV);
+                var controlpoints = 0;
+                // var patch = new MyPatch(this.scene, primitiveId, npointsU, npointsV, npartsU, npartsV, controlpoints);
 
-                this.primitives[primitiveId] = patch;
+
+                // this.primitives[primitiveId] = patch;
             }
             else {
                 this.onXMLMinorError("unknown primitive <" + primitiveType + ">");
@@ -1130,7 +1133,7 @@ class MySceneGraph {
             }
 
             var transformationIndex = nodeNames.indexOf("transformation");
-            var animationIndex = nodeNames.indexOf("animations");
+            var animationIndex = nodeNames.indexOf("animationref");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
@@ -1159,16 +1162,22 @@ class MySceneGraph {
                 }
             }
 
+
+            // console.log("Make component");
+            // console.log(componentId);
+            // console.log(nodeNames);
+            // console.log(animationIndex);
+
             // Animation
             if (animationIndex != -1) {
 
-                grandgrandChildren = grandChildren[animationIndex].children;
+                // grandgrandChildren = grandChildren[animationIndex].children;
 
                 var animation = null;
 
-                if (grandgrandChildren.length != 0) {
-                    if (grandgrandChildren[0].nodeName == "animationref") {
-                        var refId = this.reader.getString(grandgrandChildren[0], 'id');
+                if (grandChildren.length != 0) {
+                    if (grandChildren[0].nodeName == "animationref") {
+                        var refId = this.reader.getString(grandChildren[0], 'id');
 
                         if (refId == null)
                             return "no ID defined for animationref";
@@ -1177,7 +1186,7 @@ class MySceneGraph {
                             return "animation " + refId + " does not exist";
                     }
                     else {
-                        var transfMatrix = this.makeMatrix(grandgrandChildren, componentId, false);
+                        var transfMatrix = this.makeMatrix(grandChildren, componentId, false);
                         animation = transfMatrix;
                     }
                 }
@@ -1287,6 +1296,7 @@ class MySceneGraph {
             var component = new MyComponent(componentId, transformation, animation, materials, texture, comp_children);
 
             this.components[componentId] = component;
+            animation = null;
         }
 
         this.log("Parsed components");
@@ -1463,17 +1473,14 @@ class MySceneGraph {
         }
     }
 
-    update(time) {
-
-    }
-
 
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        // Start display loop for transversing the scene graph
-        this.processNode(this.idRoot, this.components[this.idRoot].activeMaterialId, this.components[this.idRoot].textureId,
-            this.components[this.idRoot].textureS, this.components[this.idRoot].textureT);
+        // // Start display loop for transversing the scene graph
+        // this.processNode(this.idRoot, this.components[this.idRoot].activeMaterialId, this.components[this.idRoot].textureId,
+        //     this.components[this.idRoot].textureS, this.components[this.idRoot].textureT);
     }
+
 }
