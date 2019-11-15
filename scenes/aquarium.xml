@@ -187,10 +187,14 @@
             <torus inner="0.5" outer="1" slices="100" loops="100"/>
         </primitive>
         <primitive id="nurbs">
-            <plane npartsU=“5” npartsV=“8” />
-            <patch npointsU=“ii” npointsV=“ii” npartsU=“ii” npartsV=“ii” >
-                <controlpoint xx=“0.0” yy=“1.0” zz=“2.0” />
+            <plane npartsU="5" npartsV="8" />
+        </primitive>
+        <primitive id="patch">
+            <patch npointsU="1" npointsV="1" npartsU="1" npartsV="1" >
+                <controlpoint xx="0.0" yy="1.0" zz="2.0" />
             </patch>
+        </primitive>
+        <primitive id="cylinder2">
             <cylinder2 base="0.25" top="1" height="0.5" slices="25" stacks="25"/>
         </primitive>
 
@@ -798,7 +802,7 @@
                 <translate x="-3" y="0" z="-3" />
                 <scale x="0.45" y="1.125" z="1.5" /> 
             </transformation>
-            <animationref id="anima"/>>
+            <animationref id="anima"/>
             <materials>
                 <material id="inherit" />
                 <material id="light_blue" />
