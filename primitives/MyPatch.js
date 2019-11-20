@@ -9,33 +9,46 @@
  * @param controlpoints - List of control points
  */
 class MyPatch extends CGFobject {
-    constructor(scene, id, npointsU, npointsV, npartsU, npartsV, controlpoints) {
+    constructor(scene, id, npointsU, npointsV, npartsU, npartsV, controlPoints) {
         super(scene);
         this.scene = scene;
         this.npointsU = npointsU;
         this.npointsV = npointsV;
         this.npartsU = npartsU;
         this.npartsV = npartsV;
-        this.controlpoints = controlpoints;
-        this.makeControlPoints();
+        this.degree1 = npointsU - 1;
+        this.degree2 = npointsV - 1;
+        this.controlPoints = controlPoints;
+
+        this.makeControlVertexes();
         this.makeSurface();
     }
 
-    makeControlPoints() {
-        var temp = new Array(this.npointsU);
+    makeControlVertexes() {
+        this.controlVertexes = new Array(this.npointsU);
 
         for (var u = 0; u < this.npointsU; u++) {
-            temp[u] = new Array(this.npointsV);
+            this.controlVertexes[u] = new Array(this.npointsV);
             for (var v = 0; v < this.npointsV; v++) {
-                temp[u][v] = this.controlpoints[u * this.npointsV + v];
+                let coords = this.controlPoints[u * this.npointsV + v];
+                coords.push(1); // w = 1 
+                this.controlVertexes[u][v] = coords;
             }
         }
-        this.controlpoints = temp;
     }
 
     makeSurface() {
-        var nurbsSurface = new CGFnurbsSurface(this.npartsU, this.npartsV, this.controlpoints);
+        var nurbsSurface = new CGFnurbsSurface(this.degree1, this.degree2, this.controlVertexes);
 
-        this.surface = new CGFnurbsObject(this.scene, 20, 20, nurbsSurface); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+        this.surface = new CGFnurbsObject(this.scene, this.npartsU, this.npartsV, nurbsSurface); // must provide an object with the function getPoint(u, v) (CGFnurbsSurface has it)
+    }
+
+    display() {
+        this.scene.pushMatrix();
+        this.surface.display();
+        this.scene.popMatrix();
+    }
+
+    updateTexCoords(length_s, length_t) {
     }
 }

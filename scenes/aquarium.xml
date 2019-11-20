@@ -14,7 +14,7 @@
             <from x="13" y="4" z="13"/>
             <to x="0" y="2" z="0"/>
         </perspective>
-        <ortho id="orthogonal" near="0.1" far="500" left="-16" right="16" top="9" bottom="-9" >
+        <ortho id="orthogonal" near="0.1" far="500" left="-16" right="16" top="9" bottom="-9">
             <from x="10" y="10" z="10" />
             <to x="0" y="0" z="0" />
         </ortho>
@@ -190,16 +190,18 @@
             <plane npartsU="5" npartsV="8" />
         </primitive>
         <primitive id="patch">
-            <patch npointsU="1" npointsV="2" npartsU="0" npartsV="1" >
-                <controlpoint xx="0.0" yy="1.0" zz="2.0" />
-                <controlpoint xx="1.0" yy="2.0" zz="3.0" />
+            <patch npointsU="3" npointsV="2" npartsU="15" npartsV="2">
+                <controlpoint xx="-1" yy="1.75" zz="0" />
+                <controlpoint xx="-1" yy="2.25" zz="0" />
+                <controlpoint xx="0" yy="1.25" zz="0" />
+                <controlpoint xx="0" yy="2.75" zz="0" />
+                <controlpoint xx="1" yy="1.75" zz="0" />
+                <controlpoint xx="1" yy="2.25" zz="0" />
             </patch>
         </primitive>
         <primitive id="cylinder2">
             <cylinder2 base="0.25" top="1" height="0.5" slices="25" stacks="25"/>
         </primitive>
-
-        
     </primitives>
 
 
@@ -280,7 +282,7 @@
                 <primitiveref id="rectangle"/>
             </children>
         </component>
-        
+
         <component id="walls_and_floor">
             <transformation>
             </transformation>
@@ -316,7 +318,7 @@
 
         <component id="grass2">
             <transformation>
-                <translate x="-1" y="0" z="0" />                
+                <translate x="-1" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -329,7 +331,7 @@
 
         <component id="grass3">
             <transformation>
-                <translate x="1" y="0" z="0" />                
+                <translate x="1" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -483,7 +485,7 @@
                 <componentref id="grass3"/>
             </children>
         </component>
-        
+
         <component id="plants">
             <transformation>
             </transformation>
@@ -523,7 +525,7 @@
 
         <component id="rock2">
             <transformation>
-                <translate x="-2" y="0" z="1" />                
+                <translate x="-2" y="0" z="1" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -536,7 +538,7 @@
 
         <component id="rock3">
             <transformation>
-                <translate x="2" y="0" z="1" />                
+                <translate x="2" y="0" z="1" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -610,7 +612,7 @@
                 <componentref id="rock3"/>
             </children>
         </component>
-        
+
         <component id="rocks">
             <transformation>
                 <translate x="0" y="-0.1" z="0" />
@@ -654,7 +656,7 @@
             </materials>
             <texture id="rocks" length_s="3" length_t="0.5"/>
             <children>
-                <primitiveref id="cylinder"/>
+                <primitiveref id="cylinder2"/>
             </children>
         </component>
 
@@ -731,7 +733,7 @@
 
         <component id="fish2">
             <transformation>
-                <translate x="-3" y="2" z="-2" />                
+                <translate x="-3" y="2" z="-2" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -748,7 +750,7 @@
 
         <component id="fish3">
             <transformation>
-                <translate x="3" y="-2" z="-2" />                
+                <translate x="3" y="-2" z="-2" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -765,7 +767,7 @@
 
         <component id="fish4">
             <transformation>
-                <translate x="-3" y="-2" z="2" />                
+                <translate x="-3" y="-2" z="2" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -782,7 +784,7 @@
 
         <component id="fish5">
             <transformation>
-                <translate x="3" y="2" z="2" />                
+                <translate x="3" y="2" z="2" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -799,9 +801,9 @@
 
         <component id="big_fish1">
             <transformation>
-                <rotate axis="y" angle="180" />                        
+                <rotate axis="y" angle="180" />
                 <translate x="-3" y="0" z="-3" />
-                <scale x="0.45" y="1.125" z="1.5" /> 
+                <scale x="0.45" y="1.125" z="1.5" />
             </transformation>
             <animationref id="anima"/>
             <materials>
@@ -821,9 +823,9 @@
 
         <component id="big_fish2">
             <transformation>
-                <rotate axis="y" angle="45" />            
+                <rotate axis="y" angle="45" />
                 <translate x="-3" y="0" z="0" />
-                <scale x="0.45" y="1.125" z="1.5" />    
+                <scale x="0.45" y="1.125" z="1.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -879,7 +881,7 @@
                 <componentref id="fish5"/>
             </children>
         </component>
-        
+
         <component id="fish">
             <transformation>
                 <translate x="0" y="2" z="0" />
@@ -901,7 +903,7 @@
 
 
         <!--SCENE-->
-        
+
         <component id="aquarium">
             <transformation>
                 <translate x="5" y="1" z="5" />
