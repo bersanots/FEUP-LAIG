@@ -108,19 +108,23 @@ class XMLscene extends CGFscene {
 
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
-        this.interface.addSelectDropDown(Object.keys(this.graph.views));
-        
+
+        //Add camera dropdowns
+        this.interface.addCameraSelectDropDown(Object.keys(this.graph.views));
+        this.interface.addSecurityCameraSelectDropDown(Object.keys(this.graph.views));
+
         // Set active camera
         this.camera = this.graph.views[this.graph.def];
+        this.secCamera = this.graph.views[this.graph.def];
         this.interface.setActiveCamera(this.camera);
 
         this.sceneInited = true;
     }
 
     /**
-     * Displays the scene.
+     * Renders the scene.
      */
-    display() {
+    render(camera) {
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -136,6 +140,7 @@ class XMLscene extends CGFscene {
 
         this.pushMatrix();
         this.axis.display();
+        this.interface.setActiveCamera(camera);
 
         var i = 0;
         for (var key in this.lightValues) {
@@ -164,23 +169,50 @@ class XMLscene extends CGFscene {
         this.popMatrix();
         // ---- END Background, camera and axis setup
     }
-    
+
+    /**
+     * Displays the scene.
+     */
+    display() {
+        let textureRTT = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+
+        textureRTT.attachToFrameBuffer();
+        this.render(this.secCamera);
+        textureRTT.detachFromFrameBuffer();
+        this.render(this.camera);
+
+        this.gl.disable(this.gl.DEPTH_TEST);
+
+        let securityCamera = new MySecurityCamera(this, textureRTT);
+        securityCamera.display();
+
+        this.gl.enable(this.gl.DEPTH_TEST);
+    }
+
     /**
      * Changes the material of each scene component.
      */
-    changeMaterials(){
+    changeMaterials() {
         for (var item in this.graph.components) {
             this.graph.components[item].activeMaterialId = this.graph.components[item].materials[this.graph.components[item].materials.indexOf(this.graph.components[item].activeMaterialId) + 1]
-	        if(this.graph.components[item].activeMaterialId == null)
-	           this.graph.components[item].activeMaterialId = this.graph.components[item].materials[0];
+            if (this.graph.components[item].activeMaterialId == null)
+                this.graph.components[item].activeMaterialId = this.graph.components[item].materials[0];
         }
     }
-    
+
     /**
      * Sets a new active camera.
      */
-    setNewCamera(select){
-        this.camera=this.graph.views[select];
+    setNewCamera(select) {
+        this.camera = this.graph.views[select];
         this.interface.setActiveCamera(this.camera);
+    }
+
+    /**
+     * Sets a new active security camera.
+     */
+    setNewSecurityCamera(select) {
+        this.secCamera = this.graph.views[select];
+        this.interface.setActiveCamera(this.secCamera);
     }
 }

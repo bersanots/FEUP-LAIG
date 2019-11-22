@@ -64,14 +64,26 @@ class MyInterface extends CGFinterface {
     }
     
     /**
-     * addSelectDropDown
+     * addCameraSelectDropDown
      * @param selectables {selectables}
      */
-    addSelectDropDown(selectables){
+    addCameraSelectDropDown(selectables){
         var scene = this.scene;
         var group = this.gui.add(scene, 'views', selectables);
         group.onFinishChange(function(value){
             scene.setNewCamera(value);
+        });
+    }
+
+    /**
+     * addSecurityCameraSelectDropDown
+     * @param selectables {selectables}
+     */
+    addSecurityCameraSelectDropDown(selectables){
+        var scene = this.scene;
+        var group = this.gui.add(scene, 'views', selectables);
+        group.onFinishChange(function(value){
+            scene.setNewSecurityCamera(value);
         });
     }
 
