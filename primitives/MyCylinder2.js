@@ -69,15 +69,15 @@ class MyCylinder2 extends CGFobject {
  	 * @param length_t - Scale of texture coordinates in T
 	 */
 	updateTexCoords(length_s, length_t) {
-		this.texCoords = [];
+		this.surface.texCoords = [];
 
 		for (var i = 0; i <= this.slices; i++) {
 			for (var j = 0; j <= this.stacks; j++) {
-				this.texCoords.push((i / this.slices) / length_s, (j / this.stacks) / length_t);
+				this.surface.texCoords.push((i / this.slices) / length_s, (j / this.stacks) / length_t);
 			}
 		}
 
-		this.updateTexCoordsGLBuffers();
+		this.surface.initBuffers();
 	}
 }
 

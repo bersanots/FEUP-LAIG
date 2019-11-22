@@ -40,6 +40,19 @@ class MyPlane extends CGFobject {
         this.scene.popMatrix();
     }
 
+    /**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the plane
+	 * @param length_s - Scale of texture coordinates in S
+ 	 * @param length_t - Scale of texture coordinates in T
+	 */
     updateTexCoords(length_s, length_t) {
+        var t3 = [0, 0];
+        var t4 = [1 / length_s, 0];
+        var t2 = [1 / length_s, 1 / length_t];
+        var t1 = [0, 1 / length_t];
+
+        this.surface.texCoords = t1.concat(t2.concat(t3.concat(t4)));
+        this.surface.initBuffers();
     }
 }
