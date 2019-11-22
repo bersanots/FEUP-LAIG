@@ -27,6 +27,7 @@ class MyInterface extends CGFinterface {
         return true;
     }
 
+
     /**
      * Adds a folder containing the IDs of the lights passed as parameter.
      * @param {array} lights
@@ -47,30 +48,29 @@ class MyInterface extends CGFinterface {
         }
     }
 
-     /**
-     * processKeyboard
-     * @param event {Event}
-     */
-     processKeyboard(event){
-     switch (event.keyCode)
-	   {
-	    case (109):	// lower 'm'
-			this.scene.changeMaterials();
-			break;
-		case (77):	// capital 'M'
-			this.scene.changeMaterials();
-			break;
-	   }
+    /**
+    * processKeyboard
+    * @param event {Event}
+    */
+    processKeyboard(event) {
+        switch (event.keyCode) {
+            case (109):	// lower 'm'
+                this.scene.changeMaterials();
+                break;
+            case (77):	// capital 'M'
+                this.scene.changeMaterials();
+                break;
+        }
     }
-    
+
     /**
      * addSelectDropDown
      * @param selectables {selectables}
      */
-    addSelectDropDown(selectables){
+    addSelectDropDown(selectables) {
         var scene = this.scene;
         var group = this.gui.add(scene, 'views', selectables);
-        group.onFinishChange(function(value){
+        group.onFinishChange(function (value) {
             scene.setNewCamera(value);
         });
     }
@@ -79,16 +79,16 @@ class MyInterface extends CGFinterface {
      * initKeys
      */
     initKeys() {
-        this.scene.gui=this;
-        this.activeKeys={};
+        this.scene.gui = this;
+        this.activeKeys = {};
     }
 
     processKeyDown(event) {
-        this.activeKeys[event.code]=true;
+        this.activeKeys[event.code] = true;
     };
 
     processKeyUp(event) {
-        this.activeKeys[event.code]=false;
+        this.activeKeys[event.code] = false;
     };
 
     isKeyPressed(keyCode) {

@@ -13,7 +13,7 @@ function getUrlVars() {
 //Include additional files here
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyRectangle.js', 'primitives/MyTriangle.js',
     'primitives/MyCylinder.js', 'primitives/MySphere.js', 'primitives/MyTorus.js', 'primitives/MyCylinder2.js', 'primitives/MyPlane.js',
-    'primitives/MyPatch.js', 'MyComponent.js', 'animation/Animation.js',
+    'primitives/MyPatch.js', 'MyComponent.js', 'animation/Animation.js', 'animation/KeyframeAnimation.js',
 
     main = function () {
         // Standard application, scene and interface setup
@@ -31,7 +31,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
         // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
         // or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 
-        var filename = getUrlVars()['file'] || "aquarium.xml";
+        var filename = getUrlVars()['file'] || "aqua_test.xml";
 
         // create and load graph, and associate it to scene. 
         // Check console for loading errors

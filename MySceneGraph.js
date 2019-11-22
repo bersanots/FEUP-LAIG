@@ -706,25 +706,21 @@ class MySceneGraph {
     parseAnimations(animationsNode) {
         var children = animationsNode.children;
 
-        this.animations = [];
-
-
         var numKeyframes = 0;
 
         var grandChildren = [];
 
         // Any number of animations.
         for (var i = 0; i < children.length; i++) {
-            var keyframes = [];
+            var keyframes = new Map();
 
             if (children[i].nodeName != "animation") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
             }
             var animationId = this.reader.getString(children[i], 'id');
-
+            this.animations.set(animationId);
             var grandChildren = children[i].children;
-
             for (var j = 0; j < grandChildren.length; j++) {
                 var transfMatrix = [];
 
@@ -737,15 +733,15 @@ class MySceneGraph {
                 var grandGrandChildren = grandChildren[j].children;
 
                 for (var k = 0; k < grandGrandChildren.length; k++) {
-                    var transfMatrix = this.makeMatrix(grandGrandChildren, animationId, true);
-                    keyframes[instant] = transfMatrix;
+                    var keyframe = new KeyframeAnimation(instant, grandGrandChildren)
                 }
+                this.keyframes.set(instant, keyframes);
+                this.animations[animationId][instant] = keyframes;
+
 
 
             }
 
-
-            this.animations[animationId] = keyframes;
 
         }
 
@@ -1162,34 +1158,24 @@ class MySceneGraph {
                 }
             }
 
-
-            // console.log("Make component");
-            // console.log(componentId);
-            // console.log(nodeNames);
-            // console.log(animationIndex);
-
             // Animation
             if (animationIndex != -1) {
 
                 // grandgrandChildren = grandChildren[animationIndex].children;
 
-                var animation = null;
+                var animation = [];
 
-                if (grandChildren.length != 0) {
-                    if (grandChildren[0].nodeName == "animationref") {
-                        var refId = this.reader.getString(grandChildren[0], 'id');
+                var animationId = this.reader.getString(grandChildren[animationIndex], 'id');
 
-                        if (refId == null)
-                            return "no ID defined for animationref";
+                if (animationId == null)
+                    return "no ID defined for animationref";
 
-                        if ((animation = this.animations[refId]) == null)
-                            return "animation " + refId + " does not exist";
-                    }
-                    else {
-                        var transfMatrix = this.makeMatrix(grandChildren, componentId, false);
-                        animation = transfMatrix;
-                    }
-                }
+                if ((animation = this.animations[animationId]) == null)
+                    return "animation " + animationId + " does not exist";
+
+                else
+                    animation.push(animationId);
+
             }
 
             // Materials
@@ -1293,7 +1279,10 @@ class MySceneGraph {
 
 
             // Create component
-            var component = new MyComponent(componentId, transformation, animation, materials, texture, comp_children);
+            if (componentId === "big_fish1")
+                var component = new MyComponent(componentId, transformation, animation, materials, texture, comp_children);
+            else
+                var component = new MyComponent(componentId, transformation, animation, materials, texture, comp_children);
 
             this.components[componentId] = component;
             animation = null;
@@ -1456,8 +1445,18 @@ class MySceneGraph {
 
         //get matrix
         this.scene.multMatrix(currentNode.transformMatrix);
-        // this.scene.multMatrix(currentNode.animationMatrix);
 
+        //get animations
+        var currAnimations = currentNode.animations;
+
+        if (currAnimations != null) {
+            for (var i = 0; i < currAnimations.length - 1; i++) {
+
+                if (typeof (currAnimations[i]) != 'undefined')
+                    this.scene.multMatrix(currAnimations[i]);
+
+            }
+        }
         //loop children
         //if component -> processNode
         for (let i = 0; i < currentNode.childrenComponents.length; i++) {
@@ -1478,9 +1477,11 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        // // Start display loop for transversing the scene graph
-        // this.processNode(this.idRoot, this.components[this.idRoot].activeMaterialId, this.components[this.idRoot].textureId,
-        //     this.components[this.idRoot].textureS, this.components[this.idRoot].textureT);
+
+        // Start display loop for transversing the scene graph
+        this.processNode(this.idRoot, this.components[this.idRoot].activeMaterialId, this.components[this.idRoot].textureId,
+            this.components[this.idRoot].textureS, this.components[this.idRoot].textureT);
+
     }
 
 }

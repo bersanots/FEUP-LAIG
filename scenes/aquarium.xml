@@ -156,9 +156,9 @@
 
     <animations>
         <animation id="anima">
-            <keyframe instant="0">
+            <keyframe instant="4">
                 <scale x="5" y="1" z="5" />
-                <rotate angle_x = "90" angle_y = "0" angle_z = "0" />
+                <!-- <rotate angle_x = "90" angle_y = "0" angle_z = "0" /> -->
             </keyframe>
 
             <keyframe instant="1">

@@ -1,5 +1,5 @@
 var DEGREE_TO_RAD = Math.PI / 180;
-// var UPDATE_RATE = 5;
+var UPDATE_RATE = 50;
 // var ANIMATION_SPEED = 1;
 
 /**
@@ -108,7 +108,6 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
         this.initLights();
-
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
         this.interface.addSelectDropDown(Object.keys(this.graph.views));
@@ -166,7 +165,27 @@ class XMLscene extends CGFscene {
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
+        this.setUpdatePeriod(1000 / UPDATE_RATE);
     }
+
+    update(currTime) {
+        if (!this.time) {
+            this.time = currTime;
+            return;
+        }
+
+        // update animations
+		const delta_time = currTime - this.time;
+        this.time = currTime;
+
+        if (this.sceneInited) {
+            updateComponentAnimations(delta_time);
+        }
+    }
+
+    //updateComponentAnimations(delta_time) {
+    //    for ()
+    //}
 
     /**
      * Changes the material of each scene component.

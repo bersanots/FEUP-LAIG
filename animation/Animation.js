@@ -3,15 +3,15 @@
  * @constructor
  */
 class Animation {
-    constructor(scene) {
-
-        this.scene = scene;
-        this.currTime = 0;
+    constructor(animationId) {
+        this.animationId = animationId;
     }
 
     update(d_time) {
         this.currTime += d_time;
         return this.currTime;
     }
+
+    apply() { }
 }
 
