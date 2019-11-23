@@ -704,15 +704,15 @@ class MySceneGraph {
  * @param {animations block element} animationsNode
  */
     parseAnimations(animationsNode) {
+
+        console.log(animationsNode);
+        console.log(animationsNode.children);
+        console.log(animationsNode.children[0].children);
         var children = animationsNode.children;
-
-        var numKeyframes = 0;
-
-        var grandChildren = [];
-
+        this.animations = new Map();
+        var keyframes = new Map();
         // Any number of animations.
         for (var i = 0; i < children.length; i++) {
-            var keyframes = new Map();
 
             if (children[i].nodeName != "animation") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -722,8 +722,7 @@ class MySceneGraph {
             this.animations.set(animationId);
             var grandChildren = children[i].children;
             for (var j = 0; j < grandChildren.length; j++) {
-                var transfMatrix = [];
-
+                
                 if (grandChildren[j].nodeName != "keyframe") {
                     this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
                     continue;
@@ -735,8 +734,8 @@ class MySceneGraph {
                 for (var k = 0; k < grandGrandChildren.length; k++) {
                     var keyframe = new KeyframeAnimation(instant, grandGrandChildren)
                 }
-                this.keyframes.set(instant, keyframes);
-                this.animations[animationId][instant] = keyframes;
+                keyframes.set(instant, keyframes);
+                this.animations.set(animationId, keyframes);
 
 
 
