@@ -47,60 +47,61 @@ class MyInterface extends CGFinterface {
         }
     }
 
-     /**
-     * processKeyboard
-     * @param event {Event}
-     */
-     processKeyboard(event){
-     switch (event.keyCode)
-	   {
-	    case (109):	// lower 'm'
-			this.scene.changeMaterials();
-			break;
-		case (77):	// capital 'M'
-			this.scene.changeMaterials();
-			break;
-	   }
+    /**
+    * processKeyboard
+    * @param event {Event}
+    */
+    processKeyboard(event) {
+        switch (event.keyCode) {
+            case (109):	// lower 'm'
+                this.scene.changeMaterials();
+                break;
+            case (77):	// capital 'M'
+                this.scene.changeMaterials();
+                break;
+        }
     }
-    
+
     /**
      * addCameraSelectDropDown
      * @param selectables {selectables}
      */
-    addCameraSelectDropDown(selectables){
+    addCameraSelectDropDown(selectables) {
         var scene = this.scene;
-        var group = this.gui.add(scene, 'views', selectables);
-        group.onFinishChange(function(value){
+        var group = this.gui.add(scene, 'selectedView', selectables);
+        group.onFinishChange(function (value) {
             scene.setNewCamera(value);
         });
+        group.name('View');
     }
 
     /**
      * addSecurityCameraSelectDropDown
      * @param selectables {selectables}
      */
-    addSecurityCameraSelectDropDown(selectables){
+    addSecurityCameraSelectDropDown(selectables) {
         var scene = this.scene;
-        var group = this.gui.add(scene, 'views', selectables);
-        group.onFinishChange(function(value){
+        var group = this.gui.add(scene, 'selectedSecurityView', selectables);
+        group.onFinishChange(function (value) {
             scene.setNewSecurityCamera(value);
         });
+        group.name('Security Camera');
     }
 
     /**
      * initKeys
      */
     initKeys() {
-        this.scene.gui=this;
-        this.activeKeys={};
+        this.scene.gui = this;
+        this.activeKeys = {};
     }
 
     processKeyDown(event) {
-        this.activeKeys[event.code]=true;
+        this.activeKeys[event.code] = true;
     };
 
     processKeyUp(event) {
-        this.activeKeys[event.code]=false;
+        this.activeKeys[event.code] = false;
     };
 
     isKeyPressed(keyCode) {

@@ -26,7 +26,8 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-        this.initCameras();
+        this.textureRTT = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+        this.securityCamera = new MySecurityCamera(this);
 
         this.enableTextures(true);
 
@@ -43,8 +44,16 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        //Set selected cameras by default value
+        this.selectedView = this.graph.def;
+        this.selectedSecurityView = this.graph.def;
+
+        // Set active camera
+        this.camera = this.graph.views[this.selectedView];
+        this.secCamera = this.graph.views[this.selectedSecurityView];
+        this.interface.setActiveCamera(this.camera);
     }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -109,14 +118,11 @@ class XMLscene extends CGFscene {
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 
+        this.initCameras();
+
         //Add camera dropdowns
         this.interface.addCameraSelectDropDown(Object.keys(this.graph.views));
         this.interface.addSecurityCameraSelectDropDown(Object.keys(this.graph.views));
-
-        // Set active camera
-        this.camera = this.graph.views[this.graph.def];
-        this.secCamera = this.graph.views[this.graph.def];
-        this.interface.setActiveCamera(this.camera);
 
         this.sceneInited = true;
     }
@@ -138,9 +144,11 @@ class XMLscene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
+        this.camera = camera;
+        this.interface.setActiveCamera(this.camera);
+
         this.pushMatrix();
         this.axis.display();
-        this.interface.setActiveCamera(camera);
 
         var i = 0;
         for (var key in this.lightValues) {
@@ -174,17 +182,17 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
-        let textureRTT = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
-
-        textureRTT.attachToFrameBuffer();
-        this.render(this.secCamera);
-        textureRTT.detachFromFrameBuffer();
-        this.render(this.camera);
+        if (!this.sceneInited)
+            return;
+        
+        this.render(this.graph.views[this.selectedSecurityView]);
+        this.textureRTT.attachToFrameBuffer();
+        this.render(this.graph.views[this.selectedView]);
+        this.textureRTT.detachFromFrameBuffer();
 
         this.gl.disable(this.gl.DEPTH_TEST);
 
-        let securityCamera = new MySecurityCamera(this, textureRTT);
-        securityCamera.display();
+        this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);
     }
@@ -213,6 +221,9 @@ class XMLscene extends CGFscene {
      */
     setNewSecurityCamera(select) {
         this.secCamera = this.graph.views[select];
-        this.interface.setActiveCamera(this.secCamera);
+    }
+
+    update(t) {
+        this.securityCamera.updateTimeFactor(t / 100 % 1000);
     }
 }
