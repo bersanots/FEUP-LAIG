@@ -97,7 +97,6 @@ class KeyframeAnimation extends Animation {
 
     // Applies current transformations to object
     apply() {
-        this.scene.pushMatrix();
         this.scene.translate(this.currentTrans.x, this.currentTrans.y, this.currentTrans.z);
 
         this.scene.rotate(this.currentRot.x * Math.PI / 180, 1, 0, 0);
@@ -105,6 +104,5 @@ class KeyframeAnimation extends Animation {
         this.scene.rotate(this.currentRot.z * Math.PI / 180, 0, 0, 1);
 
         this.scene.scale(this.currentScale.x, this.currentScale.y, this.currentScale.z);
-        this.scene.popMatrix();
     }
 }
