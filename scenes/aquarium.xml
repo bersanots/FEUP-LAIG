@@ -156,12 +156,24 @@
 
     <animations>
         <animation id="anima">
-            <keyframe instant="0">
+            <keyframe instant="5">
                 <scale x="5" y="1" z="5" />
                 <rotate angle_x = "90" angle_y = "0" angle_z = "0" />
             </keyframe>
 
+            <keyframe instant="10">
+                <translate x="5" y="1" z="5" />
+                <rotate angle_x = "-90" angle_y = "30" angle_z = "0" />
+            </keyframe>
+        </animation>
+
+        <animation id="anima2">
             <keyframe instant="1">
+                <scale x="5" y="1" z="5" />
+                <rotate angle_x = "90" angle_y = "0" angle_z = "0" />
+            </keyframe>
+
+            <keyframe instant="2">
                 <translate x="5" y="1" z="5" />
                 <rotate angle_x = "-90" angle_y = "30" angle_z = "0" />
             </keyframe>

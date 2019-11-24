@@ -184,7 +184,7 @@ class XMLscene extends CGFscene {
     display() {
         if (!this.sceneInited)
             return;
-        
+
         this.render(this.graph.views[this.selectedSecurityView]);
         this.textureRTT.attachToFrameBuffer();
         this.render(this.graph.views[this.selectedView]);
@@ -223,7 +223,19 @@ class XMLscene extends CGFscene {
         this.secCamera = this.graph.views[select];
     }
 
+    /**
+     * Updates the scene along the time.
+     */
     update(t) {
+        this.prevTime = this.prevTime || 0.0;
+        this.deltaTime = (t - this.prevTime || 0.0) / 1000;
+
+        for (var key in this.graph.animations) {
+            this.graph.animations[key].update(this.deltaTime);
+        }
+        
+        this.prevTime = t;
+
         this.securityCamera.updateTimeFactor(t / 100 % 1000);
     }
 }

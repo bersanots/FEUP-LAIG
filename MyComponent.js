@@ -5,6 +5,7 @@
 class MyComponent {
 	constructor(id, transformation, animation, materials, texture, children) {
 		this.id = id;
+		this.animation = animation;
 		this.materials = materials;
 		this.activeMaterialId = materials[0];
 		this.textureId = texture[0];
@@ -18,13 +19,6 @@ class MyComponent {
 		else {
 			this.transformMatrix = mat4.create();
 			mat4.identity(this.transformMatrix);
-		}
-
-		if (animation != null)
-			this.animationMatrix = animation;
-		else {
-			this.animationMatrix = mat4.create();
-			mat4.identity(this.animationMatrix);
 		}
 	};
 
