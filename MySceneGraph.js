@@ -740,18 +740,54 @@ class MySceneGraph {
 
             // Any number of keyframes.
             for (var j = 0; j < grandChildren.length; j++) {
-                var transfMatrix = [];
 
                 if (grandChildren[j].nodeName != "keyframe") {
                     this.onXMLMinorError("unknown tag <" + grandChildren[j].nodeName + ">");
                     continue;
                 }
+
                 var instant = this.reader.getFloat(grandChildren[j], 'instant');
 
                 var grandGrandChildren = grandChildren[j].children;
 
-                var transfMatrix = this.makeMatrix(grandGrandChildren, animationId, true);
-                keyframes[instant] = transfMatrix;
+                if (grandGrandChildren.length != 3)
+                    return "wrong number of transformation types for animation ID " + animationId;
+
+                // translation
+                if (grandGrandChildren[0].nodeName != "translate") {
+                    this.onXMLMinorError("unknown or out of order tag <" + grandGrandChildren[0].nodeName + ">");
+                    continue;
+                }
+
+                var translation = this.parseCoordinates3D(grandGrandChildren[0], "translate transformation for animation ID " + animationId);
+
+                // rotation
+                if (grandGrandChildren[1].nodeName != "rotate") {
+                    this.onXMLMinorError("unknown or out of order tag <" + grandGrandChildren[1].nodeName + ">");
+                    continue;
+                }
+
+                var rotation = [];
+                var angle_x = this.reader.getFloat(grandGrandChildren[1], 'angle_x');
+                var angle_y = this.reader.getFloat(grandGrandChildren[1], 'angle_y');
+                var angle_z = this.reader.getFloat(grandGrandChildren[1], 'angle_z');
+
+                if (!(angle_x != null && !isNaN(angle_x)) && !(angle_y != null && !isNaN(angle_y)) && !(angle_z != null && !isNaN(angle_z)))
+                    return "unable to parse rotation angles for animation ID = " + animationId;
+
+                rotation.push(angle_x);
+                rotation.push(angle_y);
+                rotation.push(angle_z);
+
+                // scaling
+                if (grandGrandChildren[2].nodeName != "scale") {
+                    this.onXMLMinorError("unknown or out of order tag <" + grandGrandChildren[2].nodeName + ">");
+                    continue;
+                }
+
+                var scaling = this.parseCoordinates3D(grandGrandChildren[2], "scale transformation for animation ID " + animationId);
+
+                keyframes[instant] = [translation, rotation, scaling];
                 numKeyframes++;
             }
 
@@ -802,7 +838,7 @@ class MySceneGraph {
             if (grandChildren.length == 0)
                 return "at least one transformation type must be defined inside this block";
 
-            var transfMatrix = this.makeMatrix(grandChildren, transformationId, false);
+            var transfMatrix = this.makeMatrix(grandChildren, transformationId);
             this.transformations[transformationId] = transfMatrix;
             numTransformations++;
         }
@@ -813,7 +849,7 @@ class MySceneGraph {
         return null;
     }
 
-    makeMatrix(nodes, transformationId, isAnimation) {
+    makeMatrix(nodes, transformationId) {
         var transfMatrix = mat4.create();
         for (var j = 0; j < nodes.length; j++) {
 
@@ -834,29 +870,15 @@ class MySceneGraph {
                     transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                     break;
                 case 'rotate':
-                    if (!isAnimation) {
+                    var angle = this.reader.getFloat(nodes[j], 'angle');
+                    if (!(angle != null && !isNaN(angle)))
+                        return "unable to parse rotation angle for ID = " + transformationId;
 
-                        var angle = this.reader.getFloat(nodes[j], 'angle');
-                        if (!(angle != null && !isNaN(angle)))
-                            return "unable to parse rotation angle for ID = " + transformationId;
+                    var axis = this.reader.getString(nodes[j], 'axis');
+                    if (!(axis != null && (axis == "x" || axis == "y" || axis == "z")))
+                        return "unable to parse rotation axis for ID = " + transformationId;
 
-                        var axis = this.reader.getString(nodes[j], 'axis');
-                        if (!(axis != null && (axis == "x" || axis == "y" || axis == "z")))
-                            return "unable to parse rotation axis for ID = " + transformationId;
-
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle * DEGREE_TO_RAD, this.axisCoords[axis]);
-                    }
-                    else {
-                        var angle_x = this.reader.getFloat(nodes[j], 'angle_x');
-                        var angle_y = this.reader.getFloat(nodes[j], 'angle_y');
-                        var angle_z = this.reader.getFloat(nodes[j], 'angle_z');
-                        if (!(angle_x != null && !isNaN(angle_x)) && !(angle_y != null && !isNaN(angle_y)) && !(angle_z != null && !isNaN(angle_z)))
-                            return "unable to parse rotation angles for ID = " + transformationId;
-
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle_x * DEGREE_TO_RAD, this.axisCoords['x']);
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle_y * DEGREE_TO_RAD, this.axisCoords['y']);
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle_z * DEGREE_TO_RAD, this.axisCoords['z']);
-                    }
+                    transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle * DEGREE_TO_RAD, this.axisCoords[axis]);
                     break;
             }
         }
@@ -1206,7 +1228,7 @@ class MySceneGraph {
                         return "transformation " + refId + " does not exist";
                 }
                 else {
-                    var transfMatrix = this.makeMatrix(grandgrandChildren, componentId, false);
+                    var transfMatrix = this.makeMatrix(grandgrandChildren, componentId);
                     transformation = transfMatrix;
                 }
             }

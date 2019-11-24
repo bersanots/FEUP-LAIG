@@ -157,25 +157,41 @@
     <animations>
         <animation id="anima">
             <keyframe instant="5">
-                <scale x="5" y="1" z="5" />
+                <translate x="0" y="0" z="0" />
                 <rotate angle_x = "90" angle_y = "0" angle_z = "0" />
+                <scale x="1" y="1" z="1" />
             </keyframe>
 
             <keyframe instant="10">
                 <translate x="5" y="1" z="5" />
-                <rotate angle_x = "-90" angle_y = "30" angle_z = "0" />
+                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
+                <scale x="3" y="3" z="3" />
+            </keyframe>
+
+            <keyframe instant="15">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
+                <scale x="1" y="1" z="1" />
             </keyframe>
         </animation>
 
         <animation id="anima2">
-            <keyframe instant="1">
-                <scale x="5" y="1" z="5" />
-                <rotate angle_x = "90" angle_y = "0" angle_z = "0" />
+            <keyframe instant="5">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x = "0" angle_y = "90" angle_z = "0" />
+                <scale x="1" y="1" z="1" />
             </keyframe>
 
-            <keyframe instant="2">
-                <translate x="5" y="1" z="5" />
-                <rotate angle_x = "-90" angle_y = "30" angle_z = "0" />
+            <keyframe instant="10">
+                <translate x="5" y="1" z="0" />
+                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+
+            <keyframe instant="15">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
+                <scale x="1" y="1" z="1" />
             </keyframe>
         </animation>
     </animations>
@@ -917,6 +933,7 @@
                 <translate x="-3" y="0" z="0" />
                 <scale x="0.45" y="1.125" z="1.5" />
             </transformation>
+            <animationref id="anima2"/>
             <materials>
                 <material id="inherit" />
                 <material id="light_blue" />
