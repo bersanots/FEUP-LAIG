@@ -158,40 +158,78 @@
         <animation id="anima">
             <keyframe instant="5">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x = "90" angle_y = "0" angle_z = "0" />
-                <scale x="1" y="1" z="1" />
+                <rotate angle_x = "0" angle_y = "-90" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
             </keyframe>
 
             <keyframe instant="10">
-                <translate x="5" y="1" z="5" />
-                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
-                <scale x="3" y="3" z="3" />
+                <translate x="15" y="-1" z="-1" />
+                <rotate angle_x = "0" angle_y = "-90" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
             </keyframe>
 
             <keyframe instant="15">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
+                <translate x="15" y="-1" z="-1" />
+                <rotate angle_x = "0" angle_y = "-180" angle_z = "0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+
+            <keyframe instant="20">
+                <translate x="15" y="-1" z="3" />
+                <rotate angle_x = "0" angle_y = "-180" angle_z = "0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
         </animation>
 
         <animation id="anima2">
-            <keyframe instant="5">
+            <keyframe instant="3">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x = "0" angle_y = "90" angle_z = "0" />
+                <rotate angle_x = "0" angle_y = "-90" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
+            </keyframe>
+
+            <keyframe instant="8">
+                <translate x="10" y="-1" z="-1" />
+                <rotate angle_x = "0" angle_y = "-90" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
+            </keyframe>
+
+            <keyframe instant="11">
+                <translate x="10" y="-1" z="-1" />
+                <rotate angle_x = "0" angle_y = "-220" angle_z = "0" />
                 <scale x="1" y="1" z="1" />
+            </keyframe>
+
+            <keyframe instant="20">
+                <translate x="10" y="-1" z="2.5" />
+                <rotate angle_x = "0" angle_y = "-220" angle_z = "0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="anima3">
+            <keyframe instant="7">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x = "0" angle_y = "135" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
             </keyframe>
 
             <keyframe instant="10">
-                <translate x="5" y="1" z="0" />
-                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
-                <scale x="1" y="1" z="1" />
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x = "-20" angle_y = "135" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
             </keyframe>
 
             <keyframe instant="15">
-                <translate x="0" y="0" z="0" />
-                <rotate angle_x = "0" angle_y = "0" angle_z = "0" />
-                <scale x="1" y="1" z="1" />
+                <translate x="10" y="-1" z="-1" />
+                <rotate angle_x = "-20" angle_y = "135" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
+            </keyframe>
+
+            <keyframe instant="20">
+                <translate x="10" y="-1" z="3" />
+                <rotate angle_x = "-20" angle_y = "135" angle_z = "0" />
+                <scale x="0.5" y="1" z="1" />
             </keyframe>
         </animation>
     </animations>
@@ -957,6 +995,7 @@
                 <translate x="-2" y="-0.75" z="-2.5" />
                 <scale x="0.15" y="0.25" z="0.5" />
             </transformation>
+            <animationref id="anima3"/>
             <materials>
                 <material id="orange" />
                 <material id="yellow" />
@@ -977,6 +1016,7 @@
                 <translate x="2" y="-0.75" z="-2.5" />
                 <scale x="0.15" y="0.25" z="0.5" />
             </transformation>
+            <animationref id="anima3"/>
             <materials>
                 <material id="yellow" />
                 <material id="green" />
