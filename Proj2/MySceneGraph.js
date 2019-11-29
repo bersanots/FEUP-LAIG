@@ -687,6 +687,7 @@ class MySceneGraph {
             newMaterial.setAmbient(global[2][0], global[2][1], global[2][2], global[2][3]);
             newMaterial.setDiffuse(global[3][0], global[3][1], global[3][2], global[3][3]);
             newMaterial.setSpecular(global[4][0], global[4][1], global[4][2], global[4][3]);
+            newMaterial.setTextureWrap('REPEAT','REPEAT');
 
             this.materials[materialId] = newMaterial;
             numMaterials++;

@@ -58,6 +58,8 @@
         <texture id="trunk" file="scenes/images/trunk-image.jpg" />
         <texture id="vidral" file="scenes/images/vidral.jpg" />
         <texture id="fish_eye" file="scenes/images/fish_eye.png" />
+        <texture id="tile" file="scenes/images/tile.png" />
+        <texture id="wallpaper" file="scenes/images/wallpaper.png" />
     </textures>
 
     <materials>
@@ -287,15 +289,15 @@
 
         <component id="floor">
             <transformation>
-                <translate x="0" y="0" z="0" />
                 <scale x="10" y="1" z="10" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="light_yellow" />
+                <material id="white" />
             </materials>
-            <texture id="bank" length_s="0.5" length_t="0.5"/>
+            <texture id="tile" length_s="0.25" length_t="0.25"/>
             <children>
-                <primitiveref id="nurbs"/>
+                <primitiveref id="square"/>
             </children>
         </component>
 
@@ -303,9 +305,9 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="light_blue" />
+                <material id="white" />
             </materials>
-            <texture id="vidral" length_s="0.5" length_t="2"/>
+            <texture id="wallpaper" length_s="0.5" length_t="2"/>
             <children>
                 <componentref id="back_wall"/>
                 <componentref id="front_wall"/>
@@ -433,7 +435,7 @@
             <materials>
                 <material id="inherit"/>
             </materials>
-            <texture id="trunk" length_s="1" length_t="3"/>
+            <texture id="trunk" length_s="0.5" length_t="1.5"/>
             <children>
                 <componentref id="cube"/>
             </children>
@@ -501,7 +503,7 @@
             <materials>
                 <material id="inherit"/>
             </materials>
-            <texture id="inherit"/>
+            <texture id="trunk" length_s="4" length_t="0.5"/>
             <children>
                 <componentref id="front_right_leg"/>
                 <componentref id="front_left_leg"/>
