@@ -6,7 +6,7 @@
  * @param y - Scale of rectangle in Y
  */
 class MyRectangle extends CGFobject {
-	constructor(scene, id, x1, x2, y1, y2) {
+	constructor(scene, x1, x2, y1, y2) {
 		super(scene);
 		this.x1 = x1;
 		this.x2 = x2;
@@ -15,7 +15,7 @@ class MyRectangle extends CGFobject {
 
 		this.initBuffers();
 	}
-	
+
 	initBuffers() {
 		this.vertices = [
 			this.x1, this.y1, 0,	//0
@@ -37,7 +37,7 @@ class MyRectangle extends CGFobject {
 			0, 0, 1,
 			0, 0, 1
 		];
-		
+
 		/*
 		Texture coords (s,t)
 		+----------> s
@@ -65,11 +65,11 @@ class MyRectangle extends CGFobject {
  	 * @param length_t - Scale of texture coordinates in T
 	 */
 	updateTexCoords(length_s, length_t) {
-		var t3 = [0,0];
+		var t3 = [0, 0];
 		var t4 = [(this.x2 - this.x1) / length_s, 0];
 		var t2 = [(this.x2 - this.x1) / length_s, (this.y2 - this.y1) / length_t];
 		var t1 = [0, (this.y2 - this.y1) / length_t];
-		
+
 		this.texCoords = t1.concat(t2.concat(t3.concat(t4)));
 		this.updateTexCoordsGLBuffers();
 	}

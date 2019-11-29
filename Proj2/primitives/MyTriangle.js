@@ -7,7 +7,7 @@
  * @param z - Scale of triangle in Z
  */
 class MyTriangle extends CGFobject {
-	constructor(scene, id, x1, x2, x3, y1, y2, y3, z1, z2, z3) {
+	constructor(scene, x1, x2, x3, y1, y2, y3, z1, z2, z3) {
 		super(scene);
 		this.x1 = x1;
 		this.x2 = x2;
@@ -21,7 +21,7 @@ class MyTriangle extends CGFobject {
 
 		this.initBuffers();
 	}
-	
+
 	initBuffers() {
 		this.vertices = [
 			this.x1, this.y1, this.z1,	//0
@@ -34,26 +34,26 @@ class MyTriangle extends CGFobject {
 			0, 1, 2
 		];
 
-		var x = ((this.y2 - this.y1)*(this.z3 - this.z1) - (this.z2 - this.z1)*(this.y3 - this.y1))/
-					Math.sqrt(Math.pow((this.y2 - this.y1)*(this.z3 - this.z1) - (this.z2 - this.z1)*(this.y3 - this.y1),2) + 
-								Math.pow((this.z2 - this.z1)*(this.x3 - this.x1) - (this.x2 - this.x1) * (this.z3 - this.z1),2) + 
-								Math.pow((this.x2 - this.x1)*(this.y3 - this.y1) - (this.y2 - this.y1)*(this.x3 - this.x1),2));
-    	var y = ((this.z2 - this.z1)*(this.x3 - this.x1) - (this.x2 - this.x1)*(this.z3 - this.z1))/
-    				Math.sqrt(Math.pow((this.y2 - this.y1)*(this.z3 - this.z1) - (this.z2 - this.z1)*(this.y3 - this.y1), 2) + 
-    							Math.pow((this.z2 - this.z1)*(this.x3 - this.x1) - (this.x2 - this.x1)*(this.z3 - this.z1),2) + 
-    							Math.pow((this.x2 - this.x1)*(this.y3 - this.y1) - (this.y2 - this.y1)*(this.x3 - this.x1),2));
-    	var z = ((this.x2 - this.x1)*(this.y3 - this.y1) - (this.y2 - this.y1)*(this.x3 - this.x1))/
-    				Math.sqrt(Math.pow((this.y2 - this.y1)*(this.z3 - this.z1)- (this.z2 - this.z1)*(this.y3 - this.y1), 2) + 
-    							Math.pow((this.z2 - this.z1)*(this.x3 - this.x1) - (this.x2 - this.x1)*(this.z3 - this.z1),2) + 
-    							Math.pow((this.x2 - this.x1)*(this.y3 - this.y1) - (this.y2 - this.y1)*(this.x3 - this.x1), 2));
+		var x = ((this.y2 - this.y1) * (this.z3 - this.z1) - (this.z2 - this.z1) * (this.y3 - this.y1)) /
+			Math.sqrt(Math.pow((this.y2 - this.y1) * (this.z3 - this.z1) - (this.z2 - this.z1) * (this.y3 - this.y1), 2) +
+				Math.pow((this.z2 - this.z1) * (this.x3 - this.x1) - (this.x2 - this.x1) * (this.z3 - this.z1), 2) +
+				Math.pow((this.x2 - this.x1) * (this.y3 - this.y1) - (this.y2 - this.y1) * (this.x3 - this.x1), 2));
+		var y = ((this.z2 - this.z1) * (this.x3 - this.x1) - (this.x2 - this.x1) * (this.z3 - this.z1)) /
+			Math.sqrt(Math.pow((this.y2 - this.y1) * (this.z3 - this.z1) - (this.z2 - this.z1) * (this.y3 - this.y1), 2) +
+				Math.pow((this.z2 - this.z1) * (this.x3 - this.x1) - (this.x2 - this.x1) * (this.z3 - this.z1), 2) +
+				Math.pow((this.x2 - this.x1) * (this.y3 - this.y1) - (this.y2 - this.y1) * (this.x3 - this.x1), 2));
+		var z = ((this.x2 - this.x1) * (this.y3 - this.y1) - (this.y2 - this.y1) * (this.x3 - this.x1)) /
+			Math.sqrt(Math.pow((this.y2 - this.y1) * (this.z3 - this.z1) - (this.z2 - this.z1) * (this.y3 - this.y1), 2) +
+				Math.pow((this.z2 - this.z1) * (this.x3 - this.x1) - (this.x2 - this.x1) * (this.z3 - this.z1), 2) +
+				Math.pow((this.x2 - this.x1) * (this.y3 - this.y1) - (this.y2 - this.y1) * (this.x3 - this.x1), 2));
 
 		//Facing Z positive
 		this.normals = [
 			x, y, z,
-   			x, y, z,
-   			x, y, z
+			x, y, z,
+			x, y, z
 		];
-		
+
 		/*
 		Texture coords (s,t)
 		+----------> s
@@ -85,13 +85,13 @@ class MyTriangle extends CGFobject {
 		var b = Math.sqrt(Math.pow(this.x3 - this.x2, 2) + Math.pow(this.y3 - this.y2, 2) + Math.pow(this.z3 - this.z2, 2));
 		var c = Math.sqrt(Math.pow(this.x1 - this.x3, 2) + Math.pow(this.y1 - this.y3, 2) + Math.pow(this.z1 - this.z3, 2));
 
-		var cos_angle = (Math.pow(a,2) - Math.pow(b,2) + Math.pow(c,2)) / (2*a*c);
-		var sin_angle = Math.sqrt(1 - Math.pow(cos_angle,2));
+		var cos_angle = (Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2)) / (2 * a * c);
+		var sin_angle = Math.sqrt(1 - Math.pow(cos_angle, 2));
 
-		var t1 = [0,0];
-		var t2 = [a/length_s,0];
-		var t3 = [c*cos_angle/length_s, c*sin_angle/length_t];
-		
+		var t1 = [0, 0];
+		var t2 = [a / length_s, 0];
+		var t3 = [c * cos_angle / length_s, c * sin_angle / length_t];
+
 		this.texCoords = t1.concat(t2.concat(t3));
 		this.updateTexCoordsGLBuffers();
 	}

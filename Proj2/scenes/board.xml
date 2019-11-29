@@ -1,0 +1,122 @@
+<lxs>
+    <scene root="scene" axis_length="5"/>
+
+    <views default="overview">
+        <perspective id="overview" near="0.1" far="500" angle="0.4">
+            <from x="25" y="20" z="25"/>
+            <to x="0" y="-2" z="0"/>
+        </perspective>
+        <perspective id="front_view" near="0.1" far="500" angle="0.4">
+            <from x="5" y="5" z="22"/>
+            <to x="5" y="0" z="0"/>
+        </perspective>
+        <perspective id="big_fish" near="0.1" far="500" angle="0.4">
+            <from x="13" y="4" z="13"/>
+            <to x="0" y="2" z="0"/>
+        </perspective>
+        <ortho id="orthogonal" near="0.1" far="500" left="-16" right="16" top="9" bottom="-9">
+            <from x="10" y="10" z="10" />
+            <to x="0" y="0" z="0" />
+        </ortho>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.53" g="0.81" b="0.92" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="middle_light" enabled="1">
+            <location x="5" y="2" z="5" w="0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </omni>
+        <spot id="side_light" enabled="0" angle="55" exponent="20">
+            <location x="5" y="4" z="15" w="0" />
+            <target x="5" y="0" z="0" />
+            <ambient r="0" g="0" b="0" a="0"/>
+            <diffuse r="0.5" g="0.5" b="0.5" a="0"/>
+            <specular r="0.5" g="0.5" b="0.5" a="0"/>
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </spot>
+        <spot id="top_light" enabled="0" angle="55" exponent="40">
+            <location x="10" y="7" z="10" w="0" />
+            <target x="0" y="0" z="0" />
+            <ambient r="0" g="0" b="0" a="0"/>
+            <diffuse r="0.5" g="0.5" b="0.5" a="0"/>
+            <specular r="0.5" g="0.5" b="0.5" a="0"/>
+            <attenuation constant="1" linear="0" quadratic="0" />
+        </spot>
+    </lights>
+
+    <textures>
+        <texture id="bank" file="scenes/images/bank.jpg" /> 
+    </textures>
+
+    <materials>
+        <material id="defaultMaterial" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+      
+    </materials>
+
+    <transformations>
+        <transformation id="demoTransform">
+            <scale x="5" y="1" z="5" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+    </transformations>
+
+    <animations>
+        
+    </animations>
+
+    <primitives>
+        <primitive id = "board">
+            <board />>
+        </primitive>
+        <primitive id = "demo">
+            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+        </primitive>
+    </primitives>
+
+
+    <components>
+        <!--SCENE-->
+
+        <component id="scene">
+            <transformation>
+                <translate x="5" y="1" z="5" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="board_comp"/>
+            </children>
+        </component>
+
+        <component id="board_comp">        
+            <transformation>
+                <translate x="-2" y="4.8" z="-2" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="board" />
+            </children>
+        </component>
+        <!--END OF SCENE-->
+    </components>
+</lxs>

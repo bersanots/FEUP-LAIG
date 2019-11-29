@@ -9,7 +9,7 @@
  * @param controlpoints - List of control points
  */
 class MyPatch extends CGFobject {
-    constructor(scene, id, npointsU, npointsV, npartsU, npartsV, controlPoints) {
+    constructor(scene, npointsU, npointsV, npartsU, npartsV, controlPoints) {
         super(scene);
         this.scene = scene;
         this.npointsU = npointsU;

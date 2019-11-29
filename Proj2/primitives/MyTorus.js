@@ -8,8 +8,8 @@
  * @param loops - Number of loops of torus
  */
 
-class MyTorus extends CGFobject{
-    constructor(scene, id, inner, outer, slices, loops) {
+class MyTorus extends CGFobject {
+    constructor(scene, inner, outer, slices, loops) {
         super(scene);
         this.outer = outer;
         this.inner = inner;
@@ -19,7 +19,7 @@ class MyTorus extends CGFobject{
         this.initBuffers();
     };
 
-    initBuffers(){
+    initBuffers() {
 
         this.vertices = [];
         this.normals = [];
@@ -29,10 +29,9 @@ class MyTorus extends CGFobject{
         var deltaS = 1.0 / this.slices;
         var deltaT = 1.0 / this.loops;
         var s = 0;
-	    var t = 0;
+        var t = 0;
 
-        for (var loop_c = 0; loop_c <= this.loops; loop_c++)
-          {
+        for (var loop_c = 0; loop_c <= this.loops; loop_c++) {
             var ang = loop_c * 2 * Math.PI / this.loops;
             s = 0;
             for (var slice_c = 0; slice_c <= this.slices; slice_c++) {
@@ -50,11 +49,11 @@ class MyTorus extends CGFobject{
                 this.normals.push(y);
                 this.normals.push(z);
 
-                this.texCoords.push(t,s);
+                this.texCoords.push(t, s);
                 if (s >= 1)
-                	s = 0;
-          		else
-          			s += deltaS;
+                    s = 0;
+                else
+                    s += deltaS;
 
             }
             t += deltaT;
@@ -80,7 +79,7 @@ class MyTorus extends CGFobject{
         */
 
         this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
+        this.initGLBuffers();
     }
 
 
@@ -90,16 +89,16 @@ class MyTorus extends CGFobject{
 	 * @param length_s - Scale of texture coordinates in S
  	 * @param length_t - Scale of texture coordinates in T
 	 */
-	updateTexCoords(length_s, length_t) {
-		this.texCoords = [];
+    updateTexCoords(length_s, length_t) {
+        this.texCoords = [];
 
         for (var loop_c = 0; loop_c <= this.loops; loop_c++) {
-        	for (var slice_c = 0; slice_c <= this.slices; slice_c++) {
-            	this.texCoords.push((loop_c/this.loops) / length_t, (slice_c/this.slices) / length_s);
+            for (var slice_c = 0; slice_c <= this.slices; slice_c++) {
+                this.texCoords.push((loop_c / this.loops) / length_t, (slice_c / this.slices) / length_s);
             }
         }
 
-		this.updateTexCoordsGLBuffers();
-	}
+        this.updateTexCoordsGLBuffers();
+    }
 
 }

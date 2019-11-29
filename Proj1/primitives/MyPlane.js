@@ -6,7 +6,7 @@
  * @param npartsV - Divisions in V
  */
 class MyPlane extends CGFobject {
-    constructor(scene, id, npartsU, npartsV) {
+    constructor(scene, npartsU, npartsV) {
         super(scene);
         this.scene = scene;
         this.npartsU = npartsU;

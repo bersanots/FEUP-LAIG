@@ -921,7 +921,7 @@ class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'plane' && grandChildren[0].nodeName != 'patch' && grandChildren[0].nodeName != 'cylinder2')) {
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'plane' && grandChildren[0].nodeName != 'patch' && grandChildren[0].nodeName != 'cylinder2' && grandChildren[0].nodeName != 'board') {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, plane, patch or cylinder2)"
             }
 
@@ -950,7 +950,7 @@ class MySceneGraph {
                 if (!(y2 != null && !isNaN(y2) && y2 > y1))
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
-                var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
+                var rect = new MyRectangle(this.scene, x1, x2, y1, y2);
 
                 this.primitives[primitiveId] = rect;
             }
@@ -1000,7 +1000,7 @@ class MySceneGraph {
                 if (!(z3 != null && !isNaN(z3)))
                     return "unable to parse z3 of the primitive coordinates for ID = " + primitiveId;
 
-                var tri = new MyTriangle(this.scene, primitiveId, x1, x2, x3, y1, y2, y3, z1, z2, z3);
+                var tri = new MyTriangle(this.scene, x1, x2, x3, y1, y2, y3, z1, z2, z3);
 
                 this.primitives[primitiveId] = tri;
             }
@@ -1030,7 +1030,7 @@ class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks) && stacks > 0))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
 
-                var cyl = (primitiveType == 'cylinder') ? new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks) : new MyCylinder2(this.scene, primitiveId, base, top, height, slices, stacks);
+                var cyl = (primitiveType == 'cylinder') ? new MyCylinder(this.scene, base, top, height, slices, stacks) : new MyCylinder2(this.scene, base, top, height, slices, stacks);
 
                 this.primitives[primitiveId] = cyl;
             }
@@ -1050,7 +1050,7 @@ class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks) && stacks > 0))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
 
-                var sphere = new MySphere(this.scene, primitiveId, radius, slices, stacks);
+                var sphere = new MySphere(this.scene, radius, slices, stacks);
 
                 this.primitives[primitiveId] = sphere;
             }
@@ -1075,7 +1075,7 @@ class MySceneGraph {
                 if (!(loops != null && !isNaN(loops) && loops > 0))
                     return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
 
-                var torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
+                var torus = new MyTorus(this.scene, inner, outer, slices, loops);
 
                 this.primitives[primitiveId] = torus;
             }
@@ -1088,7 +1088,7 @@ class MySceneGraph {
                 if (!(npartsV != null && !isNaN(npartsV) && npartsV >= 0))
                     return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
 
-                var plane = new MyPlane(this.scene, primitiveId, npartsU, npartsV);
+                var plane = new MyPlane(this.scene, npartsU, npartsV);
 
                 this.primitives[primitiveId] = plane;
             }
@@ -1149,7 +1149,7 @@ class MySceneGraph {
                     controlPoints.push(position);
                 }
 
-                var patch = new MyPatch(this.scene, primitiveId, npointsU, npointsV, npartsU, npartsV, controlPoints);
+                var patch = new MyPatch(this.scene, npointsU, npointsV, npartsU, npartsV, controlPoints);
 
                 this.primitives[primitiveId] = patch;
             }
