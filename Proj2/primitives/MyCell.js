@@ -1,13 +1,14 @@
 /**
- * MyCircle
+ * MyCell
  * @constructor
  */
 
-class MyCircle extends CGFobject {
+class MyCell extends CGFobject {
 
-    constructor(scene, slices) {
+    constructor(scene, radius) {
         super(scene);
-        this.slices = slices;
+        this.slices = 6;
+        this.radius = radius;
         this.initBuffers();
     };
 
@@ -26,7 +27,7 @@ class MyCircle extends CGFobject {
         this.normals.push(0, 0, 1);
 
         for (let i = 0; i < this.slices; i++) {
-            this.vertices.push(Math.cos(ang * i), Math.sin(ang * i), 0);
+            this.vertices.push(this.radius*Math.cos(ang * i), this.radius*Math.sin(ang * i), 0);
             this.normals.push(0, 0, 1);
             this.texCoords.push(0.5 + Math.cos(ang * i) / 2, 0.5 - Math.sin(ang * i) / 2);
         }
