@@ -1,14 +1,14 @@
-start_game(PlayerType1, PlayerType2) :-
+start_game(PlayerType1, PlayerType2, Res) :-
   initTab(InitialTab),
   InitialTab = Tab-Player,
   display_game(Tab),
   translate(Player, P),
   write('\nPLAYER '), write(P) , write(' TURN\n'),
-  game_cycle(InitialTab, PlayerType1, PlayerType2, 0).
+  game_cycle(InitialTab, PlayerType1, PlayerType2, 0, Res).
 	
 	
 /*repeat the game loop until there is a winner or a draw*/	
-game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, DrawCount) :-
+game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, DrawCount, Res) :-
   (CurrentTab = Tab-Player,
    ActivePlayerType = PlayerType-Level,
    ((PlayerType == 'H',
@@ -21,11 +21,11 @@ game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, DrawCount) :-
    display_game(NewTab)), !,
    ((game_over(NewTab-Player, Level, Winner, NextCount),
     ((Winner =:= 0, write('Pieces were slided for six turns in a row. The game ended in a DRAW.'));
-     (write('End of the game. The winner is PLAYER '), translate(Winner, W), write(W))));  
+     (write('End of the game. The winner is PLAYER '), translate(Winner, W), write(W))), Res is Winner);  
     (((Player=:=1, NextPlayer is 2); NextPlayer is 1),
      translate(NextPlayer, P),
      write('\nPLAYER '), write(P) , write(' TURN\n'),
-     game_cycle(NewTab-NextPlayer, NextPlayerType, ActivePlayerType, NextCount))).
+     game_cycle(NewTab-NextPlayer, NextPlayerType, ActivePlayerType, NextCount, Res))).
 
 	 
 /*user choice to place or slide a piece*/

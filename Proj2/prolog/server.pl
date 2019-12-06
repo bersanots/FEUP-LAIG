@@ -105,7 +105,9 @@ print_header_line(_).
 
 :- consult('src/susan.pl').
 
-parse_input(play, goodbye) :- play.
+parse_input(play, play) :- play.
+
+parse_input(choose_mode(X), Res) :- choose_mode(X, Res).
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
