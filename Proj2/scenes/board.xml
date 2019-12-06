@@ -90,23 +90,9 @@
 
     <components>
         <!--SCENE-->
-
-        <component id="scene">
+         <component id="board_comp">        
             <transformation>
-                <translate x="5" y="1" z="5" />
-            </transformation>
-            <materials>
-                <material id="defaultMaterial" />
-            </materials>
-            <texture id="none"/>
-            <children>
-                <componentref id="board_comp"/>
-            </children>
-        </component>
-
-        <component id="board_comp">        
-            <transformation>
-                <translate x="-2" y="4.8" z="-2" />
+                <translate x="0" y="0" z="0" />
             </transformation>
             <animations></animations>
             <materials>
@@ -117,6 +103,21 @@
                 <primitiveref id="board" />
             </children>
         </component>
+
+        <component id="scene">
+            <transformation>
+                <translate x="0.5" y="0.5" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="board_comp"/>
+            </children>
+        </component>
+
+       
         <!--END OF SCENE-->
     </components>
 </lxs>

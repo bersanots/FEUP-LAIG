@@ -918,12 +918,12 @@ class MySceneGraph {
             grandChildren = children[i].children;
 
             // Validate the primitive type
-            if (grandChildren.length != 1 ||
-                (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
-                    grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'plane' && grandChildren[0].nodeName != 'patch' && grandChildren[0].nodeName != 'cylinder2' && grandChildren[0].nodeName != 'board') {
-                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, plane, patch or cylinder2)"
-            }
+            // if (grandChildren.length != 1 ||
+            //     (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
+            //         grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
+            //         grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'plane' && grandChildren[0].nodeName != 'patch' && grandChildren[0].nodeName != 'cylinder2')) {
+            //     return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, plane, patch or cylinder2)"
+            // }
 
             // Specifications for the current primitive.
             var primitiveType = grandChildren[0].nodeName;
@@ -1152,6 +1152,10 @@ class MySceneGraph {
                 var patch = new MyPatch(this.scene, npointsU, npointsV, npartsU, npartsV, controlPoints);
 
                 this.primitives[primitiveId] = patch;
+            }
+            else if (primitiveType == 'board') {
+                var board = new MyBoard(this.scene);
+                this.primitives[primitiveId] = board;
             }
             else {
                 this.onXMLMinorError("unknown primitive <" + primitiveType + ">");

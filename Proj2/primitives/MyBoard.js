@@ -1,8 +1,8 @@
 /**
- * Board
+ * MyBoard
  @constructor
 **/
-class Board extends CGFobject {
+class MyBoard extends CGFobject {
     constructor(scene) {
         super(scene);
 
@@ -10,7 +10,7 @@ class Board extends CGFobject {
     };
 
     createBoard() {
-        this.board = new MyPlane(this.scene, 20, 20);
+        this.board = new MyPlane(this.scene, 5, 5);
     }
 
     display() {
