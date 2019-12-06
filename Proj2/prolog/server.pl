@@ -7,12 +7,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % To run, enter 'server.' on sicstus command line after consulting this file.
-% You can test requests to this server by going to http://localhost:8081/<request>.
-% Go to http://localhost:8081/quit to close server.
+% You can test requests to this server by going to http://localhost:8082/<request>.
+% Go to http://localhost:8082/quit to close server.
 
 % Made by Luis Reis (ei12085@fe.up.pt) for LAIG course at FEUP.
 
-port(8081).
+port(8082).
 
 % Server Entry Point
 server :-
@@ -102,6 +102,10 @@ print_header_line(_).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Require your Prolog Files here
+
+:- consult('src/susan.pl').
+
+parse_input(play, goodbye) :- play.
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
