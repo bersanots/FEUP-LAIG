@@ -89,6 +89,19 @@ class MyInterface extends CGFinterface {
     }
 
     /**
+     * addGameDifficultyDropdown
+     * @param selectables {selectables}
+     */
+    addGameDifficultyDropdown(selectables) {
+        var scene = this.scene;
+        var group = this.gui.add(scene, 'difficulty', selectables);
+        group.onFinishChange(function (value) {
+            scene.setGameDifficulty(value);
+        });
+        group.name('Game difficulty');
+    }
+
+    /**
      * initKeys
      */
     initKeys() {

@@ -223,6 +223,13 @@ class XMLscene extends CGFscene {
         this.secCamera = this.graph.views[select];
     }
 
+     /**
+     * Sets a new game difficulty.
+     */
+    setGameDifficulty(diff) {
+        this.difficulty = diff;
+    }
+
     /**
      * Updates the scene along the time.
      */
