@@ -96,6 +96,15 @@ class XMLscene extends CGFscene {
         }
     }
 
+    /**
+     * Initializes the variables used for the game.
+     */
+    initGameValues() {
+        // Set default values
+        this.difficulty = 1;
+        this.mode = 1;
+    }
+
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -121,8 +130,12 @@ class XMLscene extends CGFscene {
         this.initCameras();
 
         //Add camera dropdowns
-        this.interface.addCameraSelectDropDown(Object.keys(this.graph.views));
-        this.interface.addSecurityCameraSelectDropDown(Object.keys(this.graph.views));
+        this.interface.addCameraDropDowns(Object.keys(this.graph.views));
+
+        this.initGameValues();
+
+        //Add game controls
+        this.interface.addGameControls();
 
         this.sceneInited = true;
     }
@@ -223,11 +236,41 @@ class XMLscene extends CGFscene {
         this.secCamera = this.graph.views[select];
     }
 
-     /**
+    /**
      * Sets a new game difficulty.
      */
     setGameDifficulty(diff) {
+        //if (!gameStarted)
         this.difficulty = diff;
+    }
+
+    /**
+     * Sets a new game mode.
+     */
+    setGameMode(mode) {
+        //if (!gameStarted)
+        this.mode = mode;
+    }
+
+    /**
+     * Sets a new game difficulty.
+     */
+    startGame() {
+        //send request
+        const Http = new XMLHttpRequest();
+        const url = 'http://localhost:8082/choose_mode_and_diff(' + this.mode + ',' + this.difficulty + ')';
+        Http.open("GET", url);
+        Http.send();
+        const result = Http.responseText;
+        this.setWinner(result);
+    }
+
+    /**
+     * Sets the game winner.
+     */
+    setWinner(winner) {
+        this.winner = winner;
+        alert('The winner is Player ' + winner);
     }
 
     /**
@@ -240,7 +283,7 @@ class XMLscene extends CGFscene {
         for (var key in this.graph.animations) {
             this.graph.animations[key].update(this.deltaTime);
         }
-        
+
         this.prevTime = t;
 
         this.securityCamera.updateTimeFactor(t / 100 % 1000);

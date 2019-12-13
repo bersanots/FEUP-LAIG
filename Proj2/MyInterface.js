@@ -63,42 +63,94 @@ class MyInterface extends CGFinterface {
     }
 
     /**
-     * addCameraSelectDropDown
+     * addCameraDropDowns
      * @param selectables {selectables}
      */
-    addCameraSelectDropDown(selectables) {
+    addCameraDropDowns(selectables) {
+        var group = this.gui.addFolder("Views");
+        group.open();
+        this.addCameraSelectDropDown(selectables, group);
+        this.addSecurityCameraSelectDropDown(selectables, group);
+    }
+
+    /**
+     * addCameraSelectDropDown
+     * @param selectables {selectables}
+     * @param group {group}
+     */
+    addCameraSelectDropDown(selectables, group) {
         var scene = this.scene;
-        var group = this.gui.add(scene, 'selectedView', selectables);
-        group.onFinishChange(function (value) {
+        var view = group.add(scene, 'selectedView', selectables);
+        view.onFinishChange(function (value) {
             scene.setNewCamera(value);
         });
-        group.name('View');
+        view.name('View');
     }
 
     /**
      * addSecurityCameraSelectDropDown
      * @param selectables {selectables}
+     * @param group {group}
      */
-    addSecurityCameraSelectDropDown(selectables) {
+    addSecurityCameraSelectDropDown(selectables, group) {
         var scene = this.scene;
-        var group = this.gui.add(scene, 'selectedSecurityView', selectables);
-        group.onFinishChange(function (value) {
+        var camera = group.add(scene, 'selectedSecurityView', selectables);
+        camera.onFinishChange(function (value) {
             scene.setNewSecurityCamera(value);
         });
-        group.name('Security Camera');
+        camera.name('Security Camera');
+    }
+
+    /**
+     * addGameControls
+     */
+    addGameControls() {
+        var group = this.gui.addFolder("Game controls");
+        group.open();
+        this.addGameModeDropdown(group);
+        this.addGameDifficultyDropdown(group);
+        this.addStartGameButton(group);
     }
 
     /**
      * addGameDifficultyDropdown
-     * @param selectables {selectables}
+     * @param group {group}
      */
-    addGameDifficultyDropdown(selectables) {
+    addGameModeDropdown(group) {
         var scene = this.scene;
-        var group = this.gui.add(scene, 'difficulty', selectables);
-        group.onFinishChange(function (value) {
+        var modes = { 'Player vs Player': 1, 'Player vs PC': 2, 'PC vs Player': 3, 'PC vs PC': 4 };
+        var mode = group.add(scene, 'mode', modes);
+        mode.onFinishChange(function (value) {
+            scene.setGameMode(value);
+        });
+        mode.name('Game mode');
+    }
+
+    /**
+     * addGameDifficultyDropdown
+     * @param group {group}
+     */
+    addGameDifficultyDropdown(group) {
+        var scene = this.scene;
+        var levels = [1, 2, 3];
+        var diff = group.add(scene, 'difficulty', levels);
+        diff.onFinishChange(function (value) {
             scene.setGameDifficulty(value);
         });
-        group.name('Game difficulty');
+        diff.name('Game difficulty');
+    }
+
+    /**
+     * addStartGameButton
+     * @param group {group}
+     */
+    addStartGameButton(group) {
+        var scene = this.scene;
+        this.start = function () {
+            scene.startGame();
+        };
+        var start = group.add(this, 'start');
+        start.name('Start Game');
     }
 
     /**

@@ -21,7 +21,7 @@ game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, DrawCount, Res) :-
    display_game(NewTab)), !,
    ((game_over(NewTab-Player, Level, Winner, NextCount),
     ((Winner =:= 0, write('Pieces were slided for six turns in a row. The game ended in a DRAW.'));
-     (write('End of the game. The winner is PLAYER '), translate(Winner, W), write(W))), Res is Winner);  
+     (write('End of the game. The winner is PLAYER \n'), translate(Winner, W), write(W))), Res is Winner);  
     (((Player=:=1, NextPlayer is 2); NextPlayer is 1),
      translate(NextPlayer, P),
      write('\nPLAYER '), write(P) , write(' TURN\n'),
