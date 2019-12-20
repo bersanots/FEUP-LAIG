@@ -3,42 +3,58 @@
  @constructor
 **/
 class MyBoard extends CGFobject {
-    constructor(scene) {
+    constructor(scene, radius) {
         super(scene);
-        this.radius = .5;
+        this.radius = radius;
+        console.log(radius);
         this.createBoard();
     };
 
     createBoard() {
-        // for (var i = 0; i < 2; i++) {
-            this.board = new MyCell(this.scene, this.radius);
+            this.cell = new MyCell(this.scene, this.radius);
             
-        // }
 
     }
 
     drawBoard() {
         this.scene.rotate(-Math.PI/2, 0, 0, 1);
+        
+        let col = 5;
+        let row = 5;
+        let tmp = 0;
+        this.scene.pushMatrix()
+        for (let j = 0; j < col; j++) {
+            this.scene.pushMatrix()
+            for (let i = 0; i < row+j; i++) {
+            	this.drawCells();
+            	this.scene.translate(0, this.radius*2, 0);
 
-        let i = 5;
-        let a = false;
-        // do{
-        //     let j = 0;
-        //     for (j; j < i-1; ++j) {
-        //         this.drawCells();
-        //         this.scene.translate(0, this.radius*1.74, 0);
-        //     }
-        //     this.scene.translate(1, -j*0.9, 0);
-        //     (i==9)? a = true: a = false;
-        //     a ? ++i : --i;
-        //     console.log(i);
-        // }while(i != 5);
+            } 
+            this.scene.popMatrix();
+            this.scene.translate(1, -this.radius*2 + 0.5, 0);
+        }
+		this.scene.translate(0, this.radius*2, 0);
+ 		
+ 		let bottomRow = row+col - 2;
+ 		for (let j = 0; j < col -1 ; j++) {
 
+ 			this.scene.pushMatrix();
+			for (let i = 0; i < bottomRow; i++) {
+        	 	this.drawCells();
+			this.scene.translate(0, this.radius*2, 0);
+        	 }
+        	this.scene.popMatrix();
+        
+			this.scene.translate(1, this.radius*2 - 0.5 , 0);
+			--bottomRow;
+ 		}
+		this.scene.popMatrix();
     }
+    
 
     drawCells() {
             
-            this.board.display();
+            this.cell.display();
         }
 
     display() {
@@ -47,5 +63,17 @@ class MyBoard extends CGFobject {
         this.scene.popMatrix();
 
     }
+
+    updateTexCoords(length_s, length_t) {
+		this.texCoords = [];
+
+		for (var i = 0; i <= this.slices; i++) {
+			for (var j = 0; j <= this.stacks; j++) {
+				this.texCoords.push((i / this.slices) / length_s, (j / this.stacks) / length_t);
+			}
+		}
+
+		this.updateTexCoordsGLBuffers();
+	}
 
 }

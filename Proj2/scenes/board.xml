@@ -53,6 +53,7 @@
 
     <textures>
         <texture id="bank" file="scenes/images/bank.jpg" /> 
+        <texture id="piece" file="scenes/images/hexagon.jpg" />
     </textures>
 
     <materials>
@@ -61,6 +62,27 @@
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
             <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+        </material>
+
+        <material id="grey" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <ambient r="0.9" g="0.9" b="0.9" a="1.0"/>
+            <diffuse r="0.9" g="0.9" b="0.9" a="1.0"/>
+            <specular r="0.9" g="0.9" b="0.9" a="1.0"/>
+        </material>
+
+         <material id="white" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+            <specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+        </material>
+
+        <material id="black" shininess="10">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <diffuse r="0.0" g="0.0" b="0.0" a="1.0"/>
+            <specular r="0.0" g="0.0" b="0.0" a="1.0"/>
         </material>
 
       
@@ -80,10 +102,13 @@
 
     <primitives>
         <primitive id = "board">
-            <board />>
+            <board radius='0.45'/>
         </primitive>
         <primitive id = "demo">
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+        </primitive>
+        <primitive id = "board1">
+            <board radius='0.5' />
         </primitive>
     </primitives>
 
@@ -96,11 +121,24 @@
             </transformation>
             <animations></animations>
             <materials>
-                <material id="inherit" />
+                <material id="white" />
             </materials>
-            <texture id="none" />
+            <texture id="none"/>   
             <children>
                 <primitiveref id="board" />
+            </children>
+        </component>
+        <component id="board_comp1">        
+            <transformation>
+                <translate x="0" y="0" z="0." />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="board1" />
             </children>
         </component>
 
@@ -113,7 +151,7 @@
             </materials>
             <texture id="none"/>
             <children>
-                <componentref id="board_comp"/>
+                <componentref id="board_comp1"/>
             </children>
         </component>
 

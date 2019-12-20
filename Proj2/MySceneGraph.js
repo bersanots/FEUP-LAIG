@@ -1154,7 +1154,8 @@ class MySceneGraph {
                 this.primitives[primitiveId] = patch;
             }
             else if (primitiveType == 'board') {
-                var board = new MyBoard(this.scene);
+                var radius = this.reader.getFloat(grandChildren[0], 'radius');
+                var board = new MyBoard(this.scene, radius);
                 this.primitives[primitiveId] = board;
             }
             else {

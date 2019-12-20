@@ -148,7 +148,7 @@ class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
 
         this.pushMatrix();
-        this.axis.display();
+        //this.axis.display();
 
         var i = 0;
         for (var key in this.lightValues) {
@@ -192,7 +192,7 @@ class XMLscene extends CGFscene {
 
         this.gl.disable(this.gl.DEPTH_TEST);
 
-        this.securityCamera.display();
+        //this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);
     }
