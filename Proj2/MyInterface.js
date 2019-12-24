@@ -110,10 +110,12 @@ class MyInterface extends CGFinterface {
         this.addGameModeDropdown(group);
         this.addGameDifficultyDropdown(group);
         this.addStartGameButton(group);
+        this.addMoveTextFields(group);
+        this.addMoveButton(group);
     }
 
     /**
-     * addGameDifficultyDropdown
+     * addGameModeDropdown
      * @param group {group}
      */
     addGameModeDropdown(group) {
@@ -151,6 +153,39 @@ class MyInterface extends CGFinterface {
         };
         var start = group.add(this, 'start');
         start.name('Start Game');
+    }
+
+    /**
+     * addMoveTextFields
+     * @param group {group}
+     */
+    addMoveTextFields(group) {
+        var scene = this.scene;
+
+        var fromCell = group.add(scene, 'fromCell', '').listen();
+        fromCell.onFinishChange(function (value) {
+            scene.setFromCell(value);
+        });
+        fromCell.name('From');
+
+        var toCell = group.add(scene, 'toCell', '').listen();
+        toCell.onFinishChange(function (value) {
+            scene.setToCell(value);
+        });
+        toCell.name('To');
+    }
+
+    /**
+     * addMoveButton
+     * @param group {group}
+     */
+    addMoveButton(group) {
+        var scene = this.scene;
+        this.move = function () {
+            scene.makeMove();
+        };
+        var move = group.add(this, 'move');
+        move.name('Move');
     }
 
     /**

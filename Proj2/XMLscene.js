@@ -103,6 +103,12 @@ class XMLscene extends CGFscene {
         // Set default values
         this.difficulty = 1;
         this.mode = 1;
+        this.fromCell = '';
+        this.toCell = '';
+        this.board = '';
+        this.playerType1 = '';
+        this.playerType2 = '';
+        this.drawCount = 0;
     }
 
     setDefaultAppearance() {
@@ -253,16 +259,102 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Sets a new game difficulty.
+     * Sets the cell from where the piece is being moved.
+     */
+    setFromCell(cell) {
+        //if (!gameStarted)
+        this.fromCell = cell;
+    }
+
+    /**
+     * Sets the cell to where the piece is being moved.
+     */
+    setToCell(cell) {
+        //if (!gameStarted)
+        this.toCell = cell;
+    }
+
+    /**
+     * Updates the current board.
+     */
+    setBoard(board) {
+        //if (!gameStarted)
+        this.board = board;
+        alert('The board is \n' + board);
+    }
+
+    /**
+     * Updates the counter that evaluates if the match ended in a draw.
+     */
+    setDrawCount(drawCount) {
+        //if (!gameStarted)
+        this.drawCount = parseInt(drawCount);
+    }
+
+    /**
+     * Sets the player types, either human or computer with respective level.
+     */
+    setPlayerTypes(playerType1, playerType2) {
+        //if (!gameStarted)
+        this.playerType1 = playerType1;
+        this.playerType2 = playerType2;
+        alert('Player 1: ' + playerType1 + '\nPlayer 2: ' + playerType2);
+    }
+
+    /**
+     * Starts a new game.
      */
     startGame() {
-        //send request
-        const Http = new XMLHttpRequest();
-        const url = 'http://localhost:8082/choose_mode_and_diff(' + this.mode + ',' + this.difficulty + ')';
-        Http.open("GET", url);
-        Http.send();
-        const result = Http.responseText;
-        this.setWinner(result);
+        let requestString = 'choose_mode_and_diff(' + this.mode + ',' + this.difficulty + ')';
+        let onSuccess = (data) => {
+            let [board, playerType1, playerType2] = data.target.response.split('/');
+            this.setBoard(board.substr(1, board.length - 4));
+            this.setPlayerTypes(playerType1.substr(1, playerType1.length - 2), playerType2.substr(1, playerType2.length - 2));
+            //this.setWinner(data.target.response);
+        };
+        this.getPrologRequest(requestString, onSuccess);
+    }
+
+
+    /**
+     * Makes a new move.
+     */
+    makeMove() {
+        if(this.board === '') {
+            alert('Select a game mode and difficulty!');
+            return;
+        }
+
+        let move;
+
+        if (this.fromCell === '' && this.toCell !== '') {
+            move = this.toCell[0] + '+' + this.toCell[1];
+        }
+        else if (this.toCell !== '') {
+            move = this.fromCell[0] + '+' + this.fromCell[1] + '+' + this.toCell[0] + '+' + this.toCell[1];
+        }
+        else {
+            alert('Insert at least a value for the cell where the piece should be placed!');
+            return;
+        }
+
+        let requestString = 'game_cycle(' + this.board + '-1,' + this.playerType1 + ',' + this.playerType2 + ',' + move + ',' + this.drawCount + ')';
+
+        let onSuccess = (data) => {
+            let [board, playerType1, playerType2, drawCount, winner] = data.target.response.split('/');
+
+            this.setBoard(board.substr(1, board.length - 4));
+            this.setPlayerTypes(playerType1.substr(1, playerType1.length - 2), playerType2.substr(1, playerType2.length - 2));
+            this.drawCount(drawCount.substr(1, drawCount.length - 2));
+
+            if (winner !== undefined)
+                this.setWinner(winner);
+
+            this.fromCell = '';
+            this.toCell = '';
+        };
+
+        this.getPrologRequest(requestString, onSuccess);
     }
 
     /**
@@ -287,5 +379,20 @@ class XMLscene extends CGFscene {
         this.prevTime = t;
 
         this.securityCamera.updateTimeFactor(t / 100 % 1000);
+    }
+
+    /**
+     * Get the prolog request.
+     */
+    getPrologRequest(requestString, onSuccess, onError, port) {
+        var requestPort = port || 8082
+        var request = new XMLHttpRequest();
+        request.open('GET', 'http://localhost:' + requestPort + '/' + requestString, true);
+
+        request.onload = onSuccess || function (data) { console.log("Request successful. Reply: " + data.target.response); };
+        request.onerror = onError || function () { console.log("Error waiting for response"); };
+
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.send();
     }
 }
