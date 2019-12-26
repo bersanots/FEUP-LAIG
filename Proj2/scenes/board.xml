@@ -2,13 +2,13 @@
     <scene root="scene" axis_length="5"/>
 
     <views default="overview">
-        <perspective id="overview" near="0.1" far="500" angle="0.4">
+        <perspective id="front_view" near="0.1" far="500" angle="1">
             <from x="25" y="20" z="25"/>
             <to x="0" y="-2" z="0"/>
         </perspective>
-        <perspective id="front_view" near="0.1" far="500" angle="0.4">
-            <from x="5" y="5" z="22"/>
-            <to x="5" y="0" z="0"/>
+        <perspective id="overview" near="0.5" far="500" angle="0.3">
+            <from x="20" y="5" z="50"/>
+            <to x="2" y="-5" z="0"/>
         </perspective>
         <perspective id="big_fish" near="0.1" far="500" angle="0.4">
             <from x="13" y="4" z="13"/>

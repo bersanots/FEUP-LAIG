@@ -125,6 +125,8 @@ class XMLscene extends CGFscene {
         this.interface.addSecurityCameraSelectDropDown(Object.keys(this.graph.views));
 
         this.sceneInited = true;
+
+        
     }
 
     /**
@@ -193,6 +195,7 @@ class XMLscene extends CGFscene {
         this.gl.disable(this.gl.DEPTH_TEST);
 
         //this.securityCamera.display();
+
 
         this.gl.enable(this.gl.DEPTH_TEST);
     }
