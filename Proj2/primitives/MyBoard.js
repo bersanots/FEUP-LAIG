@@ -33,36 +33,17 @@ class MyBoard extends CGFobject {
 			let yCoord = -1-x;
 			
 			for (let y = 1; y <= col+x; y++) {
-				//if (x==0) {
 					tempCoord = {x: xCoord, y: this.radius*yCoord}
 					tempCoordBellow = {x: xCoordBellow, y: this.radius*yCoord}
 					this.coord[alphabet[x]][y] = tempCoord;
 					this.coord[alphabetBelow[x]][y] = tempCoordBellow;
 					yCoord += 2;
-				//}
 
-				// if (x==1) {
-				// 	tempCoord = {x: xCoord1, y: this.radius*yCoord}
-				// 	this.coord[alphabet[x]][y] = tempCoord;
-				// 	yCoord += 2;
-				// }
 			}
 
 			xPos -= 2;
 			xPosBellow += 2;
     	}
-
-		alphabet = 'ihgf'.split('');
-
- 		for (let x = 0; x < row - 1; x++) {
-
- 			for (let y = 1; y <= col + x ; y++) {
- 				//console.log(alphabet[x] + y);
-			}
-         }
-
-         console.log(this.coord);
-
     }
 
     createCells(radius) {
@@ -164,7 +145,6 @@ class MyBoard extends CGFobject {
 	drawPiece(x, y, material){
 		this.scene.pushMatrix();
 
-			//this.scene.translate(-this.radius*16,this.radius*2,0);
 		this.scene.translate(x, y, 0);
 
         	this.scene.pushMatrix();
@@ -193,17 +173,7 @@ class MyBoard extends CGFobject {
             this.board_material.apply();
             this.board_cover.display();
         this.scene.popMatrix();
-		//let piece = this.coord['a'][1];
-//        this.drawPiece(piece.x, piece.y, this.black_material);
 
-       //this.drawPiece(-this.radius*4, this.radius*-2, this.white_material);
-
-//		for (var i = 1; i < this.coord["b"]["length"]; i++) {
-	//	 	let piece = this.coord['b'][i];
-
-	  //      this.drawPiece(piece.x, piece.y, this.black_material);
-			
-		// }
 
 		 for (let x in this.coord) {
     		for (let y in this.coord[x]) {
