@@ -4,8 +4,8 @@ start_game(PlayerType1, PlayerType2, Res) :-
   display_game(Tab),
   translate(Player, P),
   write('\nPLAYER '), write(P) , write(' TURN\n'),
-  ((PlayerType1 == 'H'-0, Res = InitialTab/PlayerType1/PlayerType2);
-   game_cycle(InitialTab, PlayerType1, PlayerType2, _, 0, Res)).
+  Res = InitialTab/PlayerType1/PlayerType2.
+   %game_cycle(InitialTab, PlayerType1, PlayerType2, _, 0, Res)).
 	
 	
 /*repeat the game loop until there is a winner or a draw*/	
@@ -15,10 +15,10 @@ game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, Move, DrawCount, Res) :
    %((PlayerType == 'H',
     %((is_slide_possible(Tab, Player), choose_option(Option));true),			%don't let the player slide a piece if he doesn't have pieces on the board
     %choose_cells(Tab, Option, Move, Player));
-    ((PlayerType == 'C',
-     (choose_move(Tab, Level, Move, Player);true),
-	   write('\nPress ENTER to continue...'), get_char(_), skip_line);true),
-   move(Move, Tab, Player, NewTab),
+    (((PlayerType == 'C',
+     (choose_move(Tab, Level, PCMove, Player);true), move(PCMove, Tab, Player, NewTab));
+     %write('\nPress ENTER to continue...'), get_char(_), skip_line);
+     move(Move, Tab, Player, NewTab));true),
    ((Move = _X+_Y-_A+_B, NextCount is DrawCount + 1); NextCount is 0),			%check if a piece was slided or placed
    display_game(NewTab)), !,
    ((game_over(NewTab-Player, Level, Winner, NextCount),
@@ -28,8 +28,8 @@ game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, Move, DrawCount, Res) :
     (((Player=:=1, NextPlayer is 2); NextPlayer is 1),
      translate(NextPlayer, P),
      write('\nPLAYER '), write(P) , write(' TURN\n'),
-     ((PlayerType == 'H', Res = NewTab-NextPlayer/NextPlayerType/ActivePlayerType/NextCount);
-      game_cycle(NewTab-NextPlayer, NextPlayerType, ActivePlayerType, Move, NextCount, Res)))).
+     Res = NewTab-NextPlayer/NextPlayerType/ActivePlayerType/NextCount)).
+      %game_cycle(NewTab-NextPlayer, NextPlayerType, ActivePlayerType, _, NextCount, Res))).
 
 	 
 /*user choice to place or slide a piece*/
@@ -94,10 +94,13 @@ choose_move(Board, 3, Move, Player) :-
 /*insert the move in the current board and return the resulting board*/
 move(Move, Board, Player, NewBoard) :-
   (Move = X+Y-A+B,										%slide piece from X,Y to A,B
-  insert_value(Board, AuxBoard, 0, X, Y),				%empty the original cell
-  insert_value(AuxBoard, NewBoard, Player, A, B));		
+  ((number(X), insert_value(Board, AuxBoard, 0, X, Y));				%empty the original cell
+   (letter(N1,X), insert_value(Board, AuxBoard, 0, N1, Y))),
+  ((number(A), insert_value(AuxBoard, NewBoard, Player, A, B));
+   (letter(N2,A), insert_value(AuxBoard, NewBoard, Player, N2, B))));		
   (Move = A+B,											%place new piece on cell A,B
-  insert_value(Board, NewBoard, Player, A, B)).			
+  ((number(A), insert_value(Board, NewBoard, Player, A, B));
+   (letter(N,A), insert_value(Board, NewBoard, Player, N, B)))).			
  
  
 /*check if the player's move made him win, lose, or the match ended in a draw*/ 
