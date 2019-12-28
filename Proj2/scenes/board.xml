@@ -91,6 +91,12 @@
             <diffuse r="0.8" g="0.0" b="0.0" a="1.0" />
             <specular r="0.2" g="0.5" b="0.0" a="1.0" />
         </material>
+         <material id="red" shininess="1">
+            <emission r="0.8" g="0.5" b="0" a="1.0" />
+            <ambient r="0.8" g="0.5" b="0" a="1.0" />
+            <diffuse r="0.8" g="0.0" b="0.0" a="1.0" />
+            <specular r="1" g="0" b="0.0" a="1.0" />
+        </material>
 
       
     </materials>
@@ -113,6 +119,12 @@
         </primitive>
         <primitive id="Rectangle">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+        </primitive>
+        <primitive id="board_side_big">
+            <rectangle x1="0" y1="0" x2="2" y2="0.5" />
+        </primitive>
+        <primitive id="board_side_small">
+            <rectangle x1="1.5" y1="-0.5" x2="5.5" y2="0.5" />
         </primitive>
         <primitive id="Cylinder">
             <cylinder  base="1"  top="1" height="3" slices="10" stacks="10"  />
@@ -251,6 +263,197 @@
             </children>
         </component>
 
+        <component id="board">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="board" />
+            </children>
+        </component>
+
+        <component id="board_side_part1">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="board_side_big" />
+            </children>
+        </component>
+
+        <component id="board_side_part2">        
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="board_side_big" />
+            </children>
+        </component>
+
+        <component id="board_side_part3">        
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="white" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="board_side_big" />
+            </children>
+        </component>
+
+        <component id="board_side_part4">        
+            <transformation>
+                <rotate axis="x" angle="90" />
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="red" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="board_side_big" />
+            </children>
+        </component>
+
+      
+        <component id="board_side">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <componentref id="board_side_part1" />
+                <componentref id="board_side_part2" />
+                <componentref id="board_side_part3" />
+                <componentref id="board_side_part4" />
+                <!-- <componentref id="board_side_part5" />
+                <componentref id="board_side_part6" /> -->
+            </children>
+        </component>
+
+         <component id="board_side1">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <componentref id="board_side" />
+            </children>
+        </component>
+        
+         <!-- <component id="board_side2">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+         <component id="board_side3">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+         <component id="board_side4">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+         <component id="board_side5">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+         <component id="board_side6">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component> -->
+
+        <component id="board_sides">        
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <animations></animations>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>   
+            <children>
+                <componentref id="board_side1" />
+                <!-- <componentref id="board_side2" />
+                <componentref id="board_side3" />
+                <componentref id="board_side4" />
+                <componentref id="board_side5" />
+                <componentref id="board_side6" /> -->
+            </children>
+        </component>
+
          <component id="board_comp">        
             <transformation>
                 <translate x="0" y="0" z="0" />
@@ -266,39 +469,9 @@
             </children>
         </component>
 
-        <component id="board_sides">        
-            <transformation>
-                <translate x="0" y="0" z="0" />
-            </transformation>
-            <animations></animations>
-            <materials>
-                <material id="black" />
-            </materials>
-            <texture id="none"/>   
-            <children>
-                <componentref id="board_side1" />
-                <componentref id="board_side2" />
-                <componentref id="board_side3" />
-                <componentref id="board_side4" />
-                <componentref id="board_side5" />
-                <componentref id="board_side6" />
-            </children>
-        </component>
+        
 
-
-        <component id="board">        
-            <transformation>
-                <translate x="0" y="0" z="0" />
-            </transformation>
-            <animations></animations>
-            <materials>
-                <material id="black" />
-            </materials>
-            <texture id="none"/>   
-            <children>
-                <primitiveref id="board" />
-            </children>
-        </component>
+        
 
         <component id="tableCube">
             <transformation>
@@ -382,9 +555,9 @@
             </materials>
             <texture id="none"/>
             <children>
-                
-              <componentref id="table"/>
-            <componentref id="board_comp"/>
+                <componentref id="board_side1">
+              <!-- <componentref id="table"/>
+            <componentref id="board_comp"/> -->
 
             </children>
         </component>
