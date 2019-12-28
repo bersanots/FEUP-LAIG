@@ -206,7 +206,7 @@
                 <controlpoint xx="1.5" yy="1.5" zz="0" />
                 <controlpoint xx="1.5" yy="2" zz="1.5" />
                 <controlpoint xx="1.5" yy="2.5" zz="0" />
-                <controlpoint xx="2" yy="2" zz=rock"-0.5" />
+                <controlpoint xx="2" yy="2" zz="-0.5" />
                 <controlpoint xx="2" yy="2" zz="-0.5" />
                 <controlpoint xx="2" yy="2" zz="-0.5" />
             </patch>

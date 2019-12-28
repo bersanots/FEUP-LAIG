@@ -30,6 +30,7 @@ class XMLscene extends CGFscene {
         this.securityCamera = new MySecurityCamera(this);
 
         this.enableTextures(true);
+        this.setPickEnabled(true);
 
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -125,8 +126,6 @@ class XMLscene extends CGFscene {
         this.interface.addSecurityCameraSelectDropDown(Object.keys(this.graph.views));
 
         this.sceneInited = true;
-
-        
     }
 
     /**
@@ -134,6 +133,7 @@ class XMLscene extends CGFscene {
      */
     render(camera) {
         // ---- BEGIN Background, camera and axis setup
+        this.getClicks();
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -201,6 +201,23 @@ class XMLscene extends CGFscene {
     }
 
     /**
+     * Detects clicks on the board.
+     */
+    getClicks() {
+        if (!this.pickMode && this.pickResults !== null) {
+            for (let i = 0; i < this.pickResults.length; i++) {
+                const obj = this.pickResults[i][0];
+                if (obj) {
+                    const clickId = this.pickResults[i][1];
+                    console.log(clickId);
+                    //aqui será chamado o movimento de peças para esta cell
+                }
+            }
+            this.pickResults = [];
+        }
+    }
+
+    /**
      * Changes the material of each scene component.
      */
     changeMaterials() {
@@ -236,7 +253,7 @@ class XMLscene extends CGFscene {
         for (var key in this.graph.animations) {
             this.graph.animations[key].update(this.deltaTime);
         }
-        
+
         this.prevTime = t;
 
         this.securityCamera.updateTimeFactor(t / 100 % 1000);
