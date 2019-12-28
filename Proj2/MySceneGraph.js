@@ -84,6 +84,8 @@ class MySceneGraph {
             nodeNames.push(nodes[i].nodeName);
         }
 
+        nodeNames;
+
         var error;
 
         // Processes each node, verifying errors.
@@ -1302,10 +1304,10 @@ class MySceneGraph {
                 if (length_s != null || length_t != null)
                     this.onXMLMinorError("length_s and length_t were defined but no texture id was provided");
             }
-            else {
-                if (length_s == null || length_t == null)
-                    return "no length_s or length_t was defined for the provided texture id";
-            }
+            // else {
+            //     if (length_s == null || length_t == null)
+            //         return "no length_s or length_t was defined for the provided texture id";
+            // }
 
             texture.push(textureId, length_s, length_t);
 
