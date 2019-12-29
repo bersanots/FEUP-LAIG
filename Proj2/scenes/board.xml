@@ -52,7 +52,7 @@
     </lights>
 
     <textures>
-        <texture id="bank" file="scenes/images/bank.jpg" /> 
+        <texture id="bank" file="scenes/images/bank.jpg" />
         <texture id="wood" file="scenes/images/wood.jpg" />
     </textures>
 
@@ -71,7 +71,7 @@
             <specular r="0.9" g="0.9" b="0.9" a="1.0"/>
         </material>
 
-         <material id="white" shininess="10">
+        <material id="white" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0"/>
             <ambient r="1.0" g="1.0" b="1.0" a="1.0"/>
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
@@ -91,14 +91,14 @@
             <diffuse r="0.8" g="0.0" b="0.0" a="1.0" />
             <specular r="0.2" g="0.5" b="0.0" a="1.0" />
         </material>
-         <material id="red" shininess="1">
+        <material id="red" shininess="1">
             <emission r="0.8" g="0.5" b="0" a="1.0" />
             <ambient r="0.8" g="0.5" b="0" a="1.0" />
             <diffuse r="0.8" g="0.0" b="0.0" a="1.0" />
             <specular r="1" g="0" b="0.0" a="1.0" />
         </material>
 
-      
+
     </materials>
 
     <transformations>
@@ -110,7 +110,7 @@
     </transformations>
 
     <animations>
-        
+
     </animations>
 
     <primitives>
@@ -121,10 +121,10 @@
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
         <primitive id="Cylinder">
-            <cylinder  base="1"  top="1" height="3" slices="10" stacks="10"  />
+            <cylinder base="1" top="1" height="3" slices="10" stacks="10" />
         </primitive>
         <primitive id="board_side_cylinder">
-            <cylinder  base="0.1"  top="0.1" height="5.5" slices="100" stacks="100"  />
+            <cylinder base="0.1" top="0.1" height="5.5" slices="100" stacks="100" />
         </primitive>
         <primitive id="board_side_connector">
             <sphere radius="0.1" slices="100" stacks="100" />
@@ -135,31 +135,29 @@
     <components>
         <!--SCENE-->
 
-            <component id="board_side_left">        
+        <component id="board_side_left">
             <transformation>
                 <translate x="0" y="0" z="0" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
-               <primitiveref id="board_side_connector" />
+                <primitiveref id="board_side_connector" />
             </children>
         </component>
 
-        <component id="board_side_right">        
+        <component id="board_side_right">
             <transformation>
                 <translate x="0" y="0" z="0" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
-               <primitiveref id="board_side_connector" />
+                <primitiveref id="board_side_connector" />
             </children>
         </component>
 
@@ -177,6 +175,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
+
         <component id="retangleT4">
             <transformation>
                 <translate x="0.5" y="0" z="0" />
@@ -190,6 +189,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
+
         <component id="retangleT5">
             <transformation>
                 <translate x="0" y="0" z="-0.5" />
@@ -203,6 +203,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
+
         <component id="retangleT6">
             <transformation>
                 <translate x="0" y="0" z="0.5" />
@@ -215,6 +216,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
+
         <component id="retangle2">
             <transformation>
                 <translate x="0" y="0.5" z="0" />
@@ -228,6 +230,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
+
         <component id="retangle3">
             <transformation>
                 <translate x="0" y="-0.5" z="0" />
@@ -241,7 +244,8 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-       <component id="leg1">
+
+        <component id="leg1">
             <transformation>
                 <rotate axis="x" angle="-90" />
             </transformation>
@@ -253,6 +257,7 @@
                 <primitiveref id="Cylinder" />
             </children>
         </component>
+
         <component id="leg2">
             <transformation>
                 <translate x="0" y="0" z="20" />
@@ -266,6 +271,7 @@
                 <primitiveref id="Cylinder" />
             </children>
         </component>
+
         <component id="leg3">
             <transformation>
                 <translate x="30" y="0" z="0" />
@@ -279,6 +285,7 @@
                 <primitiveref id="Cylinder" />
             </children>
         </component>
+
         <component id="leg4">
             <transformation>
                 <translate x="30" y="0" z="20" />
@@ -293,30 +300,28 @@
             </children>
         </component>
 
-        <component id="board">        
+        <component id="board">
             <transformation>
                 <translate x="0" y="0" z="0" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
                 <primitiveref id="board" />
             </children>
         </component>
 
-    
-        <component id="board_side1">        
+
+        <component id="board_side1">
             <transformation>
                 <translate x="0" y="0" z="0" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
                 <primitiveref id="board_side_connector" />
 
@@ -324,61 +329,28 @@
             </children>
         </component>
 
-        <component id="board_side2">        
+        <component id="board_side2">
             <transformation>
                 <rotate axis="y" angle="120" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
                 <primitiveref id="board_side_cylinder" />
             </children>
         </component>
 
-        <component id="board_side3">        
-            <transformation>    
+        <component id="board_side3">
+            <transformation>
                 <translate x="0" y="0" z="5.5" />
                 <rotate axis="y" angle="60" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
-            <children>
-               <primitiveref id="board_side_connector" />
-
-                <primitiveref id="board_side_cylinder" />
-            </children>
-        </component>
-
-        <component id="board_side4">        
-            <transformation>
-              <translate x="9.45" y="0" z="0" />
-            </transformation>
-            <animations></animations>
-            <materials>
-                <material id="black" />
-            </materials>
-            <texture id="none"/>   
-            <children>
-                <primitiveref id="board_side_cylinder" />
-            </children>
-        </component>
-
-         <component id="board_side5">        
-            <transformation>
-              <translate x="9.45" y="0" z="0" />
-              <rotate axis="y" angle="240" />
-            </transformation>
-            <animations></animations>
-            <materials>
-                <material id="black" />
-            </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
                 <primitiveref id="board_side_connector" />
 
@@ -386,16 +358,28 @@
             </children>
         </component>
 
-        <component id="board_side6">        
+        <component id="board_side4">
             <transformation>
-              <translate x="9.45" y="0" z="5.5" />
-              <rotate axis="y" angle="-60" />
+                <translate x="9.45" y="0" z="0" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
+            <children>
+                <primitiveref id="board_side_cylinder" />
+            </children>
+        </component>
+
+        <component id="board_side5">
+            <transformation>
+                <translate x="9.45" y="0" z="0" />
+                <rotate axis="y" angle="240" />
+            </transformation>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>
             <children>
                 <primitiveref id="board_side_connector" />
 
@@ -403,16 +387,31 @@
             </children>
         </component>
 
-        <component id="board_sides">        
+        <component id="board_side6">
+            <transformation>
+                <translate x="9.45" y="0" z="5.5" />
+                <rotate axis="y" angle="-60" />
+            </transformation>
+            <materials>
+                <material id="black" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="board_side_connector" />
+
+                <primitiveref id="board_side_cylinder" />
+            </children>
+        </component>
+
+        <component id="board_sides">
             <transformation>
                 <translate x="-0.7" y="4.75" z="0" />
                 <rotate axis="x" angle="90" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
                 <componentref id="board_side1" />
                 <componentref id="board_side2" />
@@ -420,31 +419,27 @@
                 <componentref id="board_side4" />
                 <componentref id="board_side5" />
                 <componentref id="board_side6" />
-                <componentref id="board_side_right">        
-
-                
-
+                <componentref id="board_side_right" />
             </children>
-        </componentref>
+        </component>
 
-         <component id="board_comp">        
+        <component id="board_comp">
             <transformation>
                 <translate x="0" y="0" z="0" />
             </transformation>
-            <animations></animations>
             <materials>
                 <material id="black" />
             </materials>
-            <texture id="none"/>   
+            <texture id="none"/>
             <children>
                 <componentref id="board" />
                 <componentref id="board_sides" />
             </children>
         </component>
 
-        
 
-        
+
+
 
         <component id="tableCube">
             <transformation>
@@ -462,7 +457,7 @@
                 <componentref id="retangleT6" />
             </children>
         </component>
-    
+
         <component id="tableTop">
             <transformation>
                 <translate x="3" y="3" z="2" />
@@ -477,13 +472,13 @@
             </children>
         </component>
 
-        
-        
+
+
         <!--Table Legs-->
         <component id="tableLegs">
             <transformation>
                 <scale x="0.2" y="1" z="0.2" />
-                
+
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -496,12 +491,12 @@
                 <componentref id="leg4" />
             </children>
         </component>
-        
 
 
-         
 
-       <component id="table">
+
+
+        <component id="table">
             <transformation>
                 <scale x="2.5" y="2" z="2" />
                 <rotate axis="x" angle="90" />
@@ -529,14 +524,14 @@
             </materials>
             <texture id="none"/>
             <children>
-              <!-- <componentref id="table"/> -->
-            <componentref id="board_comp"/>
+                <!-- <componentref id="table"/> -->
+                <componentref id="board_comp"/>
 
             </children>
         </component>
 
-     
-       
+
+
         <!--END OF SCENE-->
     </components>
 </lxs>
