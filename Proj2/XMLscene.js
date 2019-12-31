@@ -332,6 +332,11 @@ class XMLscene extends CGFscene {
             return;
         }
 
+        if ((this.fromCell !== '' && this.fromCell.length !== 2) || (this.toCell !== '' && this.toCell.length !== 2)) {
+            alert('Invalid cell!');
+            return;
+        }
+
         let move;
 
         if (this.fromCell === '' && this.toCell !== '') {
@@ -349,6 +354,14 @@ class XMLscene extends CGFscene {
             + this.playerType2[0] + '\'' + this.playerType2.substr(1, 2) + ',' + move + ',' + this.drawCount + ')';
 
         let onSuccess = (data) => {
+            let message = data.target.response.split('/');
+
+            //on error
+            if (message.length === 1) {
+                alert(message[0]);
+                return;
+            }
+
             this.previousValues.push([this.board, this.playerType1, this.playerType2, this.activePlayer, this.drawCount]);
 
             let [boardAndPlayer, playerType1, playerType2, drawCount, winner] = data.target.response.split('/');

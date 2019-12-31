@@ -10,17 +10,19 @@ start_game(PlayerType1, PlayerType2, Res) :-
 	
 /*repeat the game loop until there is a winner or a draw*/	
 game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, Move, DrawCount, Res) :-
-  (CurrentTab = Tab-Player,
-   ActivePlayerType = PlayerType-Level,
+  Error = _,
+  CurrentTab = Tab-Player,
+  ActivePlayerType = PlayerType-Level,
    %((PlayerType == 'H',
     %((is_slide_possible(Tab, Player), choose_option(Option));true),			%don't let the player slide a piece if he doesn't have pieces on the board
     %choose_cells(Tab, Option, Move, Player));
-    (((PlayerType == 'C',
-     (choose_move(Tab, Level, PCMove, Player);true), move(PCMove, Tab, Player, NewTab));
-     %write('\nPress ENTER to continue...'), get_char(_), skip_line);
-     move(Move, Tab, Player, NewTab));true),
+   ((PlayerType == 'C',
+    (choose_move(Tab, Level, PCMove, Player);true), move(PCMove, Tab, Player, NewTab));
+    %write('\nPress ENTER to continue...'), get_char(_), skip_line);
+    (check_move(Tab, Move, Player, Err), ((Err = 0, move(Move, Tab, Player, NewTab)); Error = Err))),
+   ((Error = 0,
    ((Move = _X+_Y-_A+_B, NextCount is DrawCount + 1); NextCount is 0),			%check if a piece was slided or placed
-   display_game(NewTab)), !,
+   display_game(NewTab), !,
    ((game_over(NewTab-Player, Level, Winner, NextCount),
     ((Winner =:= 0, write('Pieces were slided for six turns in a row. The game ended in a DRAW.\n'));
      (write('End of the game. The winner is PLAYER '), translate(Winner, W), write(W), nl)), 
@@ -28,7 +30,8 @@ game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, Move, DrawCount, Res) :
     (((Player=:=1, NextPlayer is 2); NextPlayer is 1),
      translate(NextPlayer, P),
      write('\nPLAYER '), write(P) , write(' TURN\n'),
-     Res = NewTab-NextPlayer/NextPlayerType/ActivePlayerType/NextCount)).
+     Res = NewTab-NextPlayer/NextPlayerType/ActivePlayerType/NextCount)));
+     Res = Error).
       %game_cycle(NewTab-NextPlayer, NextPlayerType, ActivePlayerType, _, NextCount, Res))).
 
 	 
@@ -75,7 +78,30 @@ choose_cells(Board, 2, Move, Player) :-
     (write('This cell is either invalid or does not contain a piece from this Player!\n'), choose_cells(Board, 2, Move, Player)));
    (write('Choose a valid column!\n'), choose_cells(Board, 2, Move, Player)));			
   (write('Choose a valid line!\n'), choose_cells(Board, 2, Move, Player)).
-  
+
+
+/*convert text coordinate to number format, if necessary*/
+right_format(A, A1) :-
+  (number(A), A1 = A);
+  letter(A1, A).
+
+
+/*check if a player's move is valid*/
+check_move(Board, Move, Player, Error) :-
+  (Move = X+Y-A+B,										                    %slide piece from X,Y to A,B
+   right_format(X, X1),
+   right_format(A, A1),
+   ((check_cell(Board, Player, X1, Y),                      %check if the piece on this cell belongs to the player
+    ((check_cell(Board, 0, A1, B), !,                       %check if cell is empty
+      (neighbour_cell(Board, Move, X1, Y, A1, B, Player);    %check if the cells are neighbours
+      (Error = 'This cell is not a neighbour of the previous one!\n', write(Error))));
+     (Error = 'This cell is either invalid or not empty!\n', write(Error))));
+    (Error = 'This cell is either invalid or does not contain a piece from this Player!\n', write(Error))));
+  (Move = A+B,											                      %place new piece on cell A,B
+   right_format(A, A1),
+   (check_cell(Board, 0, A1, B);                            %check if cell is empty
+   (Error = 'This cell is either invalid or not empty!\n', write(Error)))).
+
   
 /*choose random computer's move*/
 choose_move(Board, 1, Move, Player) :-
@@ -146,11 +172,11 @@ num_empty_cells(Board, [H|T], Num) :-
 
 	
 /*check if a cell is neighbour of another cell*/
-neighbour_cell(Board, Move, Line, Column, NewLine, NewColumn, Player) :-
+neighbour_cell(Board, _Move, Line, Column, NewLine, NewColumn, _Player) :-
   surrounding_cells(Board, Line, Column, Cells, 6), !,				%get a list of the surrounding cells, maximum of 6
-  (select(NewLine+NewColumn, Cells, _Residue);						%check if the cell on (NewLine,NewColumn) belongs to the calculated list
-  (write('This cell is not a neighbour of the previous one!\n'),
-  choose_cells(Board, 2, Move, Player))).
+  select(NewLine+NewColumn, Cells, _Residue).						%check if the cell on (NewLine,NewColumn) belongs to the calculated list
+  %(write('This cell is not a neighbour of the previous one!\n'),
+  %choose_cells(Board, 2, Move, Player))).
   
   
 surrounding_cells(_Board, _Line, _Column, [], 0).
