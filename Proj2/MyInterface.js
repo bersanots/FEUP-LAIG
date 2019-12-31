@@ -112,6 +112,7 @@ class MyInterface extends CGFinterface {
         this.addStartGameButton(group);
         this.addMoveTextFields(group);
         this.addMoveButton(group);
+        this.addUndoButton(group);
     }
 
     /**
@@ -186,6 +187,19 @@ class MyInterface extends CGFinterface {
         };
         var move = group.add(this, 'move');
         move.name('Move');
+    }
+
+    /**
+     * addUndoButton
+     * @param group {group}
+     */
+    addUndoButton(group) {
+        var scene = this.scene;
+        this.undo = function () {
+            scene.undoMove();
+        };
+        var undo = group.add(this, 'undo');
+        undo.name('Undo');
     }
 
     /**

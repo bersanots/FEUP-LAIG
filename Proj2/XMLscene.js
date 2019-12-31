@@ -101,6 +101,7 @@ class XMLscene extends CGFscene {
      */
     initGameValues() {
         // Set default values
+        this.gameOngoing = false;
         this.difficulty = 1;
         this.mode = 1;
         this.fromCell = '';
@@ -110,6 +111,7 @@ class XMLscene extends CGFscene {
         this.playerType2 = '';
         this.activePlayer = 1;
         this.drawCount = 0;
+        this.previousValues = [];
     }
 
     setDefaultAppearance() {
@@ -139,6 +141,7 @@ class XMLscene extends CGFscene {
         //Add camera dropdowns
         this.interface.addCameraDropDowns(Object.keys(this.graph.views));
 
+        //Initialize the game variables
         this.initGameValues();
 
         //Add game controls
@@ -212,7 +215,7 @@ class XMLscene extends CGFscene {
 
         this.gl.disable(this.gl.DEPTH_TEST);
 
-        this.securityCamera.display();
+        //this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);
     }
@@ -309,6 +312,7 @@ class XMLscene extends CGFscene {
     startGame() {
         let requestString = 'choose_mode_and_diff(' + this.mode + ',' + this.difficulty + ')';
         let onSuccess = (data) => {
+            this.gameOngoing = true;
             let [boardAndPlayer, playerType1, playerType2] = data.target.response.split('/');
             let [board, activePlayer] = boardAndPlayer.split(/[()]/).join('').split('-');
             this.setBoard(board);
@@ -323,7 +327,7 @@ class XMLscene extends CGFscene {
      * Makes a new move.
      */
     makeMove() {
-        if (this.board === '') {
+        if (!this.gameOngoing) {
             alert('Select a game mode and difficulty!');
             return;
         }
@@ -336,7 +340,7 @@ class XMLscene extends CGFscene {
         else if (this.toCell !== '') {
             move = '\'' + this.fromCell[0] + '\'+' + this.fromCell[1] + '-' + '\'' + this.toCell[0] + '\'+' + this.toCell[1];
         }
-        else if(this.playerType1[0] === 'H') {
+        else if (this.playerType1[0] === 'H') {
             alert('Insert at least a value for the cell where the piece should be placed!');
             return;
         }
@@ -345,16 +349,19 @@ class XMLscene extends CGFscene {
             + this.playerType2[0] + '\'' + this.playerType2.substr(1, 2) + ',' + move + ',' + this.drawCount + ')';
 
         let onSuccess = (data) => {
+            this.previousValues.push([this.board, this.playerType1, this.playerType2, this.activePlayer, this.drawCount]);
+
             let [boardAndPlayer, playerType1, playerType2, drawCount, winner] = data.target.response.split('/');
             let [board, activePlayer] = boardAndPlayer.split(/[()]/).join('').split('-');
 
             this.setBoard(board);
-            this.setActivePlayer(activePlayer);
             this.setPlayerTypes(playerType1.split(/[()]/).join(''), playerType2.split(/[()]/).join(''));
             this.setDrawCount(drawCount.split(/[()]/).join(''));
 
             if (winner !== undefined)
                 this.setWinner(winner);
+            else
+                this.setActivePlayer(activePlayer);
 
             this.fromCell = '';
             this.toCell = '';
@@ -364,11 +371,37 @@ class XMLscene extends CGFscene {
     }
 
     /**
+     * Reverts the last move.
+     */
+    undoMove() {
+        if (!this.gameOngoing) {
+            alert('Select a game mode and difficulty!');
+            return;
+        }
+        else if (this.previousValues.length === 0) {
+            alert('No moves have been made yet!');
+            return;
+        }
+
+        let [board, playerType1, playerType2, activePlayer, drawCount] = this.previousValues.pop();
+
+        this.setBoard(board);
+        this.setActivePlayer(activePlayer);
+        this.setPlayerTypes(playerType1, playerType2);
+        this.setDrawCount(drawCount);
+    }
+
+    /**
      * Sets the game winner.
      */
     setWinner(winner) {
         this.winner = winner;
-        alert('The winner is Player ' + winner);
+        this.gameOngoing = false;
+        this.previousValues = [];
+        if (winner === 0)
+            alert('Pieces were slided for six turns in a row. The game ended in a DRAW.');
+        else
+            alert('The winner is Player ' + winner);
     }
 
     /**
