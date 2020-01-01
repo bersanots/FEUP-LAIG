@@ -1,9 +1,9 @@
 /**
- * MyCell
+ * MyHexagon
  * @constructor
  */
 
-class MyCell extends CGFobject {
+class MyHexagon extends CGFobject {
 
     constructor(scene, radius) {
         super(scene);

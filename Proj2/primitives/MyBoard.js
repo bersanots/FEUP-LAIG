@@ -8,7 +8,7 @@ class MyBoard extends CGFobject {
         this.radius = radius;
         this.initMaterials();
         this.createCells(this.radius);
-        this.createBoard();
+        // this.createBoard();
         this.createPieces();
         this.coord = [[]];
         this.initCellCoord();
@@ -47,52 +47,56 @@ class MyBoard extends CGFobject {
     }
 
     createCells(radius) {
-        this.cell = new MyCell(this.scene, radius);
+        this.cell = new MyHexagon(this.scene, radius);
         this.cell.pickingEnabled = true;
     }
 
     createPieces() {
-        this.cylinder = new MyCylinder(this.scene, 0.3, 0.3, 0.1, 25, 25);
-        this.circle = new MyCircle(this.scene, 25);
+        // this.cylinder = new MyCylinder(this.scene, 0.3, 0.3, 0.1, 25, 25);
+        // this.circle = new MyCircle(this.scene, 25);
+        this.piece = new MyPiece(this.scene);
     }
 
     drawBoard(radius) {
 
         this.scene.rotate(-Math.PI / 2, 0, 0, 1);
+        this.scene.pushMatrix();
+        this.scene.translate(0,0,0.1);
 
-        let col = 5;
-        let row = 5;
-        this.scene.pushMatrix()
-        for (let j = 0; j < col; j++) {
+            let col = 5;
+            let row = 5;
             this.scene.pushMatrix()
-            for (let i = 0; i < row + j; i++) {
-                this.drawCells(j, i);
-                this.scene.translate(0, radius * 2, 0);
+            for (let j = 0; j < col; j++) {
+                this.scene.pushMatrix()
+                for (let i = 0; i < row + j; i++) {
+                    this.drawCells(j, i);
+                    this.scene.translate(0, radius * 2, 0);
 
+                }
+                this.scene.popMatrix();
+                this.scene.translate(1, -radius * 2 + 0.5, 0);
             }
-            this.scene.popMatrix();
-            this.scene.translate(1, -radius * 2 + 0.5, 0);
-        }
-        this.scene.translate(0, radius * 2, 0);
+            this.scene.translate(0, radius * 2, 0);
 
-        let bottomRow = row + col - 2;
-        for (let j = 0; j < col - 1; j++) {
+            let bottomRow = row + col - 2;
+            for (let j = 0; j < col - 1; j++) {
 
-            this.scene.pushMatrix();
-            for (let i = 0; i < bottomRow; i++) {
-                this.drawCells(col + j, i);
-                this.scene.translate(0, radius * 2, 0);
+                this.scene.pushMatrix();
+                for (let i = 0; i < bottomRow; i++) {
+                    this.drawCells(col + j, i);
+                    this.scene.translate(0, radius * 2, 0);
+                }
+                this.scene.popMatrix();
+
+                this.scene.translate(1, radius * 2 - 0.5, 0);
+                --bottomRow;
             }
-            this.scene.popMatrix();
-
-            this.scene.translate(1, radius * 2 - 0.5, 0);
-            --bottomRow;
-        }
+        this.scene.popMatrix();
 
     }
 
     createBoard() {
-        this.board_cover = new MyCell(this.scene, 5.4);
+        this.board_cover = new MyHexagon(this.scene, 5.4);
     }
 
     initMaterials() {
@@ -136,7 +140,7 @@ class MyBoard extends CGFobject {
         this.scene.pushMatrix();
             this.board_cell.apply();
             this.scene.registerForPick(row * 9 + col, this.cell);
-            this.cell.display();
+           this.cell.display();
         this.scene.popMatrix();
     }
 
@@ -144,23 +148,8 @@ class MyBoard extends CGFobject {
         this.scene.pushMatrix();
 
             this.scene.translate(x, y, 0);
-
-            this.scene.pushMatrix();
-                this.scene.scale(0.3, 0.3, 1);
-                this.scene.rotate(Math.PI, 0, 1, 0);
-                material.apply();
-                this.circle.display();
-            this.scene.popMatrix();
-
-            this.cylinder.display();
+            this.piece.display(material);
             
-            //Top cover
-            this.scene.pushMatrix();
-                this.scene.translate(0, 0, 0.1);
-                this.scene.scale(0.3, 0.3, 1);
-                material.apply();
-                this.circle.display();
-            this.scene.popMatrix();
 
         this.scene.popMatrix();
     }
@@ -169,20 +158,20 @@ class MyBoard extends CGFobject {
         this.drawBoard(this.radius);
         this.scene.registerForPick(100, null);
 
+        this.board_material.apply();
+        //this.board_cover.display();
+        
+
         this.scene.pushMatrix();
-            this.scene.translate(-5, 1.5, -0.1);
-            this.scene.rotate(Math.PI / 2, 0, 0, 1);
-            this.board_material.apply();
-            this.board_cover.display();
-        this.scene.popMatrix();
-
-
+        this.scene.translate(9,0.5,0.1);
         for (let x in this.coord) {
             for (let y in this.coord[x]) {
                 let piece = this.coord[x][y];
                 this.drawPiece(piece.x, piece.y, this.black_material);
             }
         }
+                this.scene.popMatrix();
+
         
         this.scene.clearPickRegistration();
     }

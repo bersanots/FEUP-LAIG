@@ -1160,6 +1160,11 @@ class MySceneGraph {
                 var board = new MyBoard(this.scene, radius);
                 this.primitives[primitiveId] = board;
             }
+            else if (primitiveType == 'hexagon') {
+                var radius = this.reader.getFloat(grandChildren[0], 'radius');
+                var hexagon = new MyHexagon(this.scene, radius);
+                this.primitives[primitiveId] = hexagon;
+            }
             else {
                 this.onXMLMinorError("unknown primitive <" + primitiveType + ">");
             }

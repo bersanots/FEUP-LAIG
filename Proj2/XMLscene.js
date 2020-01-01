@@ -39,6 +39,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        this.gameboard = new MyGameBoard(this);
     }
 
     /**
@@ -173,6 +175,10 @@ class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
+            // this.translate(-10, -15, 0);
+            // this.scale(5,5,5);
+            this.gameboard.display();
+
             this.graph.displayScene();
         }
 
