@@ -575,7 +575,7 @@
                 <componentref id="table"/>
                 <componentref id="board_comp"/>
                 <!-- <componentref id="piece_holder_black"/> -->
-                <!-- <componentref id="piece_holder_white"/>
+                <!-- <componentref id="piece_holder_white"/> -->
             </children>
         </component>
 
