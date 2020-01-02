@@ -7,17 +7,17 @@
  * @param stacks - Number of stacks of sphere
  */
 class MySphere extends CGFobject {
-	constructor(scene, id, radius, slices, stacks) {
-		super(scene);
-		this.radius = radius;
-		this.slices = slices;
+    constructor(scene, radius, slices, stacks) {
+        super(scene);
+        this.radius = radius;
+        this.slices = slices;
         this.stacks = stacks;
 
-		this.initBuffers();
-	}
-	
-	initBuffers() {
-		this.vertices = [];
+        this.initBuffers();
+    }
+
+    initBuffers() {
+        this.vertices = [];
         this.normals = [];
         this.indices = [];
         this.texCoords = [];
@@ -49,10 +49,10 @@ class MySphere extends CGFobject {
                     this.indices.push(n_verts - 1, n_verts - 2, n_verts - this.stacks - 2);
                 }
 
-                this.texCoords.push(theta*i / (2*Math.PI), 1 - ((phi*j + Math.PI/2) / Math.PI));
+                this.texCoords.push(theta * i / (2 * Math.PI), 1 - ((phi * j + Math.PI / 2) / Math.PI));
             }
         }
-		
+
 		/*
 		Texture coords (s,t)
 		+----------> s
@@ -62,10 +62,10 @@ class MySphere extends CGFobject {
 		v
         t
         */
-        
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
-	}
+
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+    }
 
 	/**
 	 * @method updateTexCoords
@@ -73,16 +73,16 @@ class MySphere extends CGFobject {
 	 * @param length_s - Scale of texture coordinates in S
  	 * @param length_t - Scale of texture coordinates in T
 	 */
-	updateTexCoords(length_s, length_t) {
-		this.texCoords = [];
+    updateTexCoords(length_s, length_t) {
+        this.texCoords = [];
 
         for (var i = 0; i <= this.slices; i++) {
             for (var j = 0; j <= this.stacks; j++) {
-                this.texCoords.push((i/this.slices) / length_t, (j/this.stacks) / length_s);
+                this.texCoords.push((i / this.slices) / length_t, (j / this.stacks) / length_s);
             }
         }
 
-		this.updateTexCoordsGLBuffers();
-	}
+        this.updateTexCoordsGLBuffers();
+    }
 }
 

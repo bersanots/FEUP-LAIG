@@ -30,6 +30,7 @@ class XMLscene extends CGFscene {
         this.securityCamera = new MySecurityCamera(this);
 
         this.enableTextures(true);
+        this.setPickEnabled(true);
 
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -38,6 +39,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+
+        this.gameboard = new MyGameBoard(this);
     }
 
     /**
@@ -155,6 +158,7 @@ class XMLscene extends CGFscene {
      */
     render(camera) {
         // ---- BEGIN Background, camera and axis setup
+        this.getClicks();
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -171,7 +175,7 @@ class XMLscene extends CGFscene {
         this.interface.setActiveCamera(this.camera);
 
         this.pushMatrix();
-        this.axis.display();
+        //this.axis.display();
 
         var i = 0;
         for (var key in this.lightValues) {
@@ -192,6 +196,9 @@ class XMLscene extends CGFscene {
         if (this.sceneInited) {
             // Draw axis
             this.setDefaultAppearance();
+
+            // Displays the game board
+            this.gameboard.display();
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
@@ -218,6 +225,23 @@ class XMLscene extends CGFscene {
         //this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);
+    }
+
+    /**
+     * Detects clicks on the board.
+     */
+    getClicks() {
+        if (!this.pickMode && this.pickResults !== null) {
+            for (let i = 0; i < this.pickResults.length; i++) {
+                const obj = this.pickResults[i][0];
+                if (obj) {
+                    const clickId = this.pickResults[i][1];
+                    console.log(clickId);
+                    //aqui será chamado o movimento de peças para esta cell
+                }
+            }
+            this.pickResults = [];
+        }
     }
 
     /**
@@ -411,7 +435,7 @@ class XMLscene extends CGFscene {
         this.winner = winner;
         this.gameOngoing = false;
         this.previousValues = [];
-        if (winner === 0)
+        if (winner === '0')
             alert('Pieces were slided for six turns in a row. The game ended in a DRAW.');
         else
             alert('The winner is Player ' + winner);

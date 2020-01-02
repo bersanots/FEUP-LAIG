@@ -9,7 +9,7 @@
  * @param stacks - Number of stacks of cylinder
  */
 class MyCylinder2 extends CGFobject {
-	constructor(scene, id, base, top, height, slices, stacks) {
+	constructor(scene, base, top, height, slices, stacks) {
 		super(scene);
 		this.base = base;
 		this.top = top;
