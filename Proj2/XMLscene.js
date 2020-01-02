@@ -237,7 +237,8 @@ class XMLscene extends CGFscene {
                 if (obj) {
                     const clickId = this.pickResults[i][1];
                     console.log(clickId);
-                    //aqui será chamado o movimento de peças para esta cell
+                    this.setToCell(String.fromCharCode(Math.floor(clickId / 9) + 65) + (clickId % 9 + 1));
+                    //this.makeMove();
                 }
             }
             this.pickResults = [];
@@ -274,7 +275,6 @@ class XMLscene extends CGFscene {
      * Sets a new game difficulty.
      */
     setGameDifficulty(diff) {
-        //if (!gameStarted)
         this.difficulty = diff;
     }
 
@@ -282,7 +282,6 @@ class XMLscene extends CGFscene {
      * Sets a new game mode.
      */
     setGameMode(mode) {
-        //if (!gameStarted)
         this.mode = mode;
     }
 
@@ -290,7 +289,6 @@ class XMLscene extends CGFscene {
      * Sets the cell from where the piece is being moved.
      */
     setFromCell(cell) {
-        //if (!gameStarted)
         this.fromCell = cell;
     }
 
@@ -298,7 +296,6 @@ class XMLscene extends CGFscene {
      * Sets the cell to where the piece is being moved.
      */
     setToCell(cell) {
-        //if (!gameStarted)
         this.toCell = cell;
     }
 
