@@ -175,10 +175,17 @@ class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            // this.translate(-10, -15, 0);
-            // this.scale(5,5,5);
-            this.gameboard.display();
 
+            // Real cam
+            this.translate(6, -3, 6);
+            this.rotate(Math.PI, 0, 1, 1);
+            this.rotate(Math.PI/4, 0, 0, 1);
+            this.scale(0.3,0.3,0.3);
+
+            //Test cam
+            // this.translate(-5, 20, 2);
+            // this.gameboard.display();
+            this.scale(2,2,2);
             this.graph.displayScene();
         }
 
