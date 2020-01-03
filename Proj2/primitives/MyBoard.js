@@ -163,7 +163,8 @@ class MyBoard extends CGFobject {
         for (let x in this.coord) {
             for (let y in this.coord[x]) {
                 let piece = this.coord[x][y];
-                this.drawPiece(piece.x, piece.y, this.black_material);
+                if (this.scene.board.length !== 0 && x.length === 1 && JSON.parse(this.scene.board)[x.charCodeAt(0) - 97][parseInt(y) - 1] !== 0)
+                    this.drawPiece(piece.x, piece.y, this.black_material);
             }
         }
         this.scene.popMatrix();

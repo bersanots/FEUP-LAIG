@@ -105,6 +105,7 @@ class XMLscene extends CGFscene {
     initGameValues() {
         // Set default values
         this.gameOngoing = false;
+        this.PChasPlayed = false;
         this.difficulty = 1;
         this.mode = 1;
         this.fromCell = '';
@@ -158,6 +159,8 @@ class XMLscene extends CGFscene {
      */
     render(camera) {
         // ---- BEGIN Background, camera and axis setup
+        this.checkPCTurn();
+
         this.getClicks();
 
         // Clear image and depth buffer everytime we update the scene
@@ -238,7 +241,7 @@ class XMLscene extends CGFscene {
                     const clickId = this.pickResults[i][1];
                     console.log(clickId);
                     this.setToCell(String.fromCharCode(Math.floor(clickId / 9) + 65) + (clickId % 9 + 1));
-                    //this.makeMove();
+                    this.makeMove();
                 }
             }
             this.pickResults = [];
@@ -304,7 +307,6 @@ class XMLscene extends CGFscene {
      */
     setBoard(board) {
         this.board = board;
-        alert('The board is \n' + board);
     }
 
     /**
@@ -322,9 +324,24 @@ class XMLscene extends CGFscene {
         this.playerType2 = playerType2;
     }
 
+    /**
+     * Sets the number of the player with the next turn.
+     */
     setActivePlayer(player) {
         this.activePlayer = player;
         alert('Next player: ' + player);
+    }
+
+    /**
+     * Checks if it is the computer's turn.
+     */
+    checkPCTurn() {
+        if (this.playerType1[0] === 'C' && !this.PChasPlayed) {
+            setTimeout(() => {
+                this.makeMove();
+            }, 1000);
+            this.PChasPlayed = true;
+        }
     }
 
     /**
@@ -334,6 +351,7 @@ class XMLscene extends CGFscene {
         let requestString = 'choose_mode_and_diff(' + this.mode + ',' + this.difficulty + ')';
         let onSuccess = (data) => {
             this.gameOngoing = true;
+            this.PChasPlayed = false;
             let [boardAndPlayer, playerType1, playerType2] = data.target.response.split('/');
             let [board, activePlayer] = boardAndPlayer.split(/[()]/).join('').split('-');
             this.setBoard(board);
@@ -394,8 +412,11 @@ class XMLscene extends CGFscene {
 
             if (winner !== undefined)
                 this.setWinner(winner);
-            else
+            else {
                 this.setActivePlayer(activePlayer);
+                if (playerType1[1] === 'C')
+                    this.PChasPlayed = false;
+            }
 
             this.fromCell = '';
             this.toCell = '';
@@ -418,6 +439,9 @@ class XMLscene extends CGFscene {
         }
 
         let [board, playerType1, playerType2, activePlayer, drawCount] = this.previousValues.pop();
+
+        if (playerType1[0] === 'C')
+            this.PChasPlayed = false;
 
         this.setBoard(board);
         this.setActivePlayer(activePlayer);
