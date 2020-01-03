@@ -1540,6 +1540,9 @@ class MySceneGraph {
             this.processNode(currentNode.childrenComponents[i].id, currMaterialId, currTextureId, currTextureS, currTextureT);
             this.scene.popMatrix();
         }
+
+        this.scene.registerForPick(100, null);
+
         //if primitive -> display primitive
         for (let i = 0; i < currentNode.childrenPrimitives.length; i++) {
             if (currTextureId != 'none')

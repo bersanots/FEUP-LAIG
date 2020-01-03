@@ -146,11 +146,8 @@ class MyBoard extends CGFobject {
 
     drawPiece(x, y, material) {
         this.scene.pushMatrix();
-
             this.scene.translate(x, y, 0);
             this.piece.display(material);
-            
-
         this.scene.popMatrix();
     }
 
@@ -161,7 +158,6 @@ class MyBoard extends CGFobject {
         this.board_material.apply();
         //this.board_cover.display();
         
-
         this.scene.pushMatrix();
         this.scene.translate(9,0.5,0.1);
         for (let x in this.coord) {
@@ -170,8 +166,7 @@ class MyBoard extends CGFobject {
                 this.drawPiece(piece.x, piece.y, this.black_material);
             }
         }
-                this.scene.popMatrix();
-
+        this.scene.popMatrix();
         
         this.scene.clearPickRegistration();
     }
