@@ -124,7 +124,7 @@ class MyBoard extends CGFobject {
         this.white_material.setAmbient(0.15, 0.15, 0.15, 1);
         this.white_material.setDiffuse(0.5, 0.5, 0.5, 1);
         this.white_material.setSpecular(0.3, 0.3, 0.3, 1);
-        this.white_material.setEmission(1, 1, 1, 1);
+        this.white_material.setEmission(0.5, 0.5, 0.5, 1);
         this.white_material.setShininess(25);
 
         this.black_material = new CGFappearance(this.scene);
@@ -157,18 +157,21 @@ class MyBoard extends CGFobject {
 
         this.board_material.apply();
         //this.board_cover.display();
-        
+
         this.scene.pushMatrix();
-        this.scene.translate(9,0.5,0.1);
+        this.scene.translate(9, 0.5, 0.1);
         for (let x in this.coord) {
             for (let y in this.coord[x]) {
                 let piece = this.coord[x][y];
-                if (this.scene.board.length !== 0 && x.length === 1 && JSON.parse(this.scene.board)[x.charCodeAt(0) - 97][parseInt(y) - 1] !== 0)
-                    this.drawPiece(piece.x, piece.y, this.black_material);
+                if (this.scene.board.length !== 0 && x.length === 1) {
+                    let cell = JSON.parse(this.scene.board)[x.charCodeAt(0) - 97][parseInt(y) - 1];
+                    if (cell !== 0)
+                        this.drawPiece(piece.x, piece.y, (cell === 1 ? this.black_material : this.white_material));
+                }
             }
         }
         this.scene.popMatrix();
-        
+
         this.scene.clearPickRegistration();
     }
 
