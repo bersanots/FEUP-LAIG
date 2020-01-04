@@ -122,7 +122,7 @@ class MyGameBoard extends CGFobject {
       this.scene.pushMatrix();
       
         this.scene.rotate(Math.PI / 2, 0, 1, 0);
-          this.scene.translate(-5, 1, 7);
+        this.scene.translate(-5, 1, 7);
         this.scene.scale(1.1, 1.1, 1.1);
 
         this.scene.pushMatrix();

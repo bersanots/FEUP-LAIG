@@ -55,6 +55,7 @@ class MyBoard extends CGFobject {
         // this.cylinder = new MyCylinder(this.scene, 0.3, 0.3, 0.1, 25, 25);
         // this.circle = new MyCircle(this.scene, 25);
         this.piece = new MyPiece(this.scene);
+        this.piece.pickingEnabled = true;
     }
 
     drawBoard(radius) {
@@ -144,9 +145,10 @@ class MyBoard extends CGFobject {
         this.scene.popMatrix();
     }
 
-    drawPiece(x, y, material) {
+    drawPiece(x, y, row, col, material) {
         this.scene.pushMatrix();
             this.scene.translate(x, y, 0);
+            this.scene.registerForPick(row * 9 + col + 100, this.piece);
             this.piece.display(material);
         this.scene.popMatrix();
     }
@@ -164,9 +166,11 @@ class MyBoard extends CGFobject {
             for (let y in this.coord[x]) {
                 let piece = this.coord[x][y];
                 if (this.scene.board.length !== 0 && x.length === 1) {
-                    let cell = JSON.parse(this.scene.board)[x.charCodeAt(0) - 97][parseInt(y) - 1];
+                    let row = x.charCodeAt(0) - 97;
+                    let col = parseInt(y) - 1;
+                    let cell = JSON.parse(this.scene.board)[row][col];
                     if (cell !== 0)
-                        this.drawPiece(piece.x, piece.y, (cell === 1 ? this.black_material : this.white_material));
+                        this.drawPiece(piece.x, piece.y, row, col, (cell === 1 ? this.black_material : this.white_material));
                 }
             }
         }

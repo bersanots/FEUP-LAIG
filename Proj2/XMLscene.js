@@ -240,8 +240,13 @@ class XMLscene extends CGFscene {
                 if (obj) {
                     const clickId = this.pickResults[i][1];
                     console.log(clickId);
-                    this.setToCell(String.fromCharCode(Math.floor(clickId / 9) + 65) + (clickId % 9 + 1));
-                    this.makeMove();
+
+                    if (clickId >= 100)  //pick piece
+                        this.setFromCell(String.fromCharCode(Math.floor((clickId - 100) / 9) + 65) + ((clickId - 100) % 9 + 1));
+                    else {               //pick cell
+                        this.setToCell(String.fromCharCode(Math.floor(clickId / 9) + 65) + (clickId % 9 + 1));
+                        this.makeMove();
+                    }
                 }
             }
             this.pickResults = [];
@@ -333,6 +338,14 @@ class XMLscene extends CGFscene {
     }
 
     /**
+     * Clears both cells' coordinates.
+     */
+    clearCells() {
+        this.toCell = '';
+        this.fromCell = '';
+    }
+
+    /**
      * Checks if it is the computer's turn.
      */
     checkPCTurn() {
@@ -368,11 +381,13 @@ class XMLscene extends CGFscene {
     makeMove() {
         if (!this.gameOngoing) {
             alert('Select a game mode and difficulty!');
+            this.clearCells();
             return;
         }
 
         if ((this.fromCell !== '' && this.fromCell.length !== 2) || (this.toCell !== '' && this.toCell.length !== 2)) {
             alert('Invalid cell!');
+            this.clearCells();
             return;
         }
 
@@ -386,6 +401,7 @@ class XMLscene extends CGFscene {
         }
         else if (this.playerType1[0] === 'H') {
             alert('Insert at least a value for the cell where the piece should be placed!');
+            this.clearCells();
             return;
         }
 
@@ -398,6 +414,7 @@ class XMLscene extends CGFscene {
             //on error
             if (message.length === 1) {
                 alert(message[0]);
+                this.clearCells();
                 return;
             }
 
@@ -418,8 +435,7 @@ class XMLscene extends CGFscene {
                     this.PChasPlayed = false;
             }
 
-            this.fromCell = '';
-            this.toCell = '';
+            this.clearCells();
         };
 
         this.getPrologRequest(requestString, onSuccess);
