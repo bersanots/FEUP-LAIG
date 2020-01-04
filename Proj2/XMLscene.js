@@ -241,9 +241,13 @@ class XMLscene extends CGFscene {
                     const clickId = this.pickResults[i][1];
                     console.log(clickId);
 
-                    if (clickId >= 100)  //pick piece
-                        this.setFromCell(String.fromCharCode(Math.floor((clickId - 100) / 9) + 65) + ((clickId - 100) % 9 + 1));
-                    else {               //pick cell
+                    if (clickId >= 100) {   //pick piece
+                        if (clickId >= 1000)    //pick new one
+                            console.log("New piece");
+                        else                    // pick existing one
+                            this.setFromCell(String.fromCharCode(Math.floor((clickId - 100) / 9) + 65) + ((clickId - 100) % 9 + 1));
+                    }
+                    else {                  //pick cell
                         this.setToCell(String.fromCharCode(Math.floor(clickId / 9) + 65) + (clickId % 9 + 1));
                         this.makeMove();
                     }
@@ -453,6 +457,10 @@ class XMLscene extends CGFscene {
             alert('No moves have been made yet!');
             return;
         }
+
+        // go back 2 turns if it's the human's turn and if the opponent is a bot
+        if (this.playerType1[0] === 'H' && this.PChasPlayed && this.previousValues.length > 1)
+            this.previousValues.pop();
 
         let [board, playerType1, playerType2, activePlayer, drawCount] = this.previousValues.pop();
 

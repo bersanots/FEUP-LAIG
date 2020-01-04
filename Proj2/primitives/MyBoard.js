@@ -52,8 +52,6 @@ class MyBoard extends CGFobject {
     }
 
     createPieces() {
-        // this.cylinder = new MyCylinder(this.scene, 0.3, 0.3, 0.1, 25, 25);
-        // this.circle = new MyCircle(this.scene, 25);
         this.piece = new MyPiece(this.scene);
         this.piece.pickingEnabled = true;
     }
@@ -141,7 +139,7 @@ class MyBoard extends CGFobject {
         this.scene.pushMatrix();
             this.board_cell.apply();
             this.scene.registerForPick(row * 9 + col, this.cell);
-           this.cell.display();
+            this.cell.display();
         this.scene.popMatrix();
     }
 

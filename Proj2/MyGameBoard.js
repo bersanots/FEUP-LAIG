@@ -13,8 +13,9 @@ class MyGameBoard extends CGFobject {
       this.connector_holder = new MySphere(this.scene, 0.4, 100, 100);
       this.hexagon = new MyHexagon(this.scene, 1);
 
+      this.createPieces();
+
       this.blackMaterial = new CGFappearance(this.scene);
-      this.blackMaterial.setShininess(1.0);
       this.blackMaterial.setAmbient(0.0, 0.0, 0.0, 1.0);
       this.blackMaterial.setDiffuse(0, 0, 0, 1.0);
       this.blackMaterial.setSpecular(0, 0, 0, 1.0);
@@ -26,6 +27,40 @@ class MyGameBoard extends CGFobject {
       this.whiteMaterial.setDiffuse(0.9, 0.9, 0.9, 0.1);
       this.whiteMaterial.setSpecular(0.9, 0.9, 0.9, 0.1);
       this.whiteMaterial.setEmission(0.9, 0.9, 0.9, 0.1);
+
+      this.white_material_piece = new CGFappearance(this.scene);
+      this.white_material_piece.setAmbient(0.15, 0.15, 0.15, 1);
+      this.white_material_piece.setDiffuse(0.5, 0.5, 0.5, 1);
+      this.white_material_piece.setSpecular(0.3, 0.3, 0.3, 1);
+      this.white_material_piece.setEmission(0.5, 0.5, 0.5, 1);
+      this.white_material_piece.setShininess(25);
+
+      this.black_material_piece = new CGFappearance(this.scene);
+      this.black_material_piece.setAmbient(0.15, 0.15, 0.15, 1);
+      this.black_material_piece.setDiffuse(0.5, 0.5, 0.5, 1);
+      this.black_material_piece.setSpecular(0.3, 0.3, 0.3, 1);
+      this.black_material_piece.setEmission(0, 0, 0, 1);
+      this.black_material_piece.setShininess(25);
+    }
+
+    // auxiliary pieces on the side of the board
+    createPieces() {
+      this.piece = new MyPiece(this.scene);
+      this.piece.pickingEnabled = true;
+    }
+
+    drawPieces(player, material) {
+      this.scene.pushMatrix();
+        this.scene.translate(-1, 0, -5.25);
+        this.scene.scale(5, 5, 5);
+        this.scene.rotate(Math.PI/2, 0, 1, 0);
+        this.scene.rotate(Math.PI, 0, 0, 1);
+      for (let i = 0; i < 2; i++) {
+        this.scene.translate(0.7, 0, 0);
+        this.scene.registerForPick(i + player * 1000, this.piece);
+        this.piece.display(material);
+      }
+      this.scene.popMatrix();
     }
 
     drawHexagon(x) {
@@ -133,16 +168,22 @@ class MyGameBoard extends CGFobject {
           this.scene.translate(0, 5.5, 0);
           this.scene.scale(0.2, 0.2, 0.2);
           this.drawHexagon(false);
+          this.drawPieces(2, this.white_material_piece);
         this.scene.popMatrix();
+
+        this.scene.registerForPick(100, null);
 
         this.scene.pushMatrix();
           this.scene.translate(0, -5.5, 0);
           this.scene.scale(0.2, 0.2, 0.2);
           this.drawHexagon(false);
+          this.drawPieces(1, this.black_material_piece);
           this.blackMaterial.apply();
         this.scene.popMatrix();
 
       this.scene.popMatrix();
+
+      this.scene.clearPickRegistration();
     }
   
 }
