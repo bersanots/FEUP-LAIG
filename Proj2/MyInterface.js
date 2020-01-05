@@ -113,6 +113,7 @@ class MyInterface extends CGFinterface {
         this.addMoveTextFields(group);
         this.addMoveButton(group);
         this.addUndoButton(group);
+        this.addViewControl(group);
     }
 
     /**
@@ -179,6 +180,18 @@ class MyInterface extends CGFinterface {
             scene.setToCell(value);
         });
         toCell.name('To');
+    }
+
+    addViewControl(group) {
+            var scene = this.scene;
+
+            var viewAngle = group.add(scene, 'View Angle', 0, 360).listen();
+            viewAngle.onFinishChange(function (value) {
+                scene.setViewAngle(value);
+            });
+            viewAngle.name('View Angle');
+
+
     }
 
     /**

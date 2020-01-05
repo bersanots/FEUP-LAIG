@@ -5,6 +5,7 @@
 class MyGameBoard extends CGFobject {
     constructor(scene) {
       super(scene);
+
       // board comp
       // piece holder
       this.cylinder = new MyCylinder(this.scene, 0.1, 0.1, 5, 100, 100);

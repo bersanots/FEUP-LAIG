@@ -41,6 +41,9 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(100);
 
         this.gameboard = new MyGameBoard(this);
+
+        this.viewAngle = 0;
+
     }
 
     /**
@@ -119,6 +122,7 @@ class XMLscene extends CGFscene {
         this.activePlayer = 1;
         this.drawCount = 0;
         this.previousValues = [];
+        this.viewAngle = '';
     }
 
     setDefaultAppearance() {
@@ -226,8 +230,7 @@ class XMLscene extends CGFscene {
 
     // Updates camera
     updateCam(){
-        var playerTurn = this.gameboard.turn;
-        switch (playerTurn){
+        switch (activePlayer){
             case 0:
                 if(this.viewAngle > 0){
                     this.camera.orbit((0, 0, 1), 5*DEGREE_TO_RAD);
@@ -235,7 +238,7 @@ class XMLscene extends CGFscene {
                 }
                 break;
             case 1:
-                if(this.viewAngle < 180 ){ 
+                if(this.viewAngle < 180) {
                     this.camera.orbit((0, 0, 1), -5*DEGREE_TO_RAD);
                     this.viewAngle += 5;
                 }
@@ -257,7 +260,7 @@ class XMLscene extends CGFscene {
         this.textureRTT.detachFromFrameBuffer();
 
         this.gl.disable(this.gl.DEPTH_TEST);
-
+        this.updateCam();
         //this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -385,6 +388,10 @@ class XMLscene extends CGFscene {
         }, 500);
     }
 
+    setViewAngle(viewAngle) {
+        this.viewAngle =viewAngle;
+    }
+
     /**
      * Clears both cells' coordinates.
      */
@@ -435,6 +442,7 @@ class XMLscene extends CGFscene {
             this.setPlayerTypes(playerType1.split(/[()]/).join(''), playerType2.split(/[()]/).join(''));
             this.selectedView = 'board';
             this.setNewCamera('board');
+            this.setViewAngle(0);
         };
         this.getPrologRequest(requestString, onSuccess);
     }
