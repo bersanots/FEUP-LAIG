@@ -214,8 +214,8 @@ class XMLscene extends CGFscene {
             // Real cam
             this.translate(6, -3, 6);
             this.rotate(Math.PI, 0, 1, 1);
-            this.rotate(Math.PI/4, 0, 0, 1);
-            this.scale(0.6,0.6,0.6);
+            this.rotate(Math.PI / 4, 0, 0, 1);
+            this.scale(0.6, 0.6, 0.6);
 
             // Displays the game board
             this.gameboard.display();
@@ -230,7 +230,6 @@ class XMLscene extends CGFscene {
 
     // Updates camera
     updateCam() {
-        console.log(this.viewAngle);
         switch (this.activePlayer) {
             case '1':
                 if (this.viewAngle > 0) {
@@ -377,7 +376,7 @@ class XMLscene extends CGFscene {
      * Updates the score according to the winner.
      */
     setScore(winner) {
-        if(winner === -1) {
+        if (winner === -1) {
             this.score = this.backupScore;        //clear any additional text
             return;
         }
@@ -388,7 +387,7 @@ class XMLscene extends CGFscene {
             this.score = this.backupScore;
             playerScores = this.score.split(' - ');
         }
-            
+
         playerScores[parseInt(winner) - 1]++;
         this.score = playerScores.join(' - ');
         this.backupScore = this.score;
@@ -408,16 +407,17 @@ class XMLscene extends CGFscene {
      * Updates the time remaining for the current turn.
      */
     setTimer(time) {
-        if(time === -1) {
+        if (time === -1) {
             this.timer = this.backupTimer;        //clear any additional text        
             return;
         }
 
         if (parseFloat(time)) {
-            if (parseFloat(time) <= 0)
-                return;
+            if (time <= 0) {
+                this.timer = 0;
+            }
             else {
-                this.timer = parseFloat(time);
+                this.timer = time;
                 this.backupTimer = this.timer;
             }
         }
@@ -499,6 +499,7 @@ class XMLscene extends CGFscene {
             this.selectedView = 'board';
             this.setNewCamera('board');
             this.setViewAngle(0);
+            this.timer = this.initialTime;
         };
         this.getPrologRequest(requestString, onSuccess);
     }
@@ -559,12 +560,15 @@ class XMLscene extends CGFscene {
             //animation
             //this.newPiece ? this.animationType = 'place' : this.animationType = 'slide';
 
-            if (winner !== undefined)
+            if (winner !== undefined) {
                 this.setWinner(winner);
+                this.timer = '';
+            }
             else {
                 this.setActivePlayer(activePlayer);
                 if (playerType1[1] === 'C')
                     this.PChasPlayed = false;
+                this.timer = this.initialTime;
             }
 
             this.clearCells();
@@ -631,11 +635,11 @@ class XMLscene extends CGFscene {
             this.graph.animations[key].update(this.deltaTime);
         }
 
-        if(this.boardObj !== undefined && this.boardObj.animation !== undefined)
+        if (this.boardObj !== undefined && this.boardObj.animation !== undefined)
             this.boardObj.animation.update(this.deltaTime);
 
         if (this.initialTime && this.initialTime !== '')
-            this.setTimer(this.initialTime - this.deltaTime);
+            this.setTimer(this.timer - this.deltaTime);
 
         this.prevTime = t;
 
