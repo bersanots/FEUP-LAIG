@@ -10,7 +10,7 @@
             <from x="20" y="5" z="50"/>
             <to x="2" y="-5" z="0"/>
         </perspective>
-        <perspective id="board" near="0.1" far="500" angle="0.4">
+        <perspective id="board" near="0.1" far="500" angle="0.9">
             <from x="5" y="10" z="21"/>
             <to x="5" y="-10" z="1"/>
         </perspective>

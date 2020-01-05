@@ -122,7 +122,6 @@ class XMLscene extends CGFscene {
         this.activePlayer = 1;
         this.drawCount = 0;
         this.previousValues = [];
-        this.viewAngle = '';
     }
 
     setDefaultAppearance() {
@@ -230,14 +229,14 @@ class XMLscene extends CGFscene {
 
     // Updates camera
     updateCam() {
-        switch (this.activePlayer) {
-            case '1':
+        switch (2) {
+            case 1:
                 if (this.viewAngle > 0) {
                     this.camera.orbit((0, 0, 1), 5 * DEGREE_TO_RAD);
                     this.viewAngle -= 5;
                 }
                 break;
-            case '2':
+            case 2:
                 if (this.viewAngle < 180) {
                     this.camera.orbit((0, 0, 1), -5 * DEGREE_TO_RAD);
                     this.viewAngle += 5;
@@ -257,9 +256,13 @@ class XMLscene extends CGFscene {
         this.textureRTT.attachToFrameBuffer();
         this.render(this.graph.views[this.selectedView]);
         this.textureRTT.detachFromFrameBuffer();
-
+        this.camera = new CGFcamera(0.9,  0.3, 500, [-2, 10, -3], [3, -1, 3]);
         this.gl.disable(this.gl.DEPTH_TEST);
-        this.updateCam();
+        //this.updateCam();
+        // if (this.viewAngle < 180) {
+        //     this.updateCam()
+        //     //this.viewAngle += 1;
+        //     }
         //this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);

@@ -186,10 +186,14 @@ class MyInterface extends CGFinterface {
         var scene = this.scene;
 
         var viewAngle = group.add(scene, 'viewAngle', 0, 360).listen();
-        viewAngle.onFinishChange(function (value) {
-            scene.setViewAngle(value);
-        });
-        viewAngle.name('View Angle');
+        //viewAngle.update(function (value) {
+         //   scene.setViewAngle(value);
+        //});
+        var update = function() {
+            viewAngle.viewAngle = scene.viewAngle;    
+        }
+        update();
+        
     }
 
     /**
