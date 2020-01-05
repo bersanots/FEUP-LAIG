@@ -27,7 +27,7 @@ class XMLscene extends CGFscene {
         this.sceneInited = false;
 
         this.textureRTT = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
-        this.securityCamera = new MySecurityCamera(this);
+        //this.securityCamera = new MySecurityCamera(this);
 
         this.enableTextures(true);
         this.setPickEnabled(true);
@@ -52,11 +52,11 @@ class XMLscene extends CGFscene {
     initCameras() {
         //Set selected cameras by default value
         this.selectedView = this.graph.def;
-        this.selectedSecurityView = this.graph.def;
+        //this.selectedSecurityView = this.graph.def;
 
         // Set active camera
         this.camera = this.graph.views[this.selectedView];
-        this.secCamera = this.graph.views[this.selectedSecurityView];
+        //this.secCamera = this.graph.views[this.selectedSecurityView];
         this.interface.setActiveCamera(this.camera);
     }
 
@@ -121,6 +121,8 @@ class XMLscene extends CGFscene {
         this.playerType2 = '';
         this.activePlayer = 1;
         this.drawCount = 0;
+        this.score = '0 - 0';
+        this.backupScore = '0 - 0';
         this.previousValues = [];
         this.viewAngle = '';
     }
@@ -253,13 +255,13 @@ class XMLscene extends CGFscene {
         if (!this.sceneInited)
             return;
 
-        this.render(this.graph.views[this.selectedSecurityView]);
-        this.textureRTT.attachToFrameBuffer();
+        //this.render(this.graph.views[this.selectedSecurityView]);
+        //this.textureRTT.attachToFrameBuffer();
         this.render(this.graph.views[this.selectedView]);
-        this.textureRTT.detachFromFrameBuffer();
+        //this.textureRTT.detachFromFrameBuffer();
 
         this.gl.disable(this.gl.DEPTH_TEST);
-        this.updateCam();
+        //this.updateCam();
         //this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -367,6 +369,27 @@ class XMLscene extends CGFscene {
      */
     setDrawCount(drawCount) {
         this.drawCount = parseInt(drawCount);
+    }
+
+    /**
+     * Updates the score according to the winner.
+     */
+    setScore(winner) {
+        if(winner === -1) {
+            this.score = this.backupScore;        //clear any additional text
+            return;
+        }
+
+        let playerScores = this.score.split(' - ');
+
+        if (!parseInt(playerScores[0]) || !parseInt(playerScores[1])) {
+            this.score = this.backupScore;
+            playerScores = this.score.split(' - ');
+        }
+            
+        playerScores[parseInt(winner) - 1]++;
+        this.score = playerScores.join(' - ');
+        this.backupScore = this.score;
     }
 
     /**
@@ -555,10 +578,12 @@ class XMLscene extends CGFscene {
             setTimeout(() => {
                 alert('Pieces were slided for six turns in a row. The game ended in a DRAW.');
             }, 500);
-        else
+        else {
             setTimeout(() => {
                 alert('The winner is Player ' + winner);
             }, 500);
+            this.setScore(winner);
+        }
     }
 
     /**
@@ -577,7 +602,7 @@ class XMLscene extends CGFscene {
 
         this.prevTime = t;
 
-        this.securityCamera.updateTimeFactor(t / 100 % 1000);
+        //this.securityCamera.updateTimeFactor(t / 100 % 1000);
     }
 
     /**

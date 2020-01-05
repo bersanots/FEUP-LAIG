@@ -70,7 +70,7 @@ class MyInterface extends CGFinterface {
         var group = this.gui.addFolder("Views");
         group.open();
         this.addCameraSelectDropDown(selectables, group);
-        this.addSecurityCameraSelectDropDown(selectables, group);
+        //this.addSecurityCameraSelectDropDown(selectables, group);
     }
 
     /**
@@ -113,6 +113,7 @@ class MyInterface extends CGFinterface {
         this.addMoveTextFields(group);
         this.addMoveButton(group);
         this.addUndoButton(group);
+        this.addScoreField(group);
         this.addViewControl(group);
     }
 
@@ -216,6 +217,19 @@ class MyInterface extends CGFinterface {
         };
         var undo = group.add(this, 'undo');
         undo.name('Undo');
+    }
+
+    /**
+     * addScoreField
+     * @param group {group}
+     */
+    addScoreField(group) {
+        var scene = this.scene;
+        var score = group.add(scene, 'score', '').listen();
+        score.onFinishChange(function () {
+            scene.setScore(-1);
+        });
+        score.name('Score');
     }
 
     /**
