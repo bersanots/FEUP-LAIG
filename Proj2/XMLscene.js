@@ -224,6 +224,26 @@ class XMLscene extends CGFscene {
         // ---- END Background, camera and axis setup
     }
 
+    // Updates camera
+    updateCam(){
+        var playerTurn = this.gameboard.turn;
+        switch (playerTurn){
+            case 0:
+                if(this.viewAngle > 0){
+                    this.camera.orbit((0, 0, 1), 5*DEGREE_TO_RAD);
+                    this.viewAngle -= 5;
+                }
+                break;
+            case 1:
+                if(this.viewAngle < 180 ){ 
+                    this.camera.orbit((0, 0, 1), -5*DEGREE_TO_RAD);
+                    this.viewAngle += 5;
+                }
+                break;
+        }
+        
+    }
+
     /**
      * Displays the scene.
      */

@@ -1,24 +1,33 @@
 <lxs>
     <scene root="scene" axis_length="5"/>
 
-    <views default="overview">
-        <perspective id="overview" near="0.1" far="500" angle="0.4">
+     <views default="overview">
+        <perspective id="front_view" near="0.1" far="500" angle="1">
             <from x="25" y="20" z="25"/>
             <to x="0" y="-2" z="0"/>
         </perspective>
-        <perspective id="front_view" near="0.1" far="500" angle="0.4">
-            <from x="5" y="5" z="22"/>
-            <to x="5" y="0" z="0"/>
+        <perspective id="overview" near="0.5" far="500" angle="0.3">
+            <from x="20" y="5" z="50"/>
+            <to x="2" y="-5" z="0"/>
         </perspective>
-        <perspective id="big_fish" near="0.1" far="500" angle="0.4">
-            <from x="13" y="4" z="13"/>
-            <to x="0" y="2" z="0"/>
+         <perspective id="playerWhite" near="0.5" far="500" angle="0.3">
+            <from x="20" y="5" z="50"/>
+            <to x="2" y="-5" z="0"/>
+        </perspective>
+         <perspective id="playerBlack" near="0.5" far="500" angle="0.3">
+            <from x="20" y="5" z="50"/>
+            <to x="2" y="-5" z="0"/>
+        </perspective>
+        <perspective id="board" near="0.1" far="500" angle="0.4">
+            <from x="5" y="10" z="21"/>
+            <to x="5" y="-10" z="1"/>
         </perspective>
         <ortho id="orthogonal" near="0.1" far="500" left="-16" right="16" top="9" bottom="-9">
             <from x="10" y="10" z="10" />
             <to x="0" y="0" z="0" />
         </ortho>
     </views>
+
 
     <globals>
         <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
