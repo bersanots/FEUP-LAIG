@@ -231,16 +231,17 @@ class XMLscene extends CGFscene {
 
     // Updates camera
     updateCam() {
-        switch (2) {
+        console.log(this.viewAngle);
+        switch (this.activePlayer) {
             case 1:
-                if (this.viewAngle > 0) {
-                    this.camera.orbit((0, 0, 1), 5 * DEGREE_TO_RAD);
+                if (this.viewAngle > 180) {
+                    this.camera.orbit((0, 0, 1), -5 * DEGREE_TO_RAD);
                     this.viewAngle -= 5;
                 }
                 break;
             case 2:
                 if (this.viewAngle < 180) {
-                    this.camera.orbit((0, 0, 1), -5 * DEGREE_TO_RAD);
+                    this.camera.orbit((0, 0, 1), 5 * DEGREE_TO_RAD);
                     this.viewAngle += 5;
                 }
                 break;
@@ -258,13 +259,10 @@ class XMLscene extends CGFscene {
         //this.textureRTT.attachToFrameBuffer();
         this.render(this.graph.views[this.selectedView]);
         this.textureRTT.detachFromFrameBuffer();
-        this.camera = new CGFcamera(0.9,  0.3, 500, [-2, 10, -3], [3, -1, 3]);
         this.gl.disable(this.gl.DEPTH_TEST);
-        //this.updateCam();
-        // if (this.viewAngle < 180) {
-        //     this.updateCam()
-        //     //this.viewAngle += 1;
-        //     }
+        if (this.gameOngoing) {
+            this.updateCam();
+            }
         //this.securityCamera.display();
 
         this.gl.enable(this.gl.DEPTH_TEST);

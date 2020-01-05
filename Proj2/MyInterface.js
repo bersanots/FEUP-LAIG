@@ -114,7 +114,7 @@ class MyInterface extends CGFinterface {
         this.addMoveButton(group);
         this.addUndoButton(group);
         this.addScoreField(group);
-        this.addViewControl(group);
+        //this.addViewControl(group);
     }
 
     /**
