@@ -10,9 +10,9 @@
             <from x="20" y="5" z="50"/>
             <to x="2" y="-5" z="0"/>
         </perspective>
-        <perspective id="big_fish" near="0.1" far="500" angle="0.4">
-            <from x="13" y="4" z="13"/>
-            <to x="0" y="2" z="0"/>
+        <perspective id="board" near="0.1" far="500" angle="0.4">
+            <from x="5" y="10" z="21"/>
+            <to x="5" y="-10" z="1"/>
         </perspective>
         <ortho id="orthogonal" near="0.1" far="500" left="-16" right="16" top="9" bottom="-9">
             <from x="10" y="10" z="10" />
@@ -26,16 +26,16 @@
     </globals>
 
     <lights>
-        <omni id="middle_light" enabled="1">
-            <location x="5" y="2" z="5" w="0" />
+        <omni id="lamp" enabled="1">
+            <location x="2.25" y="2.5" z="1.325" w="0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1" linear="0" quadratic="0" />
         </omni>
-        <spot id="side_light" enabled="0" angle="55" exponent="20">
-            <location x="5" y="4" z="15" w="0" />
-            <target x="5" y="0" z="0" />
+        <spot id="table_light" enabled="0" angle="55" exponent="20">
+            <location x="5" y="2" z="11" w="0" />
+            <target x="5" y="0" z="11" />
             <ambient r="0" g="0" b="0" a="0"/>
             <diffuse r="0.5" g="0.5" b="0.5" a="0"/>
             <specular r="0.5" g="0.5" b="0.5" a="0"/>
