@@ -106,6 +106,8 @@ class XMLscene extends CGFscene {
         // Set default values
         this.gameOngoing = false;
         this.PChasPlayed = false;
+        this.newPiece = true;
+        this.animationType = '';
         this.difficulty = 1;
         this.mode = 1;
         this.fromCell = '';
@@ -243,9 +245,11 @@ class XMLscene extends CGFscene {
 
                     if (clickId >= 100) {   //pick piece
                         if (clickId >= 1000)    //pick new one
-                            console.log("New piece");
-                        else                    // pick existing one
+                            this.newPiece = true;
+                        else {                  // pick existing one
+                            this.newPiece = false;
                             this.setFromCell(String.fromCharCode(Math.floor((clickId - 100) / 9) + 65) + ((clickId - 100) % 9 + 1));
+                        }
                     }
                     else {                  //pick cell
                         this.setToCell(String.fromCharCode(Math.floor(clickId / 9) + 65) + (clickId % 9 + 1));
@@ -362,6 +366,21 @@ class XMLscene extends CGFscene {
     }
 
     /**
+     * Creates a new animation for the current piece movement.
+     */
+    createPieceAnimation() {
+        let keyframes = [];
+        let translation = [0, 1, 0];
+        let rotation = [0, 0, 0];
+        let scaling = [1, 1, 1];
+        keyframes[1] = [translation, rotation, scaling];
+        this.animation = new KeyframeAnimation(this, keyframes);
+        setTimeout(() => {
+            this.animation = undefined;
+        }, 1500);
+    }
+
+    /**
      * Starts a new game.
      */
     startGame() {
@@ -431,6 +450,9 @@ class XMLscene extends CGFscene {
             this.setPlayerTypes(playerType1.split(/[()]/).join(''), playerType2.split(/[()]/).join(''));
             this.setDrawCount(drawCount.split(/[()]/).join(''));
 
+            //animation
+            //this.newPiece ? this.animationType = 'place' : this.animationType = 'slide';
+
             if (winner !== undefined)
                 this.setWinner(winner);
             else {
@@ -496,6 +518,9 @@ class XMLscene extends CGFscene {
         for (var key in this.graph.animations) {
             this.graph.animations[key].update(this.deltaTime);
         }
+
+        if(this.boardObj !== undefined && this.boardObj.animation !== undefined)
+            this.boardObj.animation.update(this.deltaTime);
 
         this.prevTime = t;
 

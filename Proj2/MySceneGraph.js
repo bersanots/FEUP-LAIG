@@ -1542,7 +1542,7 @@ class MySceneGraph {
             this.scene.popMatrix();
         }
 
-        this.scene.registerForPick(100, null);
+        this.scene.registerForPick(404, null);
 
         //if primitive -> display primitive
         for (let i = 0; i < currentNode.childrenPrimitives.length; i++) {

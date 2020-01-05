@@ -5,6 +5,7 @@
 class MyBoard extends CGFobject {
     constructor(scene, radius) {
         super(scene);
+        this.scene.boardObj = this;
         this.radius = radius;
         this.initMaterials();
         this.createCells(this.radius);
@@ -147,13 +148,27 @@ class MyBoard extends CGFobject {
         this.scene.pushMatrix();
             this.scene.translate(x, y, 0);
             this.scene.registerForPick(row * 9 + col + 100, this.piece);
+
+            // Displays the current piece animation.
+            if (this.animation !== undefined)
+                this.animation.apply();
+                
             this.piece.display(material);
         this.scene.popMatrix();
     }
 
+    createPieceAnimation(from, to) {
+        let keyframes = [];
+        let translation = [to.x - from.x, to.y - from.y, 0];
+        let rotation = [0, 0, 0];
+        let scaling = [1, 1, 1];
+        keyframes[1] = [translation, rotation, scaling];
+        this.animation = new KeyframeAnimation(this.scene, keyframes);
+    }
+
     display() {
         this.drawBoard(this.radius);
-        this.scene.registerForPick(100, null);
+        this.scene.registerForPick(404, null);
 
         this.board_material.apply();
         //this.board_cover.display();
@@ -167,8 +182,24 @@ class MyBoard extends CGFobject {
                     let row = x.charCodeAt(0) - 97;
                     let col = parseInt(y) - 1;
                     let cell = JSON.parse(this.scene.board)[row][col];
-                    if (cell !== 0)
+                    if (cell !== 0) {
+                        if (this.scene.animationType === 'slide') {
+                            let from = {
+                                x: String.fromCharCode(this.scene.fromCell[0].charCodeAt(0) + 32),
+                                y: parseInt(this.scene.fromCell[1]),
+                            };
+                            let to = {
+                                row: this.scene.toCell[0].charCodeAt(0) - 65,
+                                col: parseInt(this.scene.toCell[1]) - 1,
+                            };
+                            if (to.row === row && to.col === col) {
+                                let prevCell = this.coord[from.x][from.y];
+                                this.createPieceAnimation(prevCell, piece);
+                                this.scene.animationType = '';
+                            }
+                        }
                         this.drawPiece(piece.x, piece.y, row, col, (cell === 1 ? this.black_material : this.white_material));
+                    }
                 }
             }
         }

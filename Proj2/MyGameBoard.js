@@ -171,7 +171,7 @@ class MyGameBoard extends CGFobject {
           this.drawPieces(2, this.white_material_piece);
         this.scene.popMatrix();
 
-        this.scene.registerForPick(100, null);
+        this.scene.registerForPick(404, null);
 
         this.scene.pushMatrix();
           this.scene.translate(0, -5.5, 0);
