@@ -229,22 +229,21 @@ class XMLscene extends CGFscene {
     }
 
     // Updates camera
-    updateCam(){
-        switch (activePlayer){
-            case 0:
-                if(this.viewAngle > 0){
-                    this.camera.orbit((0, 0, 1), 5*DEGREE_TO_RAD);
+    updateCam() {
+        switch (this.activePlayer) {
+            case '1':
+                if (this.viewAngle > 0) {
+                    this.camera.orbit((0, 0, 1), 5 * DEGREE_TO_RAD);
                     this.viewAngle -= 5;
                 }
                 break;
-            case 1:
-                if(this.viewAngle < 180) {
-                    this.camera.orbit((0, 0, 1), -5*DEGREE_TO_RAD);
+            case '2':
+                if (this.viewAngle < 180) {
+                    this.camera.orbit((0, 0, 1), -5 * DEGREE_TO_RAD);
                     this.viewAngle += 5;
                 }
                 break;
         }
-        
     }
 
     /**
@@ -389,7 +388,7 @@ class XMLscene extends CGFscene {
     }
 
     setViewAngle(viewAngle) {
-        this.viewAngle =viewAngle;
+        this.viewAngle = viewAngle;
     }
 
     /**
