@@ -230,6 +230,7 @@ class XMLscene extends CGFscene {
 
     // Updates camera
     updateCam() {
+        this.interface.setActiveCamera(this.graph.views[1]);
         switch (this.activePlayer) {
             case '1':
                 if (this.viewAngle > 0) {
