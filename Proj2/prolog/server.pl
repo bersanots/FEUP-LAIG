@@ -107,7 +107,7 @@ print_header_line(_).
 
 parse_input(play, play) :- play.
 
-parse_input(choose_mode_and_diff(Mode, Diff), Res) :- choose_mode_and_diff(Mode, Diff, Res).
+parse_input(choose_mode_and_diff(Mode, Diff1, Diff2), Res) :- choose_mode_and_diff(Mode, Diff1, Diff2, Res).
 parse_input(game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, Move, DrawCount), Res) :- game_cycle(CurrentTab, ActivePlayerType, NextPlayerType, Move, DrawCount, Res).
 
 

@@ -108,7 +108,8 @@ class XMLscene extends CGFscene {
         this.PChasPlayed = false;
         this.newPiece = true;
         this.animationType = '';
-        this.difficulty = 1;
+        this.PC1Level = 1;
+        this.PC2Level = 1;
         this.mode = 1;
         this.fromCell = '';
         this.toCell = '';
@@ -298,10 +299,17 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Sets a new game difficulty.
+     * Sets the level of the bot.
      */
-    setGameDifficulty(diff) {
-        this.difficulty = diff;
+    setPC1Level(level) {
+        this.PC1Level = level;
+    }
+
+    /**
+     * Sets the level of a second bot (if needed).
+     */
+    setPC2Level(level) {
+        this.PC2Level = level;
     }
 
     /**
@@ -352,7 +360,9 @@ class XMLscene extends CGFscene {
      */
     setActivePlayer(player) {
         this.activePlayer = player;
-        alert('Next player: ' + player);
+        setTimeout(() => {
+            alert('Next player: ' + player + ' (' + (player === '1' ? 'black' : 'white') + ' pieces)');
+        }, 500);
     }
 
     /**
@@ -394,7 +404,7 @@ class XMLscene extends CGFscene {
      * Starts a new game.
      */
     startGame() {
-        let requestString = 'choose_mode_and_diff(' + this.mode + ',' + this.difficulty + ')';
+        let requestString = 'choose_mode_and_diff(' + this.mode + ',' + this.PC1Level + ',' + this.PC2Level + ')';
         let onSuccess = (data) => {
             this.gameOngoing = true;
             this.PChasPlayed = false;
@@ -403,6 +413,8 @@ class XMLscene extends CGFscene {
             this.setBoard(board);
             this.setActivePlayer(activePlayer);
             this.setPlayerTypes(playerType1.split(/[()]/).join(''), playerType2.split(/[()]/).join(''));
+            this.selectedView = 'board';
+            this.setNewCamera('board');
         };
         this.getPrologRequest(requestString, onSuccess);
     }
@@ -513,9 +525,13 @@ class XMLscene extends CGFscene {
         this.gameOngoing = false;
         this.previousValues = [];
         if (winner === '0')
-            alert('Pieces were slided for six turns in a row. The game ended in a DRAW.');
+            setTimeout(() => {
+                alert('Pieces were slided for six turns in a row. The game ended in a DRAW.');
+            }, 500);
         else
-            alert('The winner is Player ' + winner);
+            setTimeout(() => {
+                alert('The winner is Player ' + winner);
+            }, 500);
     }
 
     /**

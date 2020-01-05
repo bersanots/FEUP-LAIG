@@ -15,11 +15,11 @@ display_menu :-
   %(write('\nInvalid option!\n'), display_menu(Res)).
   
 
-choose_mode_and_diff(Mode, Diff, Res):-
+choose_mode_and_diff(Mode, Diff1, Diff2, Res):-
   (Mode == 1, pvp_game(Res));
-  (Mode == 2, pvc_menu(Res, Diff));
-  (Mode == 3, cvp_menu(Res, Diff));
-  (Mode == 4, cvc_menu(Res, Diff));
+  (Mode == 2, pvc_menu(Res, Diff1));
+  (Mode == 3, cvp_menu(Res, Diff1));
+  (Mode == 4, cvc_menu(Res, Diff1, Diff2));
   (Mode == 0, write('\nExiting the game...\n')).
   
   
@@ -48,7 +48,7 @@ cvp_menu(Res, Diff) :-
   start_game('C'-Diff, 'H'-0, Res);
   (write('\nInvalid option!\n'), cvp_menu(Res, Diff)).
   
-cvc_menu(Res, Diff) :-
+cvc_menu(Res, Diff1, Diff2) :-
   nl,nl,
   write('Choose the computer level:'),nl,
   write('1) Easy'),nl,
@@ -58,7 +58,7 @@ cvc_menu(Res, Diff) :-
   %retrieve_option(X1, 1, 3),		%Option 1 to 3
   (nl, write('PC2 --> '),
    %retrieve_option(X2, 1, 3),		%Option 1 to 3
-   (nl, start_game('C'-Diff, 'C'-Diff, Res))).
+   (nl, start_game('C'-Diff1, 'C'-Diff2, Res))).
    %(write('\nInvalid option!\n'), cvc_menu(Res, Diff)));
   %(write('\nInvalid option!\n'), cvc_menu(Res, Diff)).
   

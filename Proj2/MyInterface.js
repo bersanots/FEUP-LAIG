@@ -80,7 +80,7 @@ class MyInterface extends CGFinterface {
      */
     addCameraSelectDropDown(selectables, group) {
         var scene = this.scene;
-        var view = group.add(scene, 'selectedView', selectables);
+        var view = group.add(scene, 'selectedView', selectables).listen();;
         view.onFinishChange(function (value) {
             scene.setNewCamera(value);
         });
@@ -108,7 +108,7 @@ class MyInterface extends CGFinterface {
         var group = this.gui.addFolder("Game controls");
         group.open();
         this.addGameModeDropdown(group);
-        this.addGameDifficultyDropdown(group);
+        this.addPCLevelDropdowns(group);
         this.addStartGameButton(group);
         this.addMoveTextFields(group);
         this.addMoveButton(group);
@@ -130,17 +130,22 @@ class MyInterface extends CGFinterface {
     }
 
     /**
-     * addGameDifficultyDropdown
+     * addPCLevelDropdowns
      * @param group {group}
      */
-    addGameDifficultyDropdown(group) {
+    addPCLevelDropdowns(group) {
         var scene = this.scene;
         var levels = [1, 2, 3];
-        var diff = group.add(scene, 'difficulty', levels);
-        diff.onFinishChange(function (value) {
-            scene.setGameDifficulty(value);
+        var PC1 = group.add(scene, 'PC1Level', levels);
+        PC1.onFinishChange(function (value) {
+            scene.setPC1Level(value);
         });
-        diff.name('Game difficulty');
+        PC1.name('PC1 Level');
+        var PC2 = group.add(scene, 'PC2Level', levels);
+        PC2.onFinishChange(function (value) {
+            scene.setPC2Level(value);
+        });
+        PC2.name('PC2 Level');
     }
 
     /**
