@@ -215,11 +215,7 @@ class XMLscene extends CGFscene {
             this.translate(6, -3, 6);
             this.rotate(Math.PI, 0, 1, 1);
             this.rotate(Math.PI/4, 0, 0, 1);
-            this.scale(0.3,0.3,0.3);
-
-            //Test cam
-            // this.translate(-5, 20, 2);
-            this.scale(2,2,2);
+            this.scale(0.6,0.6,0.6);
 
             // Displays the game board
             this.gameboard.display();
@@ -237,7 +233,7 @@ class XMLscene extends CGFscene {
         console.log(this.viewAngle);
         switch (this.activePlayer) {
             case '1':
-                if (this.viewAngle > 180) {
+                if (this.viewAngle > 0) {
                     this.camera.orbit((0, 0, 1), -5 * DEGREE_TO_RAD);
                     this.viewAngle -= 5;
                 }
@@ -442,9 +438,12 @@ class XMLscene extends CGFscene {
         this.activePlayer = player;
         setTimeout(() => {
             alert('Next player: ' + player + ' (' + (player === '1' ? 'black' : 'white') + ' pieces)');
-        }, 500);
+        }, 1200);
     }
 
+    /**
+     * Sets the camera angle on an ongoing game.
+     */
     setViewAngle(viewAngle) {
         this.viewAngle = viewAngle;
     }

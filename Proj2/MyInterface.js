@@ -116,7 +116,6 @@ class MyInterface extends CGFinterface {
         this.addUndoButton(group);
         this.addScoreField(group);
         this.addTimerField(group);
-        //this.addViewControl(group);
     }
 
     /**
@@ -196,19 +195,6 @@ class MyInterface extends CGFinterface {
             scene.setToCell(value);
         });
         toCell.name('To');
-    }
-
-    addViewControl(group) {
-        var scene = this.scene;
-
-        var viewAngle = group.add(scene, 'viewAngle', 0, 360).listen();
-        //viewAngle.update(function (value) {
-        //   scene.setViewAngle(value);
-        //});
-        var update = function () {
-            viewAngle.viewAngle = scene.viewAngle;
-        }
-        update();
     }
 
     /**
