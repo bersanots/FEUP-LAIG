@@ -202,6 +202,16 @@ class XMLscene extends CGFscene {
             // Draw axis
             this.setDefaultAppearance();
 
+            // Real cam
+            this.translate(6, -3, 6);
+            this.rotate(Math.PI, 0, 1, 1);
+            this.rotate(Math.PI/4, 0, 0, 1);
+            this.scale(0.3,0.3,0.3);
+
+            //Test cam
+            // this.translate(-5, 20, 2);
+            this.scale(2,2,2);
+
             // Displays the game board
             this.gameboard.display();
 
