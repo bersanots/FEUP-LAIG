@@ -124,6 +124,9 @@ class XMLscene extends CGFscene {
         this.score = '0 - 0';
         this.backupScore = '0 - 0';
         this.previousValues = [];
+        this.initialTime = '';
+        this.timer = '';
+        this.backupTimer = '';
     }
 
     setDefaultAppearance() {
@@ -231,16 +234,17 @@ class XMLscene extends CGFscene {
 
     // Updates camera
     updateCam() {
-        switch (2) {
-            case 1:
-                if (this.viewAngle > 0) {
-                    this.camera.orbit((0, 0, 1), 5 * DEGREE_TO_RAD);
+        console.log(this.viewAngle);
+        switch (this.activePlayer) {
+            case '1':
+                if (this.viewAngle > 180) {
+                    this.camera.orbit((0, 0, 1), -5 * DEGREE_TO_RAD);
                     this.viewAngle -= 5;
                 }
                 break;
-            case 2:
+            case '2':
                 if (this.viewAngle < 180) {
-                    this.camera.orbit((0, 0, 1), -5 * DEGREE_TO_RAD);
+                    this.camera.orbit((0, 0, 1), 5 * DEGREE_TO_RAD);
                     this.viewAngle += 5;
                 }
                 break;
@@ -257,17 +261,16 @@ class XMLscene extends CGFscene {
         //this.render(this.graph.views[this.selectedSecurityView]);
         //this.textureRTT.attachToFrameBuffer();
         this.render(this.graph.views[this.selectedView]);
-        this.textureRTT.detachFromFrameBuffer();
-        this.camera = new CGFcamera(0.9,  0.3, 500, [-2, 10, -3], [3, -1, 3]);
-        this.gl.disable(this.gl.DEPTH_TEST);
-        //this.updateCam();
-        // if (this.viewAngle < 180) {
-        //     this.updateCam()
-        //     //this.viewAngle += 1;
-        //     }
+        //this.textureRTT.detachFromFrameBuffer();
+        //this.gl.disable(this.gl.DEPTH_TEST);
+
+        if (this.gameOngoing) {
+            this.updateCam();
+        }
+
         //this.securityCamera.display();
 
-        this.gl.enable(this.gl.DEPTH_TEST);
+        //this.gl.enable(this.gl.DEPTH_TEST);
     }
 
     /**
@@ -393,6 +396,35 @@ class XMLscene extends CGFscene {
         playerScores[parseInt(winner) - 1]++;
         this.score = playerScores.join(' - ');
         this.backupScore = this.score;
+    }
+
+    /**
+     * Sets the time limit for each turn.
+     */
+    setInitialTime(time) {
+        if (parseFloat(time) && !this.gameOngoing && parseFloat(time) > 0)
+            this.initialTime = parseFloat(time);
+        else
+            this.initialTime = '';
+    }
+
+    /**
+     * Updates the time remaining for the current turn.
+     */
+    setTimer(time) {
+        if(time === -1) {
+            this.timer = this.backupTimer;        //clear any additional text        
+            return;
+        }
+
+        if (parseFloat(time)) {
+            if (parseFloat(time) <= 0)
+                return;
+            else {
+                this.timer = parseFloat(time);
+                this.backupTimer = this.timer;
+            }
+        }
     }
 
     /**
@@ -602,6 +634,9 @@ class XMLscene extends CGFscene {
 
         if(this.boardObj !== undefined && this.boardObj.animation !== undefined)
             this.boardObj.animation.update(this.deltaTime);
+
+        if (this.initialTime && this.initialTime !== '')
+            this.setTimer(this.initialTime - this.deltaTime);
 
         this.prevTime = t;
 

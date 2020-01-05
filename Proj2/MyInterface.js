@@ -109,12 +109,14 @@ class MyInterface extends CGFinterface {
         group.open();
         this.addGameModeDropdown(group);
         this.addPCLevelDropdowns(group);
+        this.addTimeLimitField(group);
         this.addStartGameButton(group);
         this.addMoveTextFields(group);
         this.addMoveButton(group);
         this.addUndoButton(group);
         this.addScoreField(group);
-        this.addViewControl(group);
+        this.addTimerField(group);
+        //this.addViewControl(group);
     }
 
     /**
@@ -164,6 +166,19 @@ class MyInterface extends CGFinterface {
     }
 
     /**
+     * addTimeLimitField
+     * @param group {group}
+     */
+    addTimeLimitField(group) {
+        var scene = this.scene;
+        var initialTime = group.add(scene, 'initialTime', '').listen();
+        initialTime.onFinishChange(function (value) {
+            scene.setInitialTime(value);
+        });
+        initialTime.name('Time limit');
+    }
+
+    /**
      * addMoveTextFields
      * @param group {group}
      */
@@ -188,13 +203,12 @@ class MyInterface extends CGFinterface {
 
         var viewAngle = group.add(scene, 'viewAngle', 0, 360).listen();
         //viewAngle.update(function (value) {
-         //   scene.setViewAngle(value);
+        //   scene.setViewAngle(value);
         //});
-        var update = function() {
-            viewAngle.viewAngle = scene.viewAngle;    
+        var update = function () {
+            viewAngle.viewAngle = scene.viewAngle;
         }
         update();
-        
     }
 
     /**
@@ -234,6 +248,19 @@ class MyInterface extends CGFinterface {
             scene.setScore(-1);
         });
         score.name('Score');
+    }
+
+    /**
+     * addTimerField
+     * @param group {group}
+     */
+    addTimerField(group) {
+        var scene = this.scene;
+        var timer = group.add(scene, 'timer', '').listen();
+        timer.onFinishChange(function () {
+            scene.setTimer(-1);
+        });
+        timer.name('Time remaining');
     }
 
     /**
