@@ -138,7 +138,7 @@ class MyInterface extends CGFinterface {
      */
     addPCLevelDropdowns(group) {
         var scene = this.scene;
-        var levels = [1, 2, 3];
+        var levels = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
         var PC1 = group.add(scene, 'PC1Level', levels);
         PC1.onFinishChange(function (value) {
             scene.setPC1Level(value);
