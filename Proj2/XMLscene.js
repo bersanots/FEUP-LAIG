@@ -109,6 +109,7 @@ class XMLscene extends CGFscene {
         // Set default values
         this.gameOngoing = false;
         this.PChasPlayed = false;
+        this.playedRandomly = false;
         this.newPiece = true;
         this.animationType = '';
         this.PC1Level = 1;
@@ -230,7 +231,6 @@ class XMLscene extends CGFscene {
 
     // Updates camera
     updateCam() {
-        this.interface.setActiveCamera(this.graph.views[1]);
         switch (this.activePlayer) {
             case '1':
                 if (this.viewAngle > 0) {
@@ -263,6 +263,8 @@ class XMLscene extends CGFscene {
         if (this.gameOngoing) {
             this.updateCam();
         }
+
+        this.interface.setActiveCamera(this.graph.views[this.camera]);
 
         //this.securityCamera.display();
 
@@ -416,6 +418,13 @@ class XMLscene extends CGFscene {
         if (parseFloat(time)) {
             if (time <= 0) {
                 this.timer = 0;
+                if (this.gameOngoing && !this.playedRandomly) {
+                    alert('Time\'s up! Playing randomly...');
+                    this.playedRandomly = true;
+                    setTimeout(() => {
+                        this.makeMove();
+                    }, 1000);
+                }
             }
             else {
                 this.timer = time;
@@ -492,6 +501,7 @@ class XMLscene extends CGFscene {
         let onSuccess = (data) => {
             this.gameOngoing = true;
             this.PChasPlayed = false;
+            this.playedRandomly = false;
             let [boardAndPlayer, playerType1, playerType2] = data.target.response.split('/');
             let [board, activePlayer] = boardAndPlayer.split(/[()]/).join('').split('-');
             this.setBoard(board);
@@ -530,7 +540,7 @@ class XMLscene extends CGFscene {
         else if (this.toCell !== '') {
             move = '\'' + this.fromCell[0] + '\'+' + this.fromCell[1] + '-' + '\'' + this.toCell[0] + '\'+' + this.toCell[1];
         }
-        else if (this.playerType1[0] === 'H') {
+        else if (this.playerType1[0] === 'H' && this.timer !== 0) {
             alert('Insert at least a value for the cell where the piece should be placed!');
             this.clearCells();
             return;
@@ -538,6 +548,12 @@ class XMLscene extends CGFscene {
 
         let requestString = 'game_cycle(' + this.board + '-' + this.activePlayer + ',\'' + this.playerType1[0] + '\'' + this.playerType1.substr(1, 2) + ',\''
             + this.playerType2[0] + '\'' + this.playerType2.substr(1, 2) + ',' + move + ',' + this.drawCount + ')';
+
+        if (this.timer === 0) {      // if time is over, play randomly
+            let randomMove;
+            requestString = 'game_cycle(' + this.board + '-' + this.activePlayer + ',\'' + 'C\'-1' + ',\''
+            + this.playerType2[0] + '\'' + this.playerType2.substr(1, 2) + ',' + randomMove + ',' + this.drawCount + ')';
+        }
 
         let onSuccess = (data) => {
             let message = data.target.response.split('/');
@@ -553,6 +569,10 @@ class XMLscene extends CGFscene {
 
             let [boardAndPlayer, playerType1, playerType2, drawCount, winner] = data.target.response.split('/');
             let [board, activePlayer] = boardAndPlayer.split(/[()]/).join('').split('-');
+
+            if (this.timer === 0) {
+                playerType2 = this.playerType1;
+            }
 
             this.setBoard(board);
             this.setPlayerTypes(playerType1.split(/[()]/).join(''), playerType2.split(/[()]/).join(''));
@@ -570,6 +590,7 @@ class XMLscene extends CGFscene {
                 if (playerType1[1] === 'C')
                     this.PChasPlayed = false;
                 this.timer = this.initialTime;
+                this.playedRandomly = false;
             }
 
             this.clearCells();
@@ -599,6 +620,9 @@ class XMLscene extends CGFscene {
 
         if (playerType1[0] === 'C')
             this.PChasPlayed = false;
+
+        this.timer = this.initialTime;
+        this.playedRandomly = false;
 
         this.setBoard(board);
         this.setActivePlayer(activePlayer);
