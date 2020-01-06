@@ -658,6 +658,36 @@
             </children>
         </component>
 
+        <component id="wall3">
+            <transformation>
+                <translate x="13" y="0" z="18.5" />
+                <scale x="1" y="1" z="1.6" />
+
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="Wall" />
+            </children>
+        </component>
+
+        <component id="wall4">
+            <transformation>
+                <scale x="-1" y="1" z="1" />
+                <translate x="-2" y="0" z="39.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="Wall" />
+            </children>
+        </component>
+
         <component id="wall">
             <transformation>
 
@@ -673,6 +703,8 @@
             <children>
                 <componentref id="wall1" />
                 <componentref id="wall2" />
+                <componentref id="wall3" />
+                <componentref id="wall4" />
             </children>
         </component>
 
